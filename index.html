@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Software Download Center</title>
+    <style>
+        /* CSS Styling */
+        :root {
+            --bg-color: #2b333e;
+            --text-color: #ffffff;
+            --link-color: #02d8e9;
+            --button-color: #00A1A1;
+            --secondary-button-hover: #008787;
+            --primary-button-hover: #02b6c9;
+            --card-bg: #3c4452; /* Slightly lighter background for contrast */
+        }
+
+        body {
+            /* Background and Text Colors */
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            text-align: left;
+        }
+
+        h1 {
+            font-weight: 600;
+            margin-bottom: 30px;
+            color: var(--link-color);
+        }
+
+        h2 {
+            font-weight: 500;
+            border-bottom: 2px solid var(--button-color);
+            padding-bottom: 5px;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        /* Button and Link Styling */
+        .button {
+            display: inline-block;
+            padding: 12px 25px;
+            margin: 10px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease, opacity 0.3s ease;
+            text-align: center;
+            cursor: pointer;
+            border: none;
+        }
+
+        /* Primary Button (Download) - Uses Link Color */
+        .primary-button {
+            background-color: var(--link-color);
+            color: var(--bg-color); /* Darker text for high contrast */
+            font-size: 1.2em;
+            padding: 18px 40px;
+            box-shadow: 0 4px 15px rgba(2, 216, 233, 0.4);
+            opacity: 0.7; /* Start with low opacity until link is loaded */
+            pointer-events: none; /* Disable click until link is loaded */
+        }
+
+        .primary-button.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .primary-button:hover {
+            background-color: var(--primary-button-hover);
+            transform: translateY(-2px);
+        }
+
+        /* Secondary Button (Patch Notes) - Uses Button Color */
+        .secondary-button {
+            background-color: var(--button-color);
+            color: var(--text-color);
+            border: 2px solid var(--button-color);
+            padding: 12px 25px;
+        }
+
+        .secondary-button:hover {
+            background-color: var(--secondary-button-hover);
+            transform: translateY(-2px);
+        }
+
+        a {
+            color: var(--link-color);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Version specific styling */
+        #versionNumber {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: var(--link-color);
+            margin-top: 5px;
+            margin-bottom: 20px;
+            display: block;
+        }
+        
+        /* Loading/Error states */
+        .loading, .error {
+            text-align: center;
+            padding: 15px;
+            font-style: italic;
+        }
+        .error {
+            color: #ff7777;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Official Software Download</h1>
+
+        <div class="card" style="text-align: center;">
+            <h2>Current Stable Version</h2>
+            <span id="versionNumber" class="loading">Loading version...</span>
+            
+            <a id="downloadLink" href="#" class="button primary-button">
+                Download Now 📥
+            </a>
+            <p style="margin-top: 15px; font-size: 0.9em; color: #aaa;">
+                Clicking above will download the software (Link will activate when loaded)
+            </p>
+        </div>
+
+        <div class="card">
+            <h2>What's Next?</h2>
+            <div id="whatsNextContent" class="loading">Loading roadmap...</div>
+        </div>
+
+        <a 
+           href="https://docs.google.com/document/d/11sxU4b9yxqJY74rFXaz1YaIQF85cnPe7SX3nzGZJ7Zk/edit?tab=t.0" 
+           target="_blank" 
+           class="button secondary-button">
+           Visit Patch Notes for more information 📝
+        </a>
+    </div>
+
+    <script>
+        // JavaScript for fetching data
+        document.addEventListener('DOMContentLoaded', () => {
+            const versionUrl = 'https://pastebin.com/raw/9VidjcAt';
+            const downloadUrl = 'https://pastebin.com/raw/H2uSsdZe';
+            const whatsNextUrl = 'https://pastebin.com/raw/zr4RpvkW';
+
+            const versionElement = document.getElementById('versionNumber');
+            const downloadLinkElement = document.getElementById('downloadLink');
+            const whatsNextElement = document.getElementById('whatsNextContent');
+
+            // Helper function to fetch a single URL
+            const fetchData = async (url) => {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.text();
+            };
+
+            // Fetch all data concurrently
+            Promise.allSettled([
+                fetchData(versionUrl),
+                fetchData(downloadUrl),
+                fetchData(whatsNextUrl)
+            ])
+            .then(results => {
+                // 1. Version Info (from 9VidjcAt)
+                if (results[0].status === 'fulfilled') {
+                    const version = results[0].value.trim();
+                    versionElement.textContent = version;
+                    versionElement.classList.remove('loading');
+                } else {
+                    console.error('Failed to fetch version:', results[0].reason);
+                    versionElement.innerHTML = '<span class="error">Error loading version.</span>';
+                }
+
+                // 2. Download Link (from H2uSsdZe)
+                if (results[1].status === 'fulfilled') {
+                    const link = results[1].value.trim();
+                    downloadLinkElement.href = link;
+                    downloadLinkElement.classList.add('active'); // Activate link styling and pointer-events
+                } else {
+                    console.error('Failed to fetch download link:', results[1].reason);
+                    downloadLinkElement.innerHTML = 'Download Link Failed to Load';
+                    downloadLinkElement.style.backgroundColor = '#ff7777'; // Red error button
+                    downloadLinkElement.style.color = 'white';
+                }
+
+                // 3. What's Next Content (from zr4RpvkW)
+                if (results[2].status === 'fulfilled') {
+                    // Replace newlines with <br> for basic text formatting
+                    let content = results[2].value.trim();
+                    content = content.replace(/\n/g, '<br>');
+                    whatsNextElement.innerHTML = content;
+                    whatsNextElement.classList.remove('loading');
+                } else {
+                    console.error("Failed to fetch What's Next:", results[2].reason);
+                    whatsNextElement.innerHTML = '<span class="error">Could not load What\'s Next content.</span>';
+                }
+            })
+            .catch(error => {
+                console.error('An unrecoverable error occurred:', error);
+                versionElement.innerHTML = '<span class="error">Data Load Failure.</span>';
+                whatsNextElement.innerHTML = '<span class="error">Data Load Failure.</span>';
+            });
+        });
+    </script>
+
+</body>
+</html>
