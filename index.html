@@ -7,6 +7,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
     
+    <!-- Lottie Web Component Script for Download Animation -->
+    <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.8.1/dist/dotlottie-wc.js" type="module"></script>
+    
     <script>
         tailwind.config = {
             theme: {
@@ -52,6 +55,7 @@
         left: 0;
         right: 0;
         bottom: 0;
+        /* Using a placeholder image */
         background-image: url('https://i.ibb.co/S4XB6n0v/Site-background-light-1-1.png');
         background-size: cover;
         background-position: center 22%;
@@ -80,6 +84,36 @@
 </head>
 <body class="min-h-screen p-4 sm:p-8 font-serif">
 
+    <!-- Modal Backdrop - Hidden by default -->
+    <div id="download-modal-backdrop" class="fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center transition-opacity duration-300 opacity-0 pointer-events-none">
+        <!-- Modal Content -->
+        <div id="download-modal-content" class="bg-card-bg p-6 sm:p-8 rounded-2xl shadow-2xl max-w-sm w-11/12 transform scale-90 transition-all duration-300 relative border-2 border-link-primary/50">
+            
+            <!-- Close Button -->
+            <button id="modal-close-button" class="absolute top-3 right-3 text-white/50 hover:text-white transition duration-200">
+                <i class="fas fa-times-circle text-2xl"></i>
+            </button>
+
+            <div class="flex flex-col items-center text-center space-y-4">
+                <dotlottie-wc 
+                    src="https://lottie.host/be23f1e0-b091-46b7-8a08-ae79a6f4bb51/KAzxaEOB4s.lottie" 
+                    style="width: 180px; height: 180px;" 
+                    autoplay loop>
+                </dotlottie-wc>
+
+                <h3 class="text-3xl font-bold text-link-primary">Download Initiated!</h3>
+                <p id="modal-message" class="text-white/80 text-lg">
+                    The automatic download is starting now. Check your browser's download folder.
+                </p>
+
+                <button onclick="document.getElementById('modal-close-button').click()"
+                    class="mt-4 w-full px-6 py-3 text-lg font-semibold text-main-bg bg-button-primary rounded-xl transition duration-300 hover:bg-opacity-80 active:scale-95">
+                    <i class="fas fa-thumbs-up mr-2"></i> Got It
+                </button>
+            </div>
+        </div>
+    </div>
+    
     <div class="max-w-4xl mx-auto space-y-10">
 
         <header class="text-center py-12 hero-section rounded-t-2xl">
@@ -152,11 +186,38 @@
                 versionContentDiv: document.getElementById('latest-version-content'),
                 versionMetaDiv: document.getElementById('latest-version-meta'),
                 whatsNextDiv: document.getElementById('whats-next-content'),
+                // New Modal Selectors
+                modalBackdrop: document.getElementById('download-modal-backdrop'),
+                modalContent: document.getElementById('download-modal-content'),
+                modalCloseButton: document.getElementById('modal-close-button'),
+                modalMessage: document.getElementById('modal-message'),
             };
 
             const defaultButtonText = '<i class="fas fa-download mr-2"></i> Download Latest Version';
             
             const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+            // --- Modal Functions ---
+            const showDownloadModal = (versionNumber) => {
+                SELECTORS.modalMessage.innerHTML = `The automatic download for version <b>${versionNumber}</b> is starting now. Check your browser's download folder.`;
+                SELECTORS.modalBackdrop.classList.remove('opacity-0', 'pointer-events-none');
+                SELECTORS.modalContent.classList.remove('scale-90');
+                
+                // Set click outside to close (optional, but good UX)
+                SELECTORS.modalBackdrop.onclick = (e) => {
+                    if (e.target.id === 'download-modal-backdrop') {
+                        hideDownloadModal();
+                    }
+                };
+            };
+            
+            const hideDownloadModal = () => {
+                SELECTORS.modalBackdrop.classList.add('opacity-0', 'pointer-events-none');
+                SELECTORS.modalContent.classList.add('scale-90');
+                SELECTORS.modalBackdrop.onclick = null; // Clean up listener
+            };
+            // --- End Modal Functions ---
+
 
             const formatContentText = (text, style = "feather") => {
                 if (!text) return '<p class="text-red-400">Data content is empty.</p>';
@@ -249,8 +310,10 @@
                         SELECTORS.downloadButton.classList.remove('opacity-50', 'cursor-not-allowed');
                         SELECTORS.downloadButton.innerHTML = defaultButtonText;
 
-                        // Auto-download on page load
+                        // --- START: Auto-download logic with Modal ---
                         setTimeout(() => {
+                            showDownloadModal(versionNumber);
+                            
                             const a = document.createElement('a');
                             a.href = data.downloadLink;
                             a.download = '';
@@ -258,6 +321,7 @@
                             a.click();
                             document.body.removeChild(a);
                         }, 500);
+                        // --- END: Auto-download logic with Modal ---
                     } else {
                         throw new Error("Download link not found in data.");
                     }
@@ -268,6 +332,10 @@
             };
             
             const setupDownloadHandler = () => {
+                // Modal Close Listener
+                SELECTORS.modalCloseButton.addEventListener('click', hideDownloadModal);
+
+                // Manual Download Click Handler
                 SELECTORS.downloadButton.addEventListener('click', (e) => {
                     e.preventDefault(); 
                     const downloadUrl = SELECTORS.downloadButton.getAttribute('data-download-url');
@@ -277,6 +345,9 @@
                         SELECTORS.downloadButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Starting Download...';
                         
                         setTimeout(() => {
+                            // Show modal on manual click too
+                            showDownloadModal(SELECTORS.versionMetaDiv.querySelector('p:first-child').textContent);
+                            
                             window.location.href = downloadUrl;
                             setTimeout(() => {
                                 SELECTORS.downloadButton.disabled = false;
