@@ -4,172 +4,329 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz for Survival - Latest Download & Info</title>
-    <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Load Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
     
-    <!-- Custom Tailwind Configuration for Colors -->
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        // Background: #2b333e
+                        // Background: #2b333e (Dark Blue/Slate)
                         'main-bg': '#2b333e',
-                        // Links: #02d8e9
+                        // Links/Accents: #02d8e9 (Cyan/Aqua)
                         'link-primary': '#02d8e9',
-                        // Buttons: #00A1A1
+                        // Buttons/Highlight: #00A1A1 (Teal)
                         'button-primary': '#00A1A1',
+                        'card-bg': '#374151', // A slightly lighter dark background for cards
                     },
                     fontFamily: {
+                        // Set 'serif' to Times New Roman and make it the primary font
                         'serif': ['"Times New Roman"', 'Times', 'serif'],
                     }
                 }
             }
         }
     </script>
-    <!-- Custom Styles for Font and Global Background -->
-    <style>
-        body {
-            background-color: #2b333e; /* Explicit background color */
-            font-family: 'Times New Roman', Times, serif; /* Explicit font application */
-            color: white; /* Explicit text color */
-        }
-        /* Custom scrollbar for better aesthetics */
-        body::-webkit-scrollbar {
-            width: 8px;
-        }
-        body::-webkit-scrollbar-thumb {
-            background-color: #00A1A1;
-            border-radius: 4px;
-        }
-    </style>
+<style>
+    /* Explicitly setting Times New Roman for the entire body */
+    body {
+        background-color: #2b333e;
+        font-family: 'Times New Roman', Times, serif; 
+        color: white; 
+        transition: background-color 0.3s;
+    }
+    /* Custom scrollbar for better aesthetics */
+    body::-webkit-scrollbar {
+        width: 8px;
+    }
+    body::-webkit-scrollbar-thumb {
+        background-color: #00A1A1;
+        border-radius: 4px;
+    }
+    
+    /* MODIFIED: Reduced the box-shadow spread and alpha (0.15 instead of 0.3) for a subtler glow */
+    .card-glow:hover {
+        box-shadow: 0 0 15px rgba(2, 216, 233, 0.15); /* Reduced spread (30px -> 15px) and opacity (0.3 -> 0.15) */
+    }
+
+    /* --- NEW: Hero Section with Faded Background Image --- */
+    .hero-section {
+        position: relative;
+        overflow: hidden; /* Ensures pseudo-elements don't spill out */
+    }
+
+    /* The blurred background image */
+    .hero-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: url('https://i.ibb.co/S4XB6n0v/Site-background-light-1-1.png');
+        background-size: cover;
+        background-position: center 22%; /* Position image slightly higher */
+        filter: blur(1px);
+        transform: scale(1); /* Slightly scale up to avoid blurry edges */
+        z-index: -2; /* Place behind the overlay */
+    }
+
+    /* The overlay to darken the image and fade it into the background */
+    .hero-section::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        /* Creates a gradient from semi-transparent dark to the solid page background */
+        background: linear-gradient(to bottom, rgba(43, 51, 62, 0.7) 0%, #2b333e 85%);
+        z-index: -1; /* Place on top of image, but behind text content */
+    }
+
+    /* --- NEW: Keyframe animation for content fading in --- */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .content-fade-in {
+        animation: fadeIn 0.5s ease-out forwards;
+    }
+</style>
 </head>
-<body class="min-h-screen p-4 sm:p-8">
+<body class="min-h-screen p-4 sm:p-8 font-serif">
 
     <div class="max-w-4xl mx-auto space-y-10">
 
-        <!-- Header and Title -->
-        <header class="text-center pt-8 pb-4">
-            <h1 class="text-5xl sm:text-7xl font-bold tracking-tight text-link-primary mb-2">
-                <i class="fas fa-brain mr-3"></i>Quiz for Survival
+        <header class="text-center py-12 hero-section rounded-t-2xl">
+            <h1 class="text-5xl sm:text-7xl font-bold tracking-tighter text-link-primary mb-3 drop-shadow-lg">
+                Quiz for Survival
             </h1>
-            <p class="text-xl text-white/80">The latest official release and future development details.</p>
+            <p class="text-xl text-white/70 font-light">The latest official release and future development roadmap.</p>
         </header>
 
-        <!-- Main Information Card -->
-        <div id="main-info-card" class="bg-main-bg border border-white/20 p-6 sm:p-8 rounded-xl shadow-2xl space-y-6">
-            <h2 class="text-3xl font-semibold text-link-primary border-b border-link-primary/50 pb-3 mb-4">
-                <i class="fas fa-info-circle mr-2"></i> Latest Update Information
+        <div id="latest-version-card" class="bg-card-bg border border-white/10 p-6 sm:p-10 rounded-2xl shadow-xl space-y-8 transition duration-500 hover:scale-[1.01] card-glow">
+            
+            <div id="latest-version-meta" class="text-center space-y-2 mb-6">
+                </div>
+
+            <h2 id="latest-version-heading" class="text-3xl font-bold text-link-primary border-b-4 border-link-primary/50 pb-3 mb-4 flex items-center">
+                <i class="fas fa-spinner fa-spin mr-3 text-2xl"></i> Loading Update Info...
             </h2>
             
-            <!-- Latest Version/Content Section -->
             <div id="latest-version-content">
-                <p class="text-white/70 italic" id="version-placeholder">
-                    <i class="fas fa-spinner fa-spin mr-2"></i> Loading latest version details...
-                </p>
+                <div id="version-placeholder" class="space-y-4 animate-pulse">
+                    <div class="h-5 bg-gray-600 rounded w-1/4"></div>
+                    <div class="space-y-2 pl-6">
+                        <div class="h-4 bg-gray-700 rounded w-full"></div>
+                        <div class="h-4 bg-gray-700 rounded w-5/6"></div>
+                    </div>
+                    <div class="h-5 bg-gray-600 rounded w-1/3 pt-4"></div>
+                    <div class="space-y-2 pl-6">
+                        <div class="h-4 bg-gray-700 rounded w-full"></div>
+                    </div>
+                </div>
             </div>
 
-            <!-- Download Button Section -->
-            <div class="pt-4 flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-                <a id="download-button" href="#" target="_blank"
-                   class="w-full sm:w-auto px-10 py-4 text-lg font-bold text-white uppercase transition duration-300 transform bg-button-primary rounded-xl shadow-lg hover:shadow-2xl hover:bg-opacity-90 active:scale-95 disabled:opacity-50"
-                   onclick="this.classList.add('disabled')">
-                    <i class="fas fa-download mr-2"></i> Download Latest Version
-                </a>
+            <div class="pt-6 flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6">
+                <button id="download-button"
+                    class="w-full sm:w-auto px-10 py-4 text-lg font-bold text-white uppercase transition duration-300 transform bg-button-primary rounded-xl shadow-2xl shadow-button-primary/50 hover:shadow-button-primary/80 hover:bg-opacity-90 active:scale-95 disabled:opacity-50">
+                    <i class="fas fa-cog fa-spin mr-2"></i> Initializing...
+                </button>
                 
-                <!-- Update Log Link -->
                 <a href="https://docs.google.com/document/d/11sxU4b9yxqJY74rFXaz1YaIQF85cnPe7SX3nzGZJ7Zk/edit?tab=t.0" target="_blank"
-                   class="w-full sm:w-auto px-6 py-4 text-center text-link-primary hover:text-white transition duration-200 border border-link-primary/50 rounded-xl hover:bg-link-primary/10">
-                    <i class="fas fa-file-alt mr-2"></i> View Update Log & Info
+                    class="w-full sm:w-auto px-6 py-4 text-center text-link-primary hover:text-white transition duration-300 border border-link-primary rounded-xl hover:bg-link-primary/20">
+                    <i class="fas fa-scroll mr-2"></i> View Full Change Log
                 </a>
             </div>
         </div>
 
-        <!-- What's Next Section -->
-        <div class="bg-main-bg border border-white/20 p-6 sm:p-8 rounded-xl shadow-2xl space-y-6">
-            <h2 class="text-3xl font-semibold text-link-primary border-b border-link-primary/50 pb-3 mb-4">
-                <i class="fas fa-forward mr-2"></i> What's Next? (Roadmap)
+        <div class="bg-card-bg border border-white/10 p-6 sm:p-10 rounded-2xl shadow-xl space-y-8 transition duration-500 hover:scale-[1.01] card-glow">
+            <h2 class="text-3xl font-bold text-link-primary border-b-4 border-link-primary/50 pb-3 mb-4 flex items-center">
+                <i class="fas fa-rocket mr-3 text-2xl"></i> Upcoming Features
             </h2>
             <div id="whats-next-content">
-                <p class="text-white/70 italic" id="roadmap-placeholder">
-                    <i class="fas fa-spinner fa-spin mr-2"></i> Loading future plans...
-                </p>
+                <div id="roadmap-placeholder" class="space-y-4 animate-pulse">
+                     <div class="h-5 bg-gray-600 rounded w-1/4"></div>
+                    <div class="space-y-2 pl-6">
+                        <div class="h-4 bg-gray-700 rounded w-full"></div>
+                        <div class="h-4 bg-gray-700 rounded w-5/6"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- JavaScript for Data Fetching -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const URLS = {
-                downloadLink: 'https://pastebin.com/raw/H2uSsdZe',
-                versionInfo: 'https://pastebin.com/raw/9VidjcAt',
-                whatsNext: 'https://pastebin.com/raw/zr4RpvkW'
+                masterData: 'https://gist.githubusercontent.com/Fillabrona/5a17fe172177f74a4a65196ba1b53c50/raw/3c8fa1b7bae748123e6e63628b56c8634c4d7341/downloadinfo'
             };
 
-            const downloadButton = document.getElementById('download-button');
-            const versionContentDiv = document.getElementById('latest-version-content');
-            const whatsNextDiv = document.getElementById('whats-next-content');
+            const SELECTORS = {
+                latestVersionHeading: document.getElementById('latest-version-heading'),
+                downloadButton: document.getElementById('download-button'),
+                versionContentDiv: document.getElementById('latest-version-content'),
+                versionMetaDiv: document.getElementById('latest-version-meta'),
+                whatsNextDiv: document.getElementById('whats-next-content'),
+                versionPlaceholder: document.getElementById('version-placeholder'),
+                roadmapPlaceholder: document.getElementById('roadmap-placeholder'),
+            };
+
+            const defaultButtonText = '<i class="fas fa-download mr-2"></i> Download Latest Version';
+            
+            const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
             /**
-             * Fetches raw text content from a URL and updates the specified DOM element.
-             * @param {string} url The raw pastebin URL.
-             * @param {HTMLElement} targetElement The element to update with the fetched content.
-             * @param {string} fallbackText The text to show on failure.
-             * @returns {Promise<string>} The fetched text content.
+             * Converts structured text into a formatted HTML list.
              */
-            const fetchTextContent = async (url, targetElement, fallbackText) => {
-                try {
-                    const response = await fetch(url);
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
+            const formatContentText = (text) => {
+                if (!text) return '<p class="text-red-400">Data content is empty.</p>';
+                
+                const lines = text.split('\n').map(line => line.trim()).filter(line => line.length > 0);
+                
+                let html = '<ul class="list-none space-y-3 pl-0">';
+                
+                lines.forEach(line => {
+                    if (line.startsWith('•')) {
+                        const content = line.substring(1).trim();
+                        html += `<li class="flex items-start text-white/90">
+                            <i class="fa-solid fa-feather  text-link-primary mt-1 mr-3 flex-shrink-0 text-sm"></i>
+                            <span>${content}</span>
+                        </li>`;
+                    } else if (line.endsWith(':')) {
+                         html += `<li class="pt-4 pb-1 text-lg font-bold text-button-primary">${line}</li>`;
+                    } else if (line.match(/^\d+\./)) {
+                        html += `<li class="pt-4 text-lg font-bold text-button-primary">${line}</li>`;
+                    } else if (line.length > 0) {
+                        html += `<li class="text-white/80 pl-6">${line}</li>`;
                     }
-                    const text = await response.text();
-                    
-                    // Format the content. Replace newlines with <br> for simple formatting.
-                    const formattedContent = text.trim().replace(/\n/g, '<br>');
-                    
-                    if (targetElement) {
-                         // Update target element's content
-                         targetElement.innerHTML = `<p class="whitespace-pre-wrap">${formattedContent}</p>`;
+                });
+                
+                html += '</ul>';
+                return html;
+            };
+
+            /**
+             * Handles fetch errors by updating the UI with failure messages.
+             */
+            const handleFetchError = (error) => {
+                console.error("Failed to fetch master data:", error);
+                const failureMessage = `<p class="text-red-400 text-center p-6"><i class="fas fa-exclamation-triangle mr-2"></i> Failed to load data. Please check the console for more details.</p>`;
+                SELECTORS.latestVersionHeading.innerHTML = '<i class="fas fa-times-circle mr-3 text-2xl"></i> Load Error';
+                SELECTORS.versionContentDiv.innerHTML = failureMessage;
+                SELECTORS.whatsNextDiv.innerHTML = failureMessage;
+                SELECTORS.downloadButton.disabled = true;
+                SELECTORS.downloadButton.classList.add('opacity-50', 'cursor-not-allowed');
+                SELECTORS.downloadButton.innerHTML = '<i class="fas fa-times-circle mr-2"></i> Link Error';
+            };
+            
+            /**
+             * Fetches and parses the master JSON data with a retry mechanism.
+             */
+            const fetchMasterData = async (url, retries = 3) => {
+                for (let i = 0; i < retries; i++) {
+                    try {
+                        const response = await fetch(url, { cache: "no-store" }); // Disable cache to get latest Gist
+                        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                        return await response.json();
+                    } catch (error) {
+                        console.error(`Attempt ${i + 1} failed for ${url}.`, error);
+                        if (i < retries - 1) {
+                            await delay(1000 * (2 ** i)); // Exponential backoff
+                        } else {
+                            handleFetchError(error);
+                            return null;
+                        }
                     }
-                    return text.trim();
-                } catch (error) {
-                    console.error(`Error fetching data from ${url}:`, error);
-                    if (targetElement) {
-                        targetElement.innerHTML = `<p class="text-red-400"><i class="fas fa-exclamation-triangle mr-2"></i> Failed to load data. ${fallbackText}</p>`;
-                    }
-                    return null;
                 }
             };
 
-            // 1. Fetch Latest Version/Content Info
-            fetchTextContent(URLS.versionInfo, versionContentDiv, "Please check the update log for details.").then(() => {
-                // Remove placeholder after success or failure
-                document.getElementById('version-placeholder')?.remove();
-            });
+            /**
+             * Populates the entire page with the fetched data.
+             */
+            const populatePage = (data) => {
+                try {
+                    // Extract data with fallbacks
+                    const versionMatch = data.versionInfo.match(/Game:.*(v[\d.]+)/);
+                    const versionNumber = versionMatch ? versionMatch[1] : 'Unknown';
+                    const authorLineMatch = data.versionInfo.match(/Author: (.*?)\s-\s(https:\/\/fillabrona\.itch\.io\/)/);
+                    const authorName = authorLineMatch ? authorLineMatch[1] : 'Fillabrona';
+                    const authorUrl = authorLineMatch ? authorLineMatch[2] : 'https://fillabrona.itch.io/';
 
-            // 2. Fetch What's Next (Roadmap)
-            fetchTextContent(URLS.whatsNext, whatsNextDiv, "The development roadmap is currently unavailable.").then(() => {
-                 // Remove placeholder after success or failure
-                document.getElementById('roadmap-placeholder')?.remove();
-            });
+                    // Update Meta Info
+                    SELECTORS.versionMetaDiv.innerHTML = `
+                        <p class="text-4xl font-bold text-white">${versionNumber}</p>
+                        <p class="text-white/70">Developed by 
+                            <a href="${authorUrl}" target="_blank" class="text-link-primary hover:text-white transition duration-200 font-bold">${authorName}</a>
+                        </p>`;
+                    
+                    // Update Heading
+                    SELECTORS.latestVersionHeading.innerHTML = `<i class="fas fa-tag mr-3 text-2xl"></i> Latest Update (${versionNumber})`;
 
-            // 3. Fetch Download Link (Special Handling)
-            fetchTextContent(URLS.downloadLink, null, "Download link is unavailable.").then(link => {
-                if (link && downloadButton) {
-                    downloadButton.href = link;
-                    downloadButton.classList.remove('disabled');
-                    downloadButton.innerHTML = '<i class="fas fa-download mr-2"></i> Download Latest Version';
-                } else if (downloadButton) {
-                    downloadButton.href = "#";
-                    downloadButton.classList.add('opacity-50', 'cursor-not-allowed');
-                    downloadButton.setAttribute('disabled', 'true');
-                    downloadButton.innerHTML = '<i class="fas fa-times-circle mr-2"></i> Link Error';
+                    // Update Version Content
+                    const updateSection = data.versionInfo.substring(data.versionInfo.indexOf('--- LATEST UPDATE ---') + '--- LATEST UPDATE ---'.length).trim();
+                    SELECTORS.versionContentDiv.innerHTML = formatContentText(updateSection);
+                    SELECTORS.versionContentDiv.classList.add('content-fade-in');
+
+                    // Update Roadmap Content
+                    const roadmapSection = data.whatsNext.substring(data.whatsNext.indexOf('--- UPCOMING FEATURES ---') + '--- UPCOMING FEATURES ---'.length).trim();
+                    SELECTORS.whatsNextDiv.innerHTML = formatContentText(roadmapSection);
+                    SELECTORS.whatsNextDiv.classList.add('content-fade-in');
+
+                    // Configure Download Button
+                    if (data.downloadLink) {
+                        SELECTORS.downloadButton.setAttribute('data-download-url', data.downloadLink);
+                        SELECTORS.downloadButton.disabled = false;
+                        SELECTORS.downloadButton.classList.remove('opacity-50', 'cursor-not-allowed');
+                        SELECTORS.downloadButton.innerHTML = defaultButtonText;
+                    } else {
+                        throw new Error("Download link not found in data.");
+                    }
+                } catch (processingError) {
+                    console.error("Error processing fetched data:", processingError);
+                    handleFetchError(processingError);
                 }
-            });
+            };
+            
+            /**
+             * Sets up the event listener for the download button.
+             */
+            const setupDownloadHandler = () => {
+                SELECTORS.downloadButton.addEventListener('click', (e) => {
+                    e.preventDefault(); 
+                    const downloadUrl = SELECTORS.downloadButton.getAttribute('data-download-url');
+                    
+                    if (downloadUrl && !SELECTORS.downloadButton.disabled) {
+                        SELECTORS.downloadButton.disabled = true;
+                        SELECTORS.downloadButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Starting Download...';
+                        
+                        setTimeout(() => {
+                            window.location.href = downloadUrl;
+                            
+                            // Reset the button after a delay in case the download is blocked.
+                            setTimeout(() => {
+                                SELECTORS.downloadButton.disabled = false;
+                                SELECTORS.downloadButton.innerHTML = defaultButtonText;
+                            }, 1500);
+                        }, 500); 
+                    }
+                });
+            };
+
+            // Main execution logic
+            const initializePage = async () => {
+                SELECTORS.downloadButton.disabled = true; // Disable button on page load
+                const data = await fetchMasterData(URLS.masterData);
+                if (data) {
+                    populatePage(data);
+                    setupDownloadHandler();
+                }
+            };
+
+            initializePage();
         });
     </script>
 
