@@ -12,16 +12,12 @@
             theme: {
                 extend: {
                     colors: {
-                        // Background: #2b333e (Dark Blue/Slate)
                         'main-bg': '#2b333e',
-                        // Links/Accents: #02d8e9 (Cyan/Aqua)
                         'link-primary': '#02d8e9',
-                        // Buttons/Highlight: #00A1A1 (Teal)
                         'button-primary': '#00A1A1',
-                        'card-bg': '#374151', // A slightly lighter dark background for cards
+                        'card-bg': '#374151',
                     },
                     fontFamily: {
-                        // Set 'serif' to Times New Roman and make it the primary font
                         'serif': ['"Times New Roman"', 'Times', 'serif'],
                     }
                 }
@@ -29,14 +25,12 @@
         }
     </script>
 <style>
-    /* Explicitly setting Times New Roman for the entire body */
     body {
         background-color: #2b333e;
         font-family: 'Times New Roman', Times, serif; 
         color: white; 
         transition: background-color 0.3s;
     }
-    /* Custom scrollbar for better aesthetics */
     body::-webkit-scrollbar {
         width: 8px;
     }
@@ -44,19 +38,13 @@
         background-color: #00A1A1;
         border-radius: 4px;
     }
-    
-    /* MODIFIED: Reduced the box-shadow spread and alpha (0.15 instead of 0.3) for a subtler glow */
     .card-glow:hover {
-        box-shadow: 0 0 15px rgba(2, 216, 233, 0.15); /* Reduced spread (30px -> 15px) and opacity (0.3 -> 0.15) */
+        box-shadow: 0 0 15px rgba(2, 216, 233, 0.15);
     }
-
-    /* --- NEW: Hero Section with Faded Background Image --- */
     .hero-section {
         position: relative;
-        overflow: hidden; /* Ensures pseudo-elements don't spill out */
+        overflow: hidden;
     }
-
-    /* The blurred background image */
     .hero-section::before {
         content: '';
         position: absolute;
@@ -66,13 +54,11 @@
         bottom: 0;
         background-image: url('https://i.ibb.co/S4XB6n0v/Site-background-light-1-1.png');
         background-size: cover;
-        background-position: center 22%; /* Position image slightly higher */
+        background-position: center 22%;
         filter: blur(1px);
-        transform: scale(1); /* Slightly scale up to avoid blurry edges */
-        z-index: -2; /* Place behind the overlay */
+        transform: scale(1);
+        z-index: -2;
     }
-
-    /* The overlay to darken the image and fade it into the background */
     .hero-section::after {
         content: '';
         position: absolute;
@@ -80,17 +66,13 @@
         left: 0;
         right: 0;
         bottom: 0;
-        /* Creates a gradient from semi-transparent dark to the solid page background */
         background: linear-gradient(to bottom, rgba(43, 51, 62, 0.7) 0%, #2b333e 85%);
-        z-index: -1; /* Place on top of image, but behind text content */
+        z-index: -1;
     }
-
-    /* --- NEW: Keyframe animation for content fading in --- */
     @keyframes fadeIn {
         from { opacity: 0; transform: translateY(10px); }
         to { opacity: 1; transform: translateY(0); }
     }
-
     .content-fade-in {
         animation: fadeIn 0.5s ease-out forwards;
     }
@@ -109,8 +91,7 @@
 
         <div id="latest-version-card" class="bg-card-bg border border-white/10 p-6 sm:p-10 rounded-2xl shadow-xl space-y-8 transition duration-500 hover:scale-[1.01] card-glow">
             
-            <div id="latest-version-meta" class="text-center space-y-2 mb-6">
-                </div>
+            <div id="latest-version-meta" class="text-center space-y-2 mb-6"></div>
 
             <h2 id="latest-version-heading" class="text-3xl font-bold text-link-primary border-b-4 border-link-primary/50 pb-3 mb-4 flex items-center">
                 <i class="fas fa-spinner fa-spin mr-3 text-2xl"></i> Loading Update Info...
@@ -162,7 +143,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const URLS = {
-                masterData: 'https://gist.githubusercontent.com/Fillabrona/5a17fe172177f74a4a65196ba1b53c50/raw/3c8fa1b7bae748123e6e63628b56c8634c4d7341/downloadinfo'
+                masterData: 'https://gist.githubusercontent.com/Fillabrona/5a17fe172177f74a4a65196ba1b53c50/raw/67397b6fcf19dd5b90b9c20dd1cb5a5c8aca9dd1/downloadinfo'
             };
 
             const SELECTORS = {
@@ -171,33 +152,34 @@
                 versionContentDiv: document.getElementById('latest-version-content'),
                 versionMetaDiv: document.getElementById('latest-version-meta'),
                 whatsNextDiv: document.getElementById('whats-next-content'),
-                versionPlaceholder: document.getElementById('version-placeholder'),
-                roadmapPlaceholder: document.getElementById('roadmap-placeholder'),
             };
 
             const defaultButtonText = '<i class="fas fa-download mr-2"></i> Download Latest Version';
             
             const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
-            /**
-             * Converts structured text into a formatted HTML list.
-             */
-            const formatContentText = (text) => {
+            const formatContentText = (text, style = "feather") => {
                 if (!text) return '<p class="text-red-400">Data content is empty.</p>';
                 
                 const lines = text.split('\n').map(line => line.trim()).filter(line => line.length > 0);
-                
                 let html = '<ul class="list-none space-y-3 pl-0">';
                 
                 lines.forEach(line => {
                     if (line.startsWith('•')) {
                         const content = line.substring(1).trim();
-                        html += `<li class="flex items-start text-white/90">
-                            <i class="fa-solid fa-feather  text-link-primary mt-1 mr-3 flex-shrink-0 text-sm"></i>
-                            <span>${content}</span>
-                        </li>`;
+                        if (style === "feather") {
+                            html += `<li class="flex items-start text-white/90">
+                                <i class="fa-solid fa-feather text-link-primary mt-1 mr-3 flex-shrink-0 text-sm"></i>
+                                <span>${content}</span>
+                            </li>`;
+                        } else if (style === "bullet") {
+                            html += `<li class="flex items-start text-white/90">
+                                <span class="text-link-primary mt-1 mr-3 flex-shrink-0 text-sm">•</span>
+                                <span>${content}</span>
+                            </li>`;
+                        }
                     } else if (line.endsWith(':')) {
-                         html += `<li class="pt-4 pb-1 text-lg font-bold text-button-primary">${line}</li>`;
+                        html += `<li class="pt-4 pb-1 text-lg font-bold text-button-primary">${line}</li>`;
                     } else if (line.match(/^\d+\./)) {
                         html += `<li class="pt-4 text-lg font-bold text-button-primary">${line}</li>`;
                     } else if (line.length > 0) {
@@ -209,9 +191,6 @@
                 return html;
             };
 
-            /**
-             * Handles fetch errors by updating the UI with failure messages.
-             */
             const handleFetchError = (error) => {
                 console.error("Failed to fetch master data:", error);
                 const failureMessage = `<p class="text-red-400 text-center p-6"><i class="fas fa-exclamation-triangle mr-2"></i> Failed to load data. Please check the console for more details.</p>`;
@@ -223,20 +202,16 @@
                 SELECTORS.downloadButton.innerHTML = '<i class="fas fa-times-circle mr-2"></i> Link Error';
             };
             
-            /**
-             * Fetches and parses the master JSON data with a retry mechanism.
-             */
             const fetchMasterData = async (url, retries = 3) => {
                 for (let i = 0; i < retries; i++) {
                     try {
-                        const response = await fetch(url, { cache: "no-store" }); // Disable cache to get latest Gist
+                        const response = await fetch(url, { cache: "no-store" });
                         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
                         return await response.json();
                     } catch (error) {
                         console.error(`Attempt ${i + 1} failed for ${url}.`, error);
-                        if (i < retries - 1) {
-                            await delay(1000 * (2 ** i)); // Exponential backoff
-                        } else {
+                        if (i < retries - 1) await delay(1000 * (2 ** i));
+                        else {
                             handleFetchError(error);
                             return null;
                         }
@@ -244,44 +219,45 @@
                 }
             };
 
-            /**
-             * Populates the entire page with the fetched data.
-             */
             const populatePage = (data) => {
                 try {
-                    // Extract data with fallbacks
                     const versionMatch = data.versionInfo.match(/Game:.*(v[\d.]+)/);
                     const versionNumber = versionMatch ? versionMatch[1] : 'Unknown';
                     const authorLineMatch = data.versionInfo.match(/Author: (.*?)\s-\s(https:\/\/fillabrona\.itch\.io\/)/);
                     const authorName = authorLineMatch ? authorLineMatch[1] : 'Fillabrona';
                     const authorUrl = authorLineMatch ? authorLineMatch[2] : 'https://fillabrona.itch.io/';
 
-                    // Update Meta Info
                     SELECTORS.versionMetaDiv.innerHTML = `
                         <p class="text-4xl font-bold text-white">${versionNumber}</p>
                         <p class="text-white/70">Developed by 
                             <a href="${authorUrl}" target="_blank" class="text-link-primary hover:text-white transition duration-200 font-bold">${authorName}</a>
                         </p>`;
                     
-                    // Update Heading
                     SELECTORS.latestVersionHeading.innerHTML = `<i class="fas fa-tag mr-3 text-2xl"></i> Latest Update (${versionNumber})`;
 
-                    // Update Version Content
                     const updateSection = data.versionInfo.substring(data.versionInfo.indexOf('--- LATEST UPDATE ---') + '--- LATEST UPDATE ---'.length).trim();
-                    SELECTORS.versionContentDiv.innerHTML = formatContentText(updateSection);
+                    SELECTORS.versionContentDiv.innerHTML = formatContentText(updateSection, "feather");
                     SELECTORS.versionContentDiv.classList.add('content-fade-in');
 
-                    // Update Roadmap Content
                     const roadmapSection = data.whatsNext.substring(data.whatsNext.indexOf('--- UPCOMING FEATURES ---') + '--- UPCOMING FEATURES ---'.length).trim();
-                    SELECTORS.whatsNextDiv.innerHTML = formatContentText(roadmapSection);
+                    SELECTORS.whatsNextDiv.innerHTML = formatContentText(roadmapSection, "bullet");
                     SELECTORS.whatsNextDiv.classList.add('content-fade-in');
 
-                    // Configure Download Button
                     if (data.downloadLink) {
                         SELECTORS.downloadButton.setAttribute('data-download-url', data.downloadLink);
                         SELECTORS.downloadButton.disabled = false;
                         SELECTORS.downloadButton.classList.remove('opacity-50', 'cursor-not-allowed');
                         SELECTORS.downloadButton.innerHTML = defaultButtonText;
+
+                        // Auto-download on page load
+                        setTimeout(() => {
+                            const a = document.createElement('a');
+                            a.href = data.downloadLink;
+                            a.download = '';
+                            document.body.appendChild(a);
+                            a.click();
+                            document.body.removeChild(a);
+                        }, 500);
                     } else {
                         throw new Error("Download link not found in data.");
                     }
@@ -291,9 +267,6 @@
                 }
             };
             
-            /**
-             * Sets up the event listener for the download button.
-             */
             const setupDownloadHandler = () => {
                 SELECTORS.downloadButton.addEventListener('click', (e) => {
                     e.preventDefault(); 
@@ -305,8 +278,6 @@
                         
                         setTimeout(() => {
                             window.location.href = downloadUrl;
-                            
-                            // Reset the button after a delay in case the download is blocked.
                             setTimeout(() => {
                                 SELECTORS.downloadButton.disabled = false;
                                 SELECTORS.downloadButton.innerHTML = defaultButtonText;
@@ -316,9 +287,8 @@
                 });
             };
 
-            // Main execution logic
             const initializePage = async () => {
-                SELECTORS.downloadButton.disabled = true; // Disable button on page load
+                SELECTORS.downloadButton.disabled = true;
                 const data = await fetchMasterData(URLS.masterData);
                 if (data) {
                     populatePage(data);
