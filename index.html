@@ -3,235 +3,172 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Software Download Center</title>
+    <title>Quiz for Survival - Latest Download & Info</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- Custom Tailwind Configuration for Colors -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        // Background: #2b333e
+                        'main-bg': '#2b333e',
+                        // Links: #02d8e9
+                        'link-primary': '#02d8e9',
+                        // Buttons: #00A1A1
+                        'button-primary': '#00A1A1',
+                    },
+                    fontFamily: {
+                        'serif': ['"Times New Roman"', 'Times', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Custom Styles for Font and Global Background -->
     <style>
-        /* CSS Styling */
-        :root {
-            --bg-color: #2b333e;
-            --text-color: #ffffff;
-            --link-color: #02d8e9;
-            --button-color: #00A1A1;
-            --secondary-button-hover: #008787;
-            --primary-button-hover: #02b6c9;
-            --card-bg: #3c4452; /* Slightly lighter background for contrast */
-        }
-
         body {
-            /* Background and Text Colors */
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+            background-color: #2b333e; /* Explicit background color */
+            font-family: 'Times New Roman', Times, serif; /* Explicit font application */
+            color: white; /* Explicit text color */
         }
-
-        .container {
-            width: 90%;
-            max-width: 800px;
-            padding: 40px 20px;
-            text-align: center;
+        /* Custom scrollbar for better aesthetics */
+        body::-webkit-scrollbar {
+            width: 8px;
         }
-
-        .card {
-            background-color: var(--card-bg);
-            border-radius: 12px;
-            padding: 30px;
-            margin-bottom: 25px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-            text-align: left;
-        }
-
-        h1 {
-            font-weight: 600;
-            margin-bottom: 30px;
-            color: var(--link-color);
-        }
-
-        h2 {
-            font-weight: 500;
-            border-bottom: 2px solid var(--button-color);
-            padding-bottom: 5px;
-            margin-top: 0;
-            margin-bottom: 20px;
-        }
-
-        /* Button and Link Styling */
-        .button {
-            display: inline-block;
-            padding: 12px 25px;
-            margin: 10px;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: background-color 0.3s ease, transform 0.2s ease, opacity 0.3s ease;
-            text-align: center;
-            cursor: pointer;
-            border: none;
-        }
-
-        /* Primary Button (Download) - Uses Link Color */
-        .primary-button {
-            background-color: var(--link-color);
-            color: var(--bg-color); /* Darker text for high contrast */
-            font-size: 1.2em;
-            padding: 18px 40px;
-            box-shadow: 0 4px 15px rgba(2, 216, 233, 0.4);
-            opacity: 0.7; /* Start with low opacity until link is loaded */
-            pointer-events: none; /* Disable click until link is loaded */
-        }
-
-        .primary-button.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .primary-button:hover {
-            background-color: var(--primary-button-hover);
-            transform: translateY(-2px);
-        }
-
-        /* Secondary Button (Patch Notes) - Uses Button Color */
-        .secondary-button {
-            background-color: var(--button-color);
-            color: var(--text-color);
-            border: 2px solid var(--button-color);
-            padding: 12px 25px;
-        }
-
-        .secondary-button:hover {
-            background-color: var(--secondary-button-hover);
-            transform: translateY(-2px);
-        }
-
-        a {
-            color: var(--link-color);
-            text-decoration: none;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-
-        /* Version specific styling */
-        #versionNumber {
-            font-size: 2.5em;
-            font-weight: 700;
-            color: var(--link-color);
-            margin-top: 5px;
-            margin-bottom: 20px;
-            display: block;
-        }
-        
-        /* Loading/Error states */
-        .loading, .error {
-            text-align: center;
-            padding: 15px;
-            font-style: italic;
-        }
-        .error {
-            color: #ff7777;
+        body::-webkit-scrollbar-thumb {
+            background-color: #00A1A1;
+            border-radius: 4px;
         }
     </style>
 </head>
-<body>
+<body class="min-h-screen p-4 sm:p-8">
 
-    <div class="container">
-        <h1>Official Software Download</h1>
+    <div class="max-w-4xl mx-auto space-y-10">
 
-        <div class="card" style="text-align: center;">
-            <h2>Current Stable Version</h2>
-            <span id="versionNumber" class="loading">Loading version...</span>
+        <!-- Header and Title -->
+        <header class="text-center pt-8 pb-4">
+            <h1 class="text-5xl sm:text-7xl font-bold tracking-tight text-link-primary mb-2">
+                <i class="fas fa-brain mr-3"></i>Quiz for Survival
+            </h1>
+            <p class="text-xl text-white/80">The latest official release and future development details.</p>
+        </header>
+
+        <!-- Main Information Card -->
+        <div id="main-info-card" class="bg-main-bg border border-white/20 p-6 sm:p-8 rounded-xl shadow-2xl space-y-6">
+            <h2 class="text-3xl font-semibold text-link-primary border-b border-link-primary/50 pb-3 mb-4">
+                <i class="fas fa-info-circle mr-2"></i> Latest Update Information
+            </h2>
             
-            <a id="downloadLink" href="#" class="button primary-button">
-                Download Now 📥
-            </a>
-            <p style="margin-top: 15px; font-size: 0.9em; color: #aaa;">
-                Clicking above will download the software (Link will activate when loaded)
-            </p>
+            <!-- Latest Version/Content Section -->
+            <div id="latest-version-content">
+                <p class="text-white/70 italic" id="version-placeholder">
+                    <i class="fas fa-spinner fa-spin mr-2"></i> Loading latest version details...
+                </p>
+            </div>
+
+            <!-- Download Button Section -->
+            <div class="pt-4 flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                <a id="download-button" href="#" target="_blank"
+                   class="w-full sm:w-auto px-10 py-4 text-lg font-bold text-white uppercase transition duration-300 transform bg-button-primary rounded-xl shadow-lg hover:shadow-2xl hover:bg-opacity-90 active:scale-95 disabled:opacity-50"
+                   onclick="this.classList.add('disabled')">
+                    <i class="fas fa-download mr-2"></i> Download Latest Version
+                </a>
+                
+                <!-- Update Log Link -->
+                <a href="https://docs.google.com/document/d/11sxU4b9yxqJY74rFXaz1YaIQF85cnPe7SX3nzGZJ7Zk/edit?tab=t.0" target="_blank"
+                   class="w-full sm:w-auto px-6 py-4 text-center text-link-primary hover:text-white transition duration-200 border border-link-primary/50 rounded-xl hover:bg-link-primary/10">
+                    <i class="fas fa-file-alt mr-2"></i> View Update Log & Info
+                </a>
+            </div>
         </div>
 
-        <div class="card">
-            <h2>What's Next?</h2>
-            <div id="whatsNextContent" class="loading">Loading roadmap...</div>
+        <!-- What's Next Section -->
+        <div class="bg-main-bg border border-white/20 p-6 sm:p-8 rounded-xl shadow-2xl space-y-6">
+            <h2 class="text-3xl font-semibold text-link-primary border-b border-link-primary/50 pb-3 mb-4">
+                <i class="fas fa-forward mr-2"></i> What's Next? (Roadmap)
+            </h2>
+            <div id="whats-next-content">
+                <p class="text-white/70 italic" id="roadmap-placeholder">
+                    <i class="fas fa-spinner fa-spin mr-2"></i> Loading future plans...
+                </p>
+            </div>
         </div>
-
-        <a 
-           href="https://docs.google.com/document/d/11sxU4b9yxqJY74rFXaz1YaIQF85cnPe7SX3nzGZJ7Zk/edit?tab=t.0" 
-           target="_blank" 
-           class="button secondary-button">
-           Visit Patch Notes for more information 📝
-        </a>
     </div>
 
+    <!-- JavaScript for Data Fetching -->
     <script>
-        // JavaScript for fetching data
         document.addEventListener('DOMContentLoaded', () => {
-            const versionUrl = 'https://pastebin.com/raw/9VidjcAt';
-            const downloadUrl = 'https://pastebin.com/raw/H2uSsdZe';
-            const whatsNextUrl = 'https://pastebin.com/raw/zr4RpvkW';
-
-            const versionElement = document.getElementById('versionNumber');
-            const downloadLinkElement = document.getElementById('downloadLink');
-            const whatsNextElement = document.getElementById('whatsNextContent');
-
-            // Helper function to fetch a single URL
-            const fetchData = async (url) => {
-                const response = await fetch(url);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                return response.text();
+            const URLS = {
+                downloadLink: 'https://pastebin.com/raw/H2uSsdZe',
+                versionInfo: 'https://pastebin.com/raw/9VidjcAt',
+                whatsNext: 'https://pastebin.com/raw/zr4RpvkW'
             };
 
-            // Fetch all data concurrently
-            Promise.allSettled([
-                fetchData(versionUrl),
-                fetchData(downloadUrl),
-                fetchData(whatsNextUrl)
-            ])
-            .then(results => {
-                // 1. Version Info (from 9VidjcAt)
-                if (results[0].status === 'fulfilled') {
-                    const version = results[0].value.trim();
-                    versionElement.textContent = version;
-                    versionElement.classList.remove('loading');
-                } else {
-                    console.error('Failed to fetch version:', results[0].reason);
-                    versionElement.innerHTML = '<span class="error">Error loading version.</span>';
-                }
+            const downloadButton = document.getElementById('download-button');
+            const versionContentDiv = document.getElementById('latest-version-content');
+            const whatsNextDiv = document.getElementById('whats-next-content');
 
-                // 2. Download Link (from H2uSsdZe)
-                if (results[1].status === 'fulfilled') {
-                    const link = results[1].value.trim();
-                    downloadLinkElement.href = link;
-                    downloadLinkElement.classList.add('active'); // Activate link styling and pointer-events
-                } else {
-                    console.error('Failed to fetch download link:', results[1].reason);
-                    downloadLinkElement.innerHTML = 'Download Link Failed to Load';
-                    downloadLinkElement.style.backgroundColor = '#ff7777'; // Red error button
-                    downloadLinkElement.style.color = 'white';
+            /**
+             * Fetches raw text content from a URL and updates the specified DOM element.
+             * @param {string} url The raw pastebin URL.
+             * @param {HTMLElement} targetElement The element to update with the fetched content.
+             * @param {string} fallbackText The text to show on failure.
+             * @returns {Promise<string>} The fetched text content.
+             */
+            const fetchTextContent = async (url, targetElement, fallbackText) => {
+                try {
+                    const response = await fetch(url);
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    const text = await response.text();
+                    
+                    // Format the content. Replace newlines with <br> for simple formatting.
+                    const formattedContent = text.trim().replace(/\n/g, '<br>');
+                    
+                    if (targetElement) {
+                         // Update target element's content
+                         targetElement.innerHTML = `<p class="whitespace-pre-wrap">${formattedContent}</p>`;
+                    }
+                    return text.trim();
+                } catch (error) {
+                    console.error(`Error fetching data from ${url}:`, error);
+                    if (targetElement) {
+                        targetElement.innerHTML = `<p class="text-red-400"><i class="fas fa-exclamation-triangle mr-2"></i> Failed to load data. ${fallbackText}</p>`;
+                    }
+                    return null;
                 }
+            };
 
-                // 3. What's Next Content (from zr4RpvkW)
-                if (results[2].status === 'fulfilled') {
-                    // Replace newlines with <br> for basic text formatting
-                    let content = results[2].value.trim();
-                    content = content.replace(/\n/g, '<br>');
-                    whatsNextElement.innerHTML = content;
-                    whatsNextElement.classList.remove('loading');
-                } else {
-                    console.error("Failed to fetch What's Next:", results[2].reason);
-                    whatsNextElement.innerHTML = '<span class="error">Could not load What\'s Next content.</span>';
+            // 1. Fetch Latest Version/Content Info
+            fetchTextContent(URLS.versionInfo, versionContentDiv, "Please check the update log for details.").then(() => {
+                // Remove placeholder after success or failure
+                document.getElementById('version-placeholder')?.remove();
+            });
+
+            // 2. Fetch What's Next (Roadmap)
+            fetchTextContent(URLS.whatsNext, whatsNextDiv, "The development roadmap is currently unavailable.").then(() => {
+                 // Remove placeholder after success or failure
+                document.getElementById('roadmap-placeholder')?.remove();
+            });
+
+            // 3. Fetch Download Link (Special Handling)
+            fetchTextContent(URLS.downloadLink, null, "Download link is unavailable.").then(link => {
+                if (link && downloadButton) {
+                    downloadButton.href = link;
+                    downloadButton.classList.remove('disabled');
+                    downloadButton.innerHTML = '<i class="fas fa-download mr-2"></i> Download Latest Version';
+                } else if (downloadButton) {
+                    downloadButton.href = "#";
+                    downloadButton.classList.add('opacity-50', 'cursor-not-allowed');
+                    downloadButton.setAttribute('disabled', 'true');
+                    downloadButton.innerHTML = '<i class="fas fa-times-circle mr-2"></i> Link Error';
                 }
-            })
-            .catch(error => {
-                console.error('An unrecoverable error occurred:', error);
-                versionElement.innerHTML = '<span class="error">Data Load Failure.</span>';
-                whatsNextElement.innerHTML = '<span class="error">Data Load Failure.</span>';
             });
         });
     </script>
