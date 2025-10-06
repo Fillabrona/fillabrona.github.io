@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz for Survival - Latest Download & Info</title>
+    <title id="page-title">Quiz for Survival - Latest Download & Info</title>
     <link rel="icon" type="image/png" href="https://i.ibb.co/Xxrtbmmp/cropped-circle-image-3.png">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
     <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.8.1/dist/dotlottie-wc.js" type="module"></script>
 
     <script>
@@ -15,81 +15,221 @@
             theme: {
                 extend: {
                     colors: {
-                        'main-bg': '#2b333e',
-                        'link-primary': '#02d8e9',
-                        'button-primary': '#00A1A1',
-                        'card-bg': '#374151',
+                        // Original main-bg
+                        'main-bg': '#2b333e', 
+                        // Muted Blue Accent: A slightly darker, less neon blue/cyan
+                        'link-primary': '#04a4b0', 
+                        // Muted Button Teal: A darker, more sophisticated teal
+                        'button-primary': '#008C8C', 
+                        // Glassmorphism base on the main-bg
+                        'card-bg': 'rgba(43, 51, 62, 0.5)', // Slightly less transparent for less 'glassy' look
                     },
                     fontFamily: {
-                        'serif': ['"Times New Roman"', 'Times', 'serif'],
+                        sans: ['Times New Roman', 'serif'], // Times New Roman
                     }
                 }
             }
         }
     </script>
 <style>
+    /* 1. Base Styles and Scrollbar */
     body {
-        background-color: #2b333e;
-        font-family: 'Times New Roman', Times, serif;
+        background-color: #2b333e; /* Original color */
         color: white;
         transition: background-color 0.3s;
+        font-family: 'Times New Roman', serif;
     }
     body::-webkit-scrollbar {
         width: 8px;
     }
     body::-webkit-scrollbar-thumb {
-        background-color: #00A1A1;
+        background-color: #04a4b0; /* Use new muted accent */
         border-radius: 4px;
     }
-    .card-glow:hover {
-        box-shadow: 0 0 15px rgba(2, 216, 233, 0.15);
+
+    /* 2. Sleek Glassmorphism (Less aggressive shadow/glow) */
+    .card-glass {
+        background: rgba(43, 51, 62, 0.5); /* Slightly darker/less transparent */
+        backdrop-filter: blur(10px); /* Slightly less blur */
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1); 
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); /* Softer shadow */
+        transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
     }
-    .hero-section {
-        position: relative;
+    /* ADDED: Subtle hover on card-glass for desktop/larger screens */
+    @media (min-width: 768px) {
+        .card-glass:hover {
+            box-shadow: 0 4px 20px rgba(4, 164, 176, 0.25); /* Slightly stronger glow now */
+            transform: translateY(-2px); /* Slightly more aggressive lift */
+        }
+    }
+    
+    /* 3. Hero Section (REDUCED HEIGHT) */
+    .hero-background {
+        width: 100%;
+        min-height: 30vh; /* REDUCED from 50vh */
+        position: absolute; 
+        top: 0;
+        left: 0;
         overflow: hidden;
+        z-index: -3; 
     }
-    .hero-section::before {
+    .hero-background::before {
         content: '';
         position: absolute;
         top: 0;
         left: 0;
         right: 0;
         bottom: 0;
-        /* Using a placeholder image */
-        background-image: url('https://i.ibb.co/S4XB6n0v/Site-background-light-1-1.png');
+        background-image: url('https://i.ibb.co/DHf41tLP/0602-1.png');
         background-size: cover;
-        background-position: center 22%;
-        filter: blur(1px);
-        transform: scale(1);
+        background-position: center;
+        filter: blur(5px) brightness(0.4); 
+        transform: scale(1.05);
         z-index: -2;
+        transition: transform 0.8s ease;
     }
-    .hero-section::after {
+    .hero-background::after {
         content: '';
         position: absolute;
         top: 0;
         left: 0;
         right: 0;
         bottom: 0;
-        background: linear-gradient(to bottom, rgba(43, 51, 62, 0.7) 0%, #2b333e 85%);
+        background: linear-gradient(to top, #2b333e 5%, transparent 60%);
         z-index: -1;
     }
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(10px); }
-        to { opacity: 1; transform: translateY(0); }
+    .hero-content-wrapper {
+        min-height: 30vh; /* REDUCED from 50vh */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative; 
     }
-    .content-fade-in {
-        animation: fadeIn 0.5s ease-out forwards;
+
+    /* 4. Navigation Bar (Muted Hover and Active State) */
+    /* Mobile-friendly nav links: Allow wrapping, ensure spacing */
+    nav {
+        /* Ensure nav sits on top of all content but below the welcome modal (z-[60]) */
+        z-index: 50;
+    }
+    .nav-link {
+        transition: all 0.2s;
+        padding: 0.75rem 1rem; /* INCREASED vertical padding for better touch area */
+        border-radius: 0.5rem; 
+        display: flex;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.05);
+        /* Mobile: Ensure it takes full width when needed but respects flex wrapping */
+        flex-grow: 1; 
+        justify-content: center;
+        /* Mobile adjustment: reduce font size slightly on small screens */
+        font-size: 1rem; /* default 16px */
+        text-align: center; /* Center text within the flex item on mobile */
+    }
+    @media (min-width: 640px) { /* sm breakpoint */
+        .nav-link {
+            flex-grow: 0;
+            font-size: 1.125rem; /* text-lg */
+            justify-content: flex-start;
+            text-align: left;
+        }
+    }
+
+    .nav-link:hover {
+        /* Muted hover background */
+        background: rgba(4, 164, 176, 0.1); 
+        color: white;
+        transform: translateY(-1px); /* Subtle hover lift */
+        box-shadow: 0 2px 5px rgba(4, 164, 176, 0.1);
+    }
+    .nav-link.active {
+        color: white;
+        background: #04a4b0; /* Use new muted accent */
+        /* Muted active shadow */
+        box-shadow: 0 0 10px rgba(4, 164, 176, 0.4);
+        transform: none; /* No lift on active state */
+    }
+    .nav-link.active i {
+        color: #2b333e; 
+    }
+
+    /* 5. Smoother Changelog Accordion and Rotating Arrow */
+    .changelog-header {
+        cursor: pointer;
+        padding: 1.5rem; 
+        transition: background-color 0.4s ease-in-out;
+        border-bottom: 1px solid rgba(4, 164, 176, 0.1); /* Use new muted accent */
+        user-select: none;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .changelog-header:hover {
+        background-color: rgba(255, 255, 255, 0.05);
+    }
+
+    .changelog-header i {
+        transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        margin-left: 1rem; 
+    }
+    .changelog-header i.rotated {
+        transform: rotate(180deg);
+    }
+    
+    .changelog-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 1.1s cubic-bezier(0.4, 0, 0.2, 1), 
+                    padding 1.1s cubic-bezier(0.4, 0, 0.2, 1), 
+                    opacity 0.6s ease-in-out;
+        opacity: 0;
+        padding: 0 1.5rem;
+    }
+    .changelog-content.open {
+        max-height: 1000px; 
+        opacity: 1;
+        padding: 1.5rem;
+    }
+    
+    /* 6. Mobile adjustments for overall padding and flow */
+    /* Reduce padding on the main content wrapper on small screens */
+    .max-w-5xl.mx-auto.space-y-8.p-4.sm\:p-8 {
+        padding: 1rem !important; /* Forces 1rem padding on all sides */
+        padding-top: 0 !important; /* Maintain the pt-0 for the top section */
     }
 </style>
 </head>
-<body class="min-h-screen p-4 sm:p-8 font-serif">
+<body class="min-h-screen">
 
-    <!-- Modal Backdrop - Hidden by default -->
-    <div id="download-modal-backdrop" class="fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center transition-opacity duration-300 opacity-0 pointer-events-none">
-        <!-- Modal Content -->
-        <div id="download-modal-content" class="bg-card-bg p-6 sm:p-8 rounded-2xl shadow-2xl max-w-sm w-11/12 transform scale-90 transition-all duration-300 relative border-2 border-link-primary/50">
+<nav class="sticky top-0 z-50 w-full p-4">
+    <div class="max-w-5xl mx-auto p-2 rounded-xl shadow-2xl card-glass">
+        <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 text-lg font-semibold text-white/80"> 
+            
+            <a href="#section=home" class="nav-link active flex-1" data-section="home">
+                <i class="fas fa-home mr-2 text-link-primary transition-colors duration-200"></i>Home
+            </a>
 
-            <!-- Close Button -->
+            <a href="#section=about" class="nav-link flex-1 text-base sm:text-lg" data-section="about">
+                <i class="fas fa-toolbox mr-2 text-link-primary transition-colors duration-200"></i>Tools & Logic
+            </a>
+            <a href="#section=changelog" class="nav-link flex-1 text-base sm:text-lg" data-section="changelog">
+                <i class="fas fa-code-branch mr-2 text-link-primary transition-colors duration-200"></i>Update Log
+            </a>
+            <a href="#section=database" class="nav-link flex-1 text-base sm:text-lg" data-section="database">
+                <i class="fas fa-database mr-2 text-link-primary transition-colors duration-200"></i>Database
+            </a>
+            
+        </div>
+        </div>
+</nav>
+
+
+    <div class="hero-background"></div>
+
+    <div id="download-modal-backdrop" class="fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center transition-opacity duration-300 opacity-0 pointer-events-none">
+        <div id="download-modal-content" class="bg-card-bg p-6 sm:p-8 rounded-2xl shadow-2xl max-w-sm w-11/12 transform scale-90 transition-all duration-300 relative border-2 border-link-primary/50 card-glass">
+
             <button id="modal-close-button" class="absolute top-3 right-3 text-white/50 hover:text-white transition duration-200">
                 <i class="fas fa-times-circle text-2xl"></i>
             </button>
@@ -103,86 +243,178 @@
 
                 <h3 class="text-3xl font-bold text-link-primary">Download Initiated!</h3>
                 <p id="modal-message" class="text-white/80 text-lg">
-                    The automatic download is starting now. Check your browser's download folder.
+                    The automatic download for version <b>${versionNumber}</b> is starting now. Check your browser's download folder.
                 </p>
 
                 <button onclick="document.getElementById('modal-close-button').click()"
-                    class="mt-4 w-full px-6 py-3 text-lg font-semibold text-main-bg bg-button-primary rounded-xl transition duration-300 hover:bg-opacity-80 active:scale-95">
+                    class="mt-4 w-full px-6 py-3 text-lg font-semibold text-main-bg bg-button-primary rounded-xl transition duration-300 hover:bg-opacity-80 active:scale-95 shadow-lg">
                     <i class="fas fa-thumbs-up mr-2"></i> Got It
                 </button>
             </div>
         </div>
     </div>
+    
+    <div id="welcome-modal-backdrop" class="fixed inset-0 bg-black bg-opacity-90 z-[60] flex items-center justify-center transition-opacity duration-300 opacity-0 pointer-events-none">
+        <div id="welcome-modal-content" class="bg-card-bg p-6 sm:p-8 rounded-2xl shadow-2xl max-w-sm w-11/12 transform scale-90 transition-all duration-300 relative border-2 border-link-primary/50 card-glass">
 
-    <div class="max-w-4xl mx-auto space-y-10">
+            <div class="flex flex-col items-center text-center space-y-4">
+                
+                <dotlottie-wc
+                    src="https://lottie.host/72cab938-6deb-4540-90f5-c90d8e30285b/MsmVJ7q30q.lottie"
+                    style="width: 600px;" class="max-w-full mx-auto" autoplay loop>
+                </dotlottie-wc>
+                <h3 class="text-3xl font-bold text-link-primary">Quiz for Survival</h3>
+                <p class="text-white/80 text-lg">
+                    The latest version is available! Would you like to start the download now?
+                </p>
 
-        <header class="text-center py-12 hero-section rounded-t-2xl">
-            <h1 class="text-5xl sm:text-7xl font-bold tracking-tighter text-link-primary mb-3 drop-shadow-lg">
-                Quiz for Survival
-            </h1>
-            <p class="text-xl text-white/70 font-light">The latest official release and future development roadmap.</p>
-        </header>
-
-        <!-- NEW: About the Game Section -->
-        <div class="bg-card-bg border border-white/10 p-6 sm:p-10 rounded-2xl shadow-xl space-y-4 transition duration-500 hover:scale-[1.01] card-glow">
-            <h2 class="text-3xl font-bold text-link-primary border-b-4 border-link-primary/50 pb-3 flex items-center">
-                <i class="fas fa-book-open mr-3 text-2xl"></i> About the Game
-            </h2>
-            <p class="text-white/90 text-lg leading-relaxed">
-                Quiz for Survival is an intense trivia experience that challenges your knowledge, strategy, and risk management with over 2,500 questions across categories like General Knowledge, Sports, History, Games, Geography, Language, Music, Math, and Measurements. Each round features 10 randomly selected questions with four answer choices, but only one is correct, keeping every playthrough unpredictable. Correct answers award 10 points and 5 coins, while wrong answers reduce health by 10 and cost 3 coins, adding tension and strategy to every decision. After each round, the shop opens, letting you spend coins on Health Potions, Extra Lives, Mystery Boxes, Lucky Triples, and more, to enhance your survival chances. With four gameplay modes, Normal, Gauntlet, Shopless, and Multiplayer, and five difficulty levels Unlimited, Easy, Hard, Extreme, and Unbeatable, players can tailor the challenge to their skill. The game also features 15 achievements, a top-30 leaderboard, and an in-game feedback system for feedback & suggestions. When you reach the target score, a victory screen summarizes your performance, including final score, coins, health, completion time, correct and wrong answers, and a performance rating out of 100, giving a clear picture of how well you did. Combining knowledge, risk, and strategy, Quiz for Survival is an addictive, fast-paced trivia game that tests both your skill and endurance, rewarding careful play and quick thinking alike.
-            </p>
-        </div>
-        <!-- END NEW Section -->
-
-        <div id="latest-version-card" class="bg-card-bg border border-white/10 p-6 sm:p-10 rounded-2xl shadow-xl space-y-8 transition duration-500 hover:scale-[1.01] card-glow">
-
-            <div id="latest-version-meta" class="text-center space-y-2 mb-6"></div>
-
-            <h2 id="latest-version-heading" class="text-3xl font-bold text-link-primary border-b-4 border-link-primary/50 pb-3 mb-4 flex items-center">
-                <i class="fas fa-spinner fa-spin mr-3 text-2xl"></i> Loading Update Info...
-            </h2>
-
-            <div id="latest-version-content">
-                <div id="version-placeholder" class="space-y-4 animate-pulse">
-                    <div class="h-5 bg-gray-600 rounded w-1/4"></div>
-                    <div class="space-y-2 pl-6">
-                        <div class="h-4 bg-gray-700 rounded w-full"></div>
-                        <div class="h-4 bg-gray-700 rounded w-5/6"></div>
-                    </div>
-                    <div class="h-5 bg-gray-600 rounded w-1/3 pt-4"></div>
-                    <div class="space-y-2 pl-6">
-                        <div class="h-4 bg-gray-700 rounded w-full"></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="pt-6 flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6">
-                <button id="download-button"
-                    class="w-full sm:w-auto px-10 py-4 text-lg font-bold text-white uppercase transition duration-300 transform bg-button-primary rounded-xl shadow-2xl shadow-button-primary/50 hover:shadow-button-primary/80 hover:bg-opacity-90 active:scale-95 disabled:opacity-50">
-                    <i class="fas fa-cog fa-spin mr-2"></i> Initializing...
+                <button id="welcome-download-button"
+                    class="mt-4 w-full px-6 py-3 text-lg font-semibold text-main-bg bg-button-primary rounded-xl transition duration-300 hover:bg-opacity-80 active:scale-95 shadow-lg animate-pulse hover:animate-none">
+                    <i class="fas fa-download mr-2"></i> Initializing...
                 </button>
 
-                <a href="https://docs.google.com/document/d/11sxU4b9yxqJY74rFXaz1YaIQF85cnPe7SX3nzGZJ7Zk/edit?tab=t.0" target="_blank"
-                    class="w-full sm:w-auto px-6 py-4 text-center text-link-primary hover:text-white transition duration-300 border border-link-primary rounded-xl hover:bg-link-primary/20">
-                    <i class="fas fa-scroll mr-2"></i> View Full Change Log
-                </a>
+                <button id="welcome-continue-button"
+                    class="w-full px-6 py-3 text-lg font-semibold text-white/70 hover:text-white transition duration-300 border border-white/30 rounded-xl hover:bg-white/10 active:scale-95">
+                    <i class="fas fa-arrow-right mr-2"></i> Continue to Website
+                </button>
             </div>
         </div>
+    </div>
 
-        <div class="bg-card-bg border border-white/10 p-6 sm:p-10 rounded-2xl shadow-xl space-y-8 transition duration-500 hover:scale-[1.01] card-glow">
-            <h2 class="text-3xl font-bold text-link-primary border-b-4 border-link-primary/50 pb-3 mb-4 flex items-center">
-                <i class="fas fa-rocket mr-3 text-2xl"></i> Upcoming Features
-            </h2>
-            <div id="whats-next-content">
-                <div id="roadmap-placeholder" class="space-y-4 animate-pulse">
-                     <div class="h-5 bg-gray-600 rounded w-1/4"></div>
-                    <div class="space-y-2 pl-6">
-                        <div class="h-4 bg-gray-700 rounded w-full"></div>
-                        <div class="h-4 bg-gray-700 rounded w-5/6"></div>
+
+    <header class="hero-content-wrapper">
+        <div class="text-center p-8 z-10 max-w-5xl mx-auto">
+            <h1 id="hero-title" class="text-7xl sm:text-9xl font-extrabold tracking-tight text-white mb-4">
+                Quiz for Survival
+            </h1>
+            <p id="hero-subtitle" class="text-xl sm:text-3xl text-link-primary font-light tracking-wider">
+                The ultimate trivia experience of knowledge, strategy, and survival.
+            </p>
+        </div>
+    </header>
+    
+    <div class="max-w-5xl mx-auto space-y-8 p-4 sm:p-8 pt-0">
+
+        <main id="main-content" class="space-y-8">
+
+            <section id="content-home" class="content-section space-y-8">
+                <div class="card-glass p-8 sm:p-10 rounded-2xl shadow-xl space-y-6">
+                    <h2 class="text-3xl font-bold text-link-primary border-b border-link-primary/50 pb-4 flex items-center">
+                        <i class="fas fa-book-open mr-3 text-2xl"></i> About the Game
+                    </h2>
+                    <p class="text-white/90 leading-relaxed text-lg">
+                        <span class="font-bold text-link-primary">Quiz for Survival</span> is an intense trivia experience that challenges your knowledge, strategy, and risk management with over 2,500 questions across categories like General Knowledge, Sports, History, Games, Geography, Language, Music, Math, and Measurements. Each round features 10 randomly selected questions with four answer choices, but only one is correct, keeping every playthrough unpredictable. Correct answers award 10 points and 5 coins, while wrong answers reduce health by 10 and cost 3 coins, adding tension and strategy to every decision. After each round, the shop opens, letting you spend coins on Health Potions, Extra Lives, Mystery Boxes, Lucky Triples, and more, to enhance your survival chances. With four gameplay modes, Normal, Gauntlet, Shopless, and Multiplayer, and five difficulty levels Unlimited, Easy, Hard, Extreme, and Unbeatable, players can tailor the challenge to their skill. The game also features 15 achievements, a top-30 leaderboard, and an in-game feedback system for feedback & suggestions. When you reach the target score, a victory screen summarizes your performance, including final score, coins, health, completion time, correct and wrong answers, and a performance rating out of 100, giving a clear picture of how well you did. Combining knowledge, risk, and strategy, Quiz for Survival is an addictive, fast-paced trivia game that tests both your skill and endurance, rewarding careful play and quick thinking alike.
+                    </p>
+                </div>
+
+                <div id="latest-version-card" class="card-glass p-8 sm:p-10 rounded-2xl shadow-xl space-y-6">
+
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-button-primary/50 pb-4">
+                        <h2 id="latest-version-heading" class="text-3xl font-bold text-button-primary flex items-center mb-2 sm:mb-0">
+                            <i class="fas fa-spinner fa-spin mr-3 text-2xl"></i> Loading Update Info...
+                        </h2>
+                        <div id="latest-version-meta" class="text-right"></div>
+                    </div>
+
+                    <div id="latest-version-content" class="min-h-[100px]">
+                        <div id="version-placeholder" class="space-y-4 animate-pulse">
+                            <div class="h-5 bg-gray-600 rounded w-1/4"></div>
+                            <div class="space-y-2 pl-6">
+                                <div class="h-4 bg-gray-700 rounded w-full"></div>
+                                <div class="h-4 bg-gray-700 rounded w-5/6"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-6 flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-8">
+                        <button id="download-button"
+                            class="w-full sm:w-auto px-12 py-4 text-xl font-bold text-main-bg uppercase transition duration-300 transform bg-link-primary rounded-xl shadow-lg hover:shadow-xl hover:bg-link-primary/90 active:scale-95 disabled:opacity-50 tracking-wider">
+                            <i class="fas fa-cog fa-spin mr-2"></i> Initializing...
+                        </button>
+
+                        <a href="https://docs.google.com/document/d/11sxU4b9yxqJY74rFXaz1YaIQF85cnPe7SX3nzGZJ7Zk/edit?tab=t.0" target="_blank"
+                            class="w-full sm:w-auto px-6 py-4 text-center text-link-primary hover:text-white transition duration-300 border border-link-primary rounded-xl hover:bg-link-primary/20 shadow-md font-semibold hover:scale-[1.02] active:scale-95">
+                            <i class="fas fa-scroll mr-2"></i> View Full Change Log
+                        </a>
                     </div>
                 </div>
-            </div>
-        </div>
+
+                <div class="card-glass p-8 sm:p-10 rounded-2xl shadow-xl space-y-6">
+                    <h2 class="text-3xl font-bold text-link-primary border-b border-link-primary/50 pb-4 flex items-center">
+                        <i class="fas fa-rocket mr-3 text-2xl"></i> Upcoming Features
+                    </h2>
+                    <div id="whats-next-content" class="min-h-[100px]">
+                        <div id="roadmap-placeholder" class="space-y-4 animate-pulse">
+                             <div class="h-5 bg-gray-600 rounded w-1/3"></div>
+                            <div class="space-y-2 pl-6">
+                                <div class="h-4 bg-gray-700 rounded w-full"></div>
+                                <div class="h-4 bg-gray-700 rounded w-5/6"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="content-about" class="content-section space-y-8 hidden">
+                <div class="card-glass p-8 sm:p-10 rounded-2xl shadow-xl space-y-6">
+                    <h3 class="text-3xl font-bold text-button-primary border-b border-button-primary/50 pb-3 flex items-center">
+                        <i class="fas fa-toolbox mr-3 text-2xl"></i> Shop Tools
+                    </h3>
+                    <div id="tools-content" class="grid md:grid-cols-2 gap-6">
+                        </div>
+                </div>
+
+                <div class="card-glass p-8 sm:p-10 rounded-2xl shadow-xl space-y-6">
+                    <h3 class="text-3xl font-bold text-button-primary border-b border-button-primary/50 pb-3 flex items-center">
+                        <i class="fas fa-box-open mr-3 text-2xl"></i> Mystery Box Rewards & Mechanics
+                    </h3>
+                    <div id="mystery-box-content" class="space-y-4">
+                        </div>
+                </div>
+
+                <div class="card-glass p-8 sm:p-10 rounded-2xl shadow-xl space-y-6">
+                    <h3 class="text-3xl font-bold text-button-primary border-b border-button-primary/50 pb-3 flex items-center">
+                        <i class="fas fa-dice-three mr-3 text-2xl"></i> Lucky Triples Rewards
+                    </h3>
+                    <div id="lucky-triples-content" class="space-y-4">
+                        </div>
+                </div>
+            </section>
+
+            <section id="content-changelog" class="content-section space-y-8 hidden">
+                <div class="card-glass p-0 rounded-2xl shadow-xl overflow-hidden">
+                    <div id="changelog-content">
+                        </div>
+                </div>
+            </section>
+
+            <section id="content-database" class="content-section space-y-8 hidden">
+                <div class="card-glass p-8 sm:p-10 rounded-2xl shadow-xl space-y-6">
+                    <h3 class="text-3xl font-bold text-button-primary border-b border-button-primary/50 pb-3 flex items-center">
+                        <i class="fas fa-gamepad mr-3 text-2xl"></i> Game Modes
+                    </h3>
+                    <div id="modes-content" class="grid md:grid-cols-2 gap-6">
+                        </div>
+                </div>
+
+                <div class="card-glass p-8 sm:p-10 rounded-2xl shadow-xl space-y-6">
+                    <h3 class="text-3xl font-bold text-button-primary border-b border-button-primary/50 pb-3 flex items-center">
+                        <i class="fas fa-brain mr-3 text-2xl"></i> Difficulty Levels
+                    </h3>
+                    <div id="difficulties-content" class="grid md:grid-cols-2 gap-6">
+                        </div>
+                </div>
+
+                <div class="card-glass p-8 sm:p-10 rounded-2xl shadow-xl space-y-6">
+                    <h3 class="text-3xl font-bold text-button-primary border-b border-button-primary/50 pb-3 flex items-center">
+                        <i class="fas fa-trophy mr-3 text-2xl"></i> All Achievements
+                    </h3>
+                    <div id="achievements-content" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        </div>
+                </div>
+            </section>
+
+        </main>
     </div>
 
     <script>
@@ -192,21 +424,139 @@
             };
 
             const SELECTORS = {
+                pageTitle: document.getElementById('page-title'),
+                mainContent: document.getElementById('main-content'),
+                navLinks: document.querySelectorAll('.nav-link'),
                 latestVersionHeading: document.getElementById('latest-version-heading'),
                 downloadButton: document.getElementById('download-button'),
                 versionContentDiv: document.getElementById('latest-version-content'),
                 versionMetaDiv: document.getElementById('latest-version-meta'),
                 whatsNextDiv: document.getElementById('whats-next-content'),
-                // New Modal Selectors
+                
+                // Existing Download Initiated Modal
                 modalBackdrop: document.getElementById('download-modal-backdrop'),
                 modalContent: document.getElementById('download-modal-content'),
                 modalCloseButton: document.getElementById('modal-close-button'),
                 modalMessage: document.getElementById('modal-message'),
+                
+                // NEW Welcome Modal Selectors
+                welcomeModalBackdrop: document.getElementById('welcome-modal-backdrop'),
+                welcomeModalContent: document.getElementById('welcome-modal-content'),
+                welcomeDownloadButton: document.getElementById('welcome-download-button'),
+                welcomeContinueButton: document.getElementById('welcome-continue-button'),
+
+                // New Section Selectors
+                contentHome: document.getElementById('content-home'),
+                contentAbout: document.getElementById('content-about'),
+                contentChangelog: document.getElementById('content-changelog'),
+                contentDatabase: document.getElementById('content-database'),
+                toolsContent: document.getElementById('tools-content'),
+                mysteryBoxContent: document.getElementById('mystery-box-content'),
+                luckyTriplesContent: document.getElementById('lucky-triples-content'),
+                modesContent: document.getElementById('modes-content'),
+                difficultiesContent: document.getElementById('difficulties-content'),
+                achievementsContent: document.getElementById('achievements-content'),
+                // Dynamic Hero Selectors
+                heroTitle: document.getElementById('hero-title'),
+                heroSubtitle: document.getElementById('hero-subtitle'),
+            };
+
+            const SECTION_TITLES = {
+                'home': { title: 'Quiz for Survival', subtitle: 'The ultimate trivia experience of knowledge, strategy, and survival.' },
+                'about': { title: 'Game Mechanics & Tools Logic', subtitle: 'Understanding the shop tools, mystery box rewards, and Lucky Triples mechanics.' },
+                'changelog': { title: 'Game Update Log', subtitle: 'A detailed history of all game versions, features, and fixes.' },
+                'database': { title: 'Game Database', subtitle: 'Explore all game modes, difficulty levels, and achievements.' },
             };
 
             const defaultButtonText = '<i class="fas fa-download mr-2"></i> Download Latest Version';
 
             const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+            // --- Game Data from Request (Parsed and Structured) ---
+            const GAME_DATA = {
+                changelog: [
+                    { version: 'v1.7.0', changes: ['Multiplayer Mode has been added, letting you play and compete with friends, family, or anyone online, along with new sounds, improved visuals, and fixes for bugs and lag. And fixed some achievement logic, also topped it off with animations for victories and more.', 'Added 5 new achievements, fixed animation replay issues, and introduced a secret reward for unlocking the \'Curiosity Pays\' achievement. Improved the UI and added extra stats to the victory screen, including average performance rating, total correct and wrong answers, and more, along with various other tweaks.'] },
+                    { version: 'v1.6.4', changes: ['A new Achievements section has been added to the game, featuring new music tracks and 10 additional achievements to unlock. These new additions aim to make the game even more engaging and motivate players to actively pursue and earn achievements.'] },
+                    { version: 'v1.6.3', changes: ['A total of 1000 new questions have been added to enhance gameplay depth and a fully automated leaderboard has been introduced. Additionally, several new features have been introduced, along with various tweaks and bug fixes to improve overall performance and user experience.'] },
+                    { version: 'v1.6.2', changes: ['A new timed stat has been added, allowing you to track how long it took to reach the victory screen—a great way to challenge yourself and refine your skills. Minor user interface tweaks have also been implemented to improve readability and consistency across all devices. Additionally, several issues with the logic of certain tools have been fixed, ensuring they work as intended during gameplay.'] },
+                    { version: 'v1.6.1', changes: ['Tools in the shop were adjusted to be more cost-effective, with some tools receiving buffs while remaining reasonably priced. The Gauntlet Mode timer no longer glitches as frequently as it did in version 1.6.0. Additionally, some logic issues within the game were addressed, including the logic behind the Double Score Booster'] },
+                    { version: 'v1.6.0', changes: ['A new tool has been added to the shop, featuring a completely redesigned UI. Two additional game modes have been introduced alongside the existing normal mode, now integrated with the “Gauntlet” and “Shopless” modes. The update also includes new features, extended music and sound options, UI enhancements, and a refresh button to easily reconnect to the internet'] },
+                    { version: 'v1.5.2', changes: ['Fixed minor glitches and bugs, including issues with opening new screens and slow performance and newly redesigned rounded icon for a refreshed look'] },
+                    { version: 'v1.5.1', changes: ['A feedback and suggestions feature has been added, allowing users to type a message and choose either "suggestions" or "feedback." The input is then sent to Discord, where the developer can review it and potentially implement it into the game. New sounds have been added, and various flaws have been fixed'] },
+                    { version: 'v1.5.0', changes: ['A new and improved user interface has been introduced, ensuring compatibility with all versions of Windows. Minor bugs, buffer issues, and glitches have been resolved, and resolution support has been optimized across all devices, including monitors and laptops'] },
+                    { version: 'v1.4.3', changes: ['The game now requires an active internet connection for full functionality. This enables the leaderboard to update automatically and in real-time. Several flaws and glitches were fixed, and a few UI tweaks and new music implementations were added'] },
+                    { version: 'v1.4.2', changes: ['Added a screenshot feature—double-clicking the quiz or victory screen now captures a shot of your wild scores, funny glitches, or memorable moments. Minor glitches were fixed, and a new “Unbeatable” difficulty was introduced, requiring a massive 5000 points to win. A new mystery item, “You Took My Score,” has been added to the Mystery Box, which deducts 20% of your current score if drawn'] },
+                    { version: 'v1.4.1', changes: ['Added clickable links and UI tweaks, fixed visual bugs, and introduced the Mystery Box tool in the shop—a purchasable item with cool rewards to be won'] },
+                    { version: 'v1.4.0', changes: ['Fully automated keyboard accessibility—no mouse needed—enhanced visuals and sounds, and fully functional difficulty settings (Easy, Hard, and Extreme) that trigger a victory screen when the target score is reached.'] },
+                    { version: 'v1.3.3', changes: ['The update notification now includes an expanded and more detailed visual design, along with a revamped startup menu that displays helpful tips and additional information'] },
+                    { version: 'v1.3.2', changes: ['Added an update checker to notify users of new updates, along with bug fixes and UI adjustments'] },
+                    { version: 'v1.3.1', changes: ['Two new tools added to the shop, along with 500 new questions, greatly expanding the depth of gameplay'] },
+                    { version: 'v1.3.0', changes: ['A brand-new music track, and sound effects with an 8-bit retro vibe, UI enhancements in the leaderboard, bug fixes, and a new tool added to the shop'] },
+                    { version: 'v1.2.2', changes: ['Nothing major, just some bug fixes and UI tweaks'] },
+                    { version: 'v1.2.1', changes: ['Not much changed, just new players added to the leaderboard'] },
+                    { version: 'v1.2.0', changes: ['New font implemented, leaderboard added, UI and in-game stats fixed, and total coins display updated in the shop'] },
+                    { version: 'v1.1.0', changes: ['Resolved bugs, added new features, and introduced new tools for use'] },
+                    { version: 'v1.0.0', changes: ['The game’s opening sequence, featuring all core functions and visual elements'] },
+                ],
+                tools: [
+                    { name: 'Health Potion', price: '10 Coins', description: 'Restores 25 Health points', cooldown: 'Null' },
+                    { name: 'Coin Boost', price: '15 Coins', description: 'Gains 10 extra coins (Not a scam)', cooldown: 'Null' },
+                    { name: 'Skipper', price: '20 Coins', description: 'Makes you skip any 3 questions you hesitate or don’t know the answer to', cooldown: 'Null' },
+                    { name: 'Mystery Box', price: '30 Coins', description: 'Provides a random item. Lower-cost items have a higher chance of appearing, while higher-cost items are less likely to drop due to their rarity', cooldown: 'Null' },
+                    { name: 'Extra Life', price: '35 Coins', description: 'Grants you a whole new life (100 Health points)', cooldown: 'Null' },
+                    { name: 'Shield', price: '35 Coins', description: 'Blocks 5 wrong answers from losing money', cooldown: 'Null' },
+                    { name: 'Double Score Boost', price: '45 Coins', description: 'Doubles the score from correct answers for the next 5 questions', cooldown: 'Null' },
+                    { name: '50/50', price: '60 Coins', description: 'Removes two wrong answers (usable 10 times)', cooldown: 'Null' },
+                    { name: 'Lucky Triples', price: '65 Coins', description: 'Try to triple your coins or health, but risk losing a third.', cooldown: '3 Min / 5 Min*' },
+                    { name: 'Double Score', price: '70 Coins', description: 'Doubles your current score', cooldown: '3 Min / 5 Min*' },
+                ],
+                mysteryBox: [
+                    { item: 'More coins', rarity: 'Common', howItWorks: 'Adds 15 coins to your coins (Not a scam)' },
+                    { item: 'Health Booster', rarity: 'Common', howItWorks: 'Adds 50 Health points to your current Health points' },
+                    { item: 'Skips', rarity: 'Uncommon', howItWorks: 'Gives you 5 Skips to use' },
+                    { item: 'Shield', rarity: 'Uncommon', howItWorks: 'Activates shield once' },
+                    { item: 'You took my points!', rarity: 'Uncommon', howItWorks: 'Deducts 20% of your current score' },
+                    { item: 'Score Booster', rarity: 'Rare', howItWorks: 'Uses the formula (Health / Score) * 4 to calculate a multiplier, which is applied to the current Score. Capped and rounded for balance.' },
+                    { item: 'Double Score', rarity: 'Super rare', howItWorks: 'Multiplies your current score by 2' },
+                ],
+                luckyTriples: [
+                    { item: 'Coin Tripler', chance: '40% Chance', howItWorks: 'Current coins are tripled' },
+                    { item: 'Health Tripler', chance: '40% Chance', howItWorks: 'Current health is tripled' },
+                    { item: 'I’m Unlucky', chance: '20% Chance', howItWorks: 'Coins and Health are multiplied by two-thirds, effectively losing one-third.' },
+                ],
+                difficulties: [
+                    { name: 'Unlimited', score: '0', description: 'Goes on until you lose' },
+                    { name: 'Easy', score: '250', description: 'Score of 250 needed to win' },
+                    { name: 'Hard', score: '500', description: 'Score of 500 needed to win' },
+                    { name: 'Extreme', score: '1000', description: 'Score of 1000 needed to win' },
+                    { name: 'Unbeatable', score: '5000', description: 'Score of 5000 needed to win' },
+                ],
+                modes: [
+                    { name: 'Normal', icon: 'fas fa-check-circle', description: 'Standard gameplay with the default settings' },
+                    { name: 'Gauntlet', icon: 'fas fa-hourglass-start', description: 'You have only 5 minutes to achieve the highest score you can' },
+                    { name: 'Shopless', icon: 'fas fa-ban', description: 'Play without a shop, rendering coins essentially worthless' },
+                    { name: 'Multiplayer', icon: 'fas fa-users', description: 'Play with friends online, and see who finishes first' },
+                ],
+                achievements: [
+                    { name: 'Novice Survivor', subtitle: '“Every survivor starts somewhere.”', description: 'Beat Easy difficulty', icon: 'fas fa-medal' },
+                    { name: 'Tough Challenger', subtitle: '“You’ve proven you can handle the pressure.”', description: 'Beat Hard difficulty', icon: 'fas fa-shield-alt' },
+                    { name: 'Fearless Mind', subtitle: '“You thrive where others crumble.”', description: 'Beat Extreme difficulty', icon: 'fa-solid fa-skull' },
+                    { name: 'Unstoppable', subtitle: '“The trivia gods fear you now.”', description: 'Beat Unbeatable difficulty', icon: 'fas fa-crown' },
+                    { name: 'Master of Survival', subtitle: '“From the first match to the final stand. You’ve done it all.”', description: 'Beat all difficulties at least once', icon: 'fas fa-star' },
+                    { name: 'Shopless Titan', subtitle: '“Who needs items when you’ve got skill?”', description: 'Score more than 1,500 points in Shopless Mode', icon: 'fas fa-shopping-bag' },
+                    { name: 'Gauntlet Blitzer', subtitle: '“Fast hands, faster mind.”', description: 'Score more than 1,500 points within 5 minutes in Gauntlet Mode', icon: 'fas fa-running' },
+                    { name: 'Curiosity Pays', subtitle: '“You clicked where no one dared to click.”', description: 'Find the hidden easter egg', icon: 'fas fa-egg' },
+                    { name: 'Hall of Fame', subtitle: '“Your name is now carved into survival history.”', description: 'Get onto the leaderboard', icon: 'fas fa-trophy' },
+                    { name: 'Broken Piggy Bank', subtitle: '“You smashed that piggy bank wide open.”', description: 'Earn more than 200 coins in a single run', icon: 'fa-solid fa-money-bill' },
+                    { name: 'The Centurion', subtitle: '“True endurance is rare.”', description: 'Answer 100 questions correctly in a single run', icon: 'fas fa-fire' },
+                    { name: 'Score Titan', subtitle: '“Only the best of the best reach this level.”', description: 'Achieve a score of 10,000 in a single game', icon: 'fas fa-chart-line' },
+                    { name: 'The Shoplifter', subtitle: '“Sometimes you spend big to win big.”', description: 'Purchase at least 15 items at the shop in a single run', icon: 'fas fa-cart-arrow-down' },
+                    { name: 'Perfect Time', subtitle: '“Speed, accuracy, and efficiency.”', description: 'Get a score of at least 500 in under 2 minutes', icon: 'fas fa-stopwatch' },
+                    { name: 'Godlike Streak', subtitle: '“An uninterrupted display of knowledge.”', description: 'Answer 25 questions in a row correctly', icon: 'fas fa-bolt' },
+                ],
+            };
+            // --- End Game Data ---
+
 
             // --- Modal Functions ---
             const showDownloadModal = (versionNumber) => {
@@ -214,7 +564,6 @@
                 SELECTORS.modalBackdrop.classList.remove('opacity-0', 'pointer-events-none');
                 SELECTORS.modalContent.classList.remove('scale-90');
 
-                // Set click outside to close (optional, but good UX)
                 SELECTORS.modalBackdrop.onclick = (e) => {
                     if (e.target.id === 'download-modal-backdrop') {
                         hideDownloadModal();
@@ -225,12 +574,25 @@
             const hideDownloadModal = () => {
                 SELECTORS.modalBackdrop.classList.add('opacity-0', 'pointer-events-none');
                 SELECTORS.modalContent.classList.add('scale-90');
-                SELECTORS.modalBackdrop.onclick = null; // Clean up listener
+                SELECTORS.modalBackdrop.onclick = null; 
+            };
+            
+            // New: Welcome Modal Functions
+            const showWelcomeModal = (versionNumber) => {
+                SELECTORS.welcomeDownloadButton.innerHTML = `<i class="fas fa-download mr-2"></i> download ${versionNumber}`;
+                SELECTORS.welcomeModalBackdrop.classList.remove('opacity-0', 'pointer-events-none');
+                SELECTORS.welcomeModalContent.classList.remove('scale-90');
+            };
+
+            const hideWelcomeModal = () => {
+                SELECTORS.welcomeModalBackdrop.classList.add('opacity-0', 'pointer-events-none');
+                SELECTORS.welcomeModalContent.classList.add('scale-90');
             };
             // --- End Modal Functions ---
 
 
-            const formatContentText = (text, style = "feather") => {
+            // UPDATED: Now accepts iconType argument for dynamic bullet selection and alignment
+            const formatContentText = (text, iconType = 'fa-feather') => {
                 if (!text) return '<p class="text-red-400">Data content is empty.</p>';
 
                 const lines = text.split('\n').map(line => line.trim()).filter(line => line.length > 0);
@@ -238,24 +600,32 @@
 
                 lines.forEach(line => {
                     if (line.startsWith('•')) {
-                        const content = line.substring(1).trim();
-                        if (style === "feather") {
-                            html += `<li class="flex items-start text-white/90">
-                                <i class="fa-solid fa-feather text-link-primary mt-1 mr-3 flex-shrink-0 text-sm"></i>
-                                <span>${content}</span>
-                            </li>`;
-                        } else if (style === "bullet") {
-                            html += `<li class="flex items-start text-white/90">
-                                <span class="text-link-primary mt-1 mr-3 flex-shrink-0 text-sm">●</span>
-                                <span>${content}</span>
-                            </li>`;
+                        let content = line.substring(1).trim();
+                        // Capitalize the first letter of the content after the bullet for a 'sentence start' look
+                        content = content.charAt(0).toUpperCase() + content.slice(1);
+                        
+                        let iconHtml;
+                        if (iconType === 'circle') {
+                            // Solid circle bullet (●) - using HTML entity
+                            // pt-[2px] aligns the text element itself to compensate for line-height differences
+                            iconHtml = `<span class="text-link-primary text-xl mr-3 flex-shrink-0 leading-none pt-[2px]">&#9679;</span>`;
+                        } else {
+                            // Font Awesome icon (e.g., fas fa-feather)
+                            // pt-0.5 is Tailwind equivalent of pt-[2px] or pt-[0.125rem]
+                            iconType = iconType === 'fa-feather-alt' ? 'fa-feather-alt' : 'fa-feather';
+                            iconHtml = `<span class="text-link-primary text-xl mr-3 flex-shrink-0 leading-none pt-0.5"><i class="fas ${iconType}"></i></span>`;
                         }
+
+                        html += `<li class="flex items-start text-white/90 text-lg">
+                            ${iconHtml}
+                            <span class="block">${content}</span>
+                        </li>`;
                     } else if (line.endsWith(':')) {
-                        html += `<li class="pt-4 pb-1 text-lg font-bold text-button-primary">${line}</li>`;
+                        html += `<li class="pt-4 pb-1 text-xl font-bold text-button-primary">${line}</li>`;
                     } else if (line.match(/^\d+\./)) {
-                        html += `<li class="pt-4 text-lg font-bold text-button-primary">${line}</li>`;
+                        html += `<li class="pt-4 text-xl font-bold text-button-primary">${line}</li>`;
                     } else if (line.length > 0) {
-                        html += `<li class="text-white/80 pl-6">${line}</li>`;
+                        html += `<li class="text-white/80 pl-6 text-lg">${line}</li>`;
                     }
                 });
 
@@ -272,6 +642,11 @@
                 SELECTORS.downloadButton.disabled = true;
                 SELECTORS.downloadButton.classList.add('opacity-50', 'cursor-not-allowed');
                 SELECTORS.downloadButton.innerHTML = '<i class="fas fa-times-circle mr-2"></i> Link Error';
+                
+                // Disable/Update Welcome Modal on error
+                SELECTORS.welcomeDownloadButton.disabled = true;
+                SELECTORS.welcomeDownloadButton.innerHTML = '<i class="fas fa-times-circle mr-2"></i> Load Error';
+                SELECTORS.welcomeDownloadButton.classList.remove('animate-pulse');
             };
 
             const fetchMasterData = async (url, retries = 3) => {
@@ -291,7 +666,7 @@
                 }
             };
 
-            const populatePage = (data) => {
+            const populateHomePage = (data) => {
                 try {
                     const versionMatch = data.versionInfo.match(/Game:.*(v[\d.]+)/);
                     const versionNumber = versionMatch ? versionMatch[1] : 'Unknown';
@@ -300,81 +675,345 @@
                     const authorUrl = authorLineMatch ? authorLineMatch[2] : 'https://fillabrona.itch.io/';
 
                     SELECTORS.versionMetaDiv.innerHTML = `
-                        <p class="text-4xl font-bold text-white">${versionNumber}</p>
-                        <p class="text-white/70">Developed by
-                            <a href="${authorUrl}" target="_blank" class="text-link-primary hover:text-white transition duration-200 font-bold">${authorName}</a>
+                        <p class="text-3xl font-bold text-white">${versionNumber}</p>
+                        <p class="text-white/70 text-sm">by
+                            <a href="${authorUrl}" target="_blank" class="text-link-primary hover:text-white transition duration-200 font-semibold">${authorName}</a>
                         </p>`;
 
-                    SELECTORS.latestVersionHeading.innerHTML = `<i class="fas fa-tag mr-3 text-2xl"></i> Latest Update (${versionNumber})`;
+                    SELECTORS.latestVersionHeading.innerHTML = `<i class="fas fa-tag mr-3 text-2xl"></i> Latest Update`;
 
                     const updateSection = data.versionInfo.substring(data.versionInfo.indexOf('--- LATEST UPDATE ---') + '--- LATEST UPDATE ---'.length).trim();
-                    SELECTORS.versionContentDiv.innerHTML = formatContentText(updateSection, "feather");
-                    SELECTORS.versionContentDiv.classList.add('content-fade-in');
+                    // Using 'fa-feather' for Latest Update
+                    SELECTORS.versionContentDiv.innerHTML = formatContentText(updateSection, 'fa-feather'); 
 
                     const roadmapSection = data.whatsNext.substring(data.whatsNext.indexOf('--- UPCOMING FEATURES ---') + '--- UPCOMING FEATURES ---'.length).trim();
-                    SELECTORS.whatsNextDiv.innerHTML = formatContentText(roadmapSection, "bullet");
-                    SELECTORS.whatsNextDiv.classList.add('content-fade-in');
+                    // Using 'circle' for Upcoming Features (Roadmap)
+                    SELECTORS.whatsNextDiv.innerHTML = formatContentText(roadmapSection, 'circle');
 
                     if (data.downloadLink) {
                         SELECTORS.downloadButton.setAttribute('data-download-url', data.downloadLink);
                         SELECTORS.downloadButton.disabled = false;
                         SELECTORS.downloadButton.classList.remove('opacity-50', 'cursor-not-allowed');
                         SELECTORS.downloadButton.innerHTML = defaultButtonText;
+                        
+                        // Update welcome button status
+                        SELECTORS.welcomeDownloadButton.classList.remove('animate-pulse');
+                        SELECTORS.welcomeDownloadButton.innerHTML = `<i class="fas fa-download mr-2"></i> download ${versionNumber}`;
 
-                        // --- START: Auto-download logic with Modal ---
-                        setTimeout(() => {
-                            showDownloadModal(versionNumber);
-
-                            const a = document.createElement('a');
-                            a.href = data.downloadLink;
-                            a.download = '';
-                            document.body.appendChild(a);
-                            a.click();
-                            document.body.removeChild(a);
-                        }, 500);
-                        // --- END: Auto-download logic with Modal ---
                     } else {
                         throw new Error("Download link not found in data.");
                     }
                 } catch (processingError) {
-                    console.error("Error processing fetched data:", processingError);
+                    console.error("Error processing fetched data for homepage:", processingError);
                     handleFetchError(processingError);
                 }
             };
+            
+            // --- Changelog Accordion Logic (Smoother + Rotation) ---
+            const toggleChangelog = (header) => {
+                const content = header.nextElementSibling;
+                const icon = header.querySelector('.fas');
 
-            const setupDownloadHandler = () => {
-                // Modal Close Listener
+                // Close all other open content sections and reset header background/icon
+                document.querySelectorAll('.changelog-content.open').forEach(openContent => {
+                    if (openContent !== content) {
+                        openContent.classList.remove('open');
+                        const openHeader = openContent.previousElementSibling;
+                        openHeader.style.backgroundColor = 'transparent'; 
+                        const openIcon = openHeader.querySelector('.fas');
+                        if(openIcon) openIcon.classList.remove('rotated'); 
+                    }
+                });
+
+                if (content.classList.contains('open')) {
+                    // Closing
+                    content.classList.remove('open');
+                    icon.classList.remove('rotated');
+                    header.style.backgroundColor = 'transparent'; 
+                } else {
+                    // Opening
+                    content.classList.add('open');
+                    icon.classList.add('rotated');
+                    // Changed active background to match the new muted accent
+                    header.style.backgroundColor = 'rgba(4, 164, 176, 0.1)'; 
+                }
+            };
+
+            const populateChangelogSection = () => {
+                let html = '';
+                GAME_DATA.changelog.forEach((entry, index) => {
+                    // 1. Process all changes to remove bullets and ensure capitalization
+                    const changes = entry.changes.map(c => {
+                        let content = c.trim();
+                        content = content.charAt(0).toUpperCase() + content.slice(1);
+                        // Removed the <li> and bullet icon, using a simple div for content
+                        return `<div class="text-white/80 text-lg leading-relaxed">${content}</div>`;
+                    });
+                    
+                    let changesContent;
+
+                    // 2. Apply two-column layout if exactly two changes exist
+                    if (changes.length === 2) {
+                        changesContent = `
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="p-4 rounded-xl bg-white/5 border border-link-primary/20">
+                                    <h5 class="text-button-primary font-bold mb-1">Update 1:</h5>
+                                    ${changes[0]}
+                                </div>
+                                <div class="p-4 rounded-xl bg-white/5 border border-link-primary/20">
+                                    <h5 class="text-button-primary font-bold mb-1">Update 2:</h5>
+                                    ${changes[1]}
+                                </div>
+                            </div>
+                        `;
+                    } else {
+                        // 3. Default single-column layout
+                        // Added spacing between items for readability
+                        changesContent = `<div class="space-y-4">${changes.join('')}</div>`;
+                    }
+                        
+                    html += `
+                        <div class="changelog-entry">
+                            <div class="changelog-header flex justify-between items-center text-xl font-bold text-link-primary">
+                                <span class="hover:text-white transition duration-200">${entry.version}</span>
+                                <i class="fas fa-chevron-down text-lg text-link-primary/70"></i>
+                            </div>
+                            <div class="changelog-content">
+                                ${changesContent}
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                SELECTORS.contentChangelog.querySelector('#changelog-content').innerHTML = html;
+                
+                document.querySelectorAll('.changelog-header').forEach(header => {
+                    header.addEventListener('click', () => toggleChangelog(header));
+                });
+            };
+            // --- End Changelog Accordion Logic ---
+
+            const populateAboutSection = () => {
+                // Tools
+                let toolsHtml = GAME_DATA.tools.map(tool => `
+                    <div class="p-4 rounded-xl card-glass border-link-primary/30">
+                        <h4 class="text-xl font-bold text-link-primary flex justify-between items-start">
+                            <span>${tool.name}</span>
+                            <span class="text-button-primary font-semibold text-lg ml-4">${tool.price}</span>
+                        </h4>
+                        <p class="text-white/80 text-sm mt-2">${tool.description}</p>
+                        <p class="text-white/60 text-xs mt-3"><i class="fas fa-hourglass-half mr-1"></i> Cooldown: ${tool.cooldown}</p>
+                    </div>
+                `).join('');
+                SELECTORS.toolsContent.innerHTML = toolsHtml;
+
+                // Mystery Box
+                let mysteryHtml = '<div class="space-y-4">';
+                GAME_DATA.mysteryBox.forEach(item => {
+                    const rarityClass = item.rarity.includes('Super rare') ? 'ring-2 ring-link-primary/50' : 'border-link-primary/30';
+                    mysteryHtml += `
+                        <div class="p-4 rounded-xl card-glass ${rarityClass}">
+                            <h4 class="text-lg font-bold text-link-primary flex justify-between items-center">
+                                ${item.item} 
+                                <span class="text-sm font-normal ${item.rarity.includes('Super rare') ? 'text-link-primary font-bold' : 'text-button-primary'}">[${item.rarity}]</span>
+                            </h4>
+                            <p class="text-white/80 text-sm mt-1">${item.howItWorks}</p>
+                        </div>
+                    `;
+                });
+                mysteryHtml += '</div>';
+                SELECTORS.mysteryBoxContent.innerHTML = mysteryHtml;
+
+                // Lucky Triples
+                let triplesHtml = '<div class="space-y-4">';
+                GAME_DATA.luckyTriples.forEach(item => {
+                    triplesHtml += `
+                        <div class="p-4 rounded-xl card-glass border-link-primary/30">
+                            <h4 class="text-lg font-bold text-link-primary flex justify-between items-center">
+                                ${item.item} 
+                                <span class="text-sm font-normal text-button-primary">[${item.chance}]</span>
+                            </h4>
+                            <p class="text-white/80 text-sm mt-1">${item.howItWorks}</p>
+                        </div>
+                    `;
+                });
+                triplesHtml += '</div>';
+                SELECTORS.luckyTriplesContent.innerHTML = triplesHtml;
+            };
+
+            const populateDatabaseSection = () => {
+                // Modes
+                let modesHtml = GAME_DATA.modes.map(mode => `
+                    <div class="p-4 rounded-xl card-glass border-link-primary/30">
+                        <h4 class="text-xl font-bold text-button-primary mb-2 flex items-center"><i class="${mode.icon} mr-3 text-link-primary"></i> ${mode.name} Mode</h4>
+                        <p class="text-white/80 text-sm">${mode.description}</p>
+                    </div>
+                `).join('');
+                SELECTORS.modesContent.innerHTML = modesHtml;
+
+                // Difficulties
+                let difficultiesHtml = GAME_DATA.difficulties.map(diff => `
+                    <div class="p-4 rounded-xl card-glass border-link-primary/30">
+                        <h4 class="text-xl font-bold text-button-primary mb-1">${diff.name}</h4>
+                        <p class="text-white/80 text-sm"><span class="font-bold text-link-primary">Score to Win:</span> ${diff.score}</p>
+                        <p class="text-white/80 text-sm">${diff.description}</p>
+                    </div>
+                `).join('');
+                SELECTORS.difficultiesContent.innerHTML = difficultiesHtml;
+
+                // Achievements
+                let achievementsHtml = GAME_DATA.achievements.map(ach => `
+                    <div class="p-4 rounded-xl card-glass border-link-primary/30 flex flex-col">
+                        <div class="flex items-center mb-2">
+                            <i class="${ach.icon} text-link-primary mr-3 text-2xl flex-shrink-0"></i>
+                            <h4 class="text-lg font-bold text-link-primary">${ach.name}</h4>
+                        </div>
+                        <p class="text-white/70 text-xs italic mb-2">${ach.subtitle}</p>
+                        <p class="text-white/80 text-sm mt-auto">${ach.description}</p>
+                    </div>
+                `).join('');
+                SELECTORS.achievementsContent.innerHTML = achievementsHtml;
+            };
+
+
+            // --- Routing Logic (Instant Hero Header Change) ---
+            const switchSection = (sectionId) => {
+                const sections = [SELECTORS.contentHome, SELECTORS.contentAbout, SELECTORS.contentChangelog, SELECTORS.contentDatabase];
+                const activeSection = document.getElementById(`content-${sectionId}`);
+
+                if (!activeSection) {
+                    sectionId = 'home';
+                }
+
+                // 1. Hide/Show Content Sections
+                sections.forEach(sec => sec && sec.classList.add('hidden'));
+                document.getElementById(`content-${sectionId}`).classList.remove('hidden');
+
+                // 2. Update Navigation Links
+                SELECTORS.navLinks.forEach(link => {
+                    const linkSection = link.getAttribute('data-section');
+                    const icon = link.querySelector('i');
+                    if (linkSection === sectionId) {
+                        link.classList.add('active');
+                        if(icon) icon.classList.remove('text-link-primary');
+                    } else {
+                        link.classList.remove('active');
+                        if(icon) icon.classList.add('text-link-primary');
+                    }
+                });
+
+                // 3. Dynamic Hero Header Update (INSTANT CHANGE)
+                const currentTitle = SECTION_TITLES[sectionId] || SECTION_TITLES['home'];
+                
+                // Set text content
+                SELECTORS.heroTitle.textContent = currentTitle.title;
+                SELECTORS.heroSubtitle.textContent = currentTitle.subtitle;
+
+                // Adjust font size for non-home titles to be less prominent
+                if (sectionId !== 'home') {
+                    SELECTORS.heroTitle.classList.remove('text-7xl', 'sm:text-9xl');
+                    SELECTORS.heroTitle.classList.add('text-5xl', 'sm:text-7xl');
+                    SELECTORS.heroSubtitle.classList.remove('sm:text-3xl');
+                    SELECTORS.heroSubtitle.classList.add('sm:text-2xl');
+                } else {
+                    SELECTORS.heroTitle.classList.remove('text-5xl', 'sm:text-7xl');
+                    SELECTORS.heroTitle.classList.add('text-7xl', 'sm:text-9xl');
+                    SELECTORS.heroSubtitle.classList.remove('sm:text-2xl');
+                    SELECTORS.heroSubtitle.classList.add('sm:text-3xl');
+                }
+                
+                // 4. Update Document Title
+                SELECTORS.pageTitle.textContent = currentTitle.title + ' - Quiz for Survival';
+
+            };
+
+            const handleRouting = () => {
+                const hash = window.location.hash.substring(1); 
+                const params = new URLSearchParams(hash);
+                let section = params.get('section') || 'home';
+
+                switchSection(section);
+
+                if (window.innerWidth < 768 && section !== 'home') {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            };
+
+            // --- Initialization ---
+            const setupDownloadHandler = (versionNumber) => {
                 SELECTORS.modalCloseButton.addEventListener('click', hideDownloadModal);
 
-                // Manual Download Click Handler
-                SELECTORS.downloadButton.addEventListener('click', (e) => {
-                    e.preventDefault();
+                // Common download logic (for main button and welcome modal button)
+                const startDownload = (button, isWelcomeModal = false) => {
                     const downloadUrl = SELECTORS.downloadButton.getAttribute('data-download-url');
-
-                    if (downloadUrl && !SELECTORS.downloadButton.disabled) {
-                        SELECTORS.downloadButton.disabled = true;
-                        SELECTORS.downloadButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Starting Download...';
+                    
+                    if (downloadUrl && !button.disabled) {
+                        button.disabled = true;
+                        button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Starting Download...';
+                        
+                        if (isWelcomeModal) hideWelcomeModal();
 
                         setTimeout(() => {
-                            // Show modal on manual click too
-                            showDownloadModal(SELECTORS.versionMetaDiv.querySelector('p:first-child').textContent);
-
+                            showDownloadModal(versionNumber);
                             window.location.href = downloadUrl;
                             setTimeout(() => {
-                                SELECTORS.downloadButton.disabled = false;
-                                SELECTORS.downloadButton.innerHTML = defaultButtonText;
+                                button.disabled = false;
+                                button.innerHTML = isWelcomeModal ? `<i class="fas fa-download mr-2"></i> download ${versionNumber}` : defaultButtonText;
                             }, 1500);
                         }, 500);
                     }
+                };
+                
+                // 1. Main Download Button on Home Page
+                SELECTORS.downloadButton.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    startDownload(SELECTORS.downloadButton);
                 });
+
+                // 2. Download Button in Welcome Modal
+                SELECTORS.welcomeDownloadButton.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    startDownload(SELECTORS.welcomeDownloadButton, true);
+                });
+                
+                // 3. Continue Button in Welcome Modal
+                SELECTORS.welcomeContinueButton.addEventListener('click', hideWelcomeModal);
             };
 
             const initializePage = async () => {
+                // 1. Prepare other sections
+                populateChangelogSection();
+                populateAboutSection();
+                populateDatabaseSection();
+
+                // 2. Fetch data for the Home section (Latest Update)
                 SELECTORS.downloadButton.disabled = true;
                 const data = await fetchMasterData(URLS.masterData);
+                
+                let versionNumber = 'Unknown';
+
+                // 3. Populate Home section and set up download logic
                 if (data) {
-                    populatePage(data);
-                    setupDownloadHandler();
+                    populateHomePage(data);
+                    const versionMatch = data.versionInfo.match(/Game:.*(v[\d.]+)/);
+                    versionNumber = versionMatch ? versionMatch[1] : 'Unknown';
+                    setupDownloadHandler(versionNumber);
+                }
+
+                // 4. Set up routing listeners and initial view
+                window.addEventListener('hashchange', handleRouting);
+                
+                if (window.location.hash.indexOf('section=') === -1) {
+                    window.location.hash = '#section=home';
+                }
+                
+                handleRouting();
+                
+                // 5. Show Welcome Modal on load if data was successful
+                // Removed the localStorage check so the modal appears every time.
+                if (data) {
+                    await delay(300); 
+                    showWelcomeModal(versionNumber);
                 }
             };
 
