@@ -7,9 +7,9 @@
     <link rel="icon" type="image/png" href="https://i.ibb.co/Xxrtbmmp/cropped-circle-image-3.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    
+
     <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.8.1/dist/dotlottie-wc.js" type="module"></script>
-    
+
     <script>
         tailwind.config = {
             theme: {
@@ -30,8 +30,8 @@
 <style>
     body {
         background-color: #2b333e;
-        font-family: 'Times New Roman', Times, serif; 
-        color: white; 
+        font-family: 'Times New Roman', Times, serif;
+        color: white;
         transition: background-color 0.3s;
     }
     body::-webkit-scrollbar {
@@ -88,16 +88,16 @@
     <div id="download-modal-backdrop" class="fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center transition-opacity duration-300 opacity-0 pointer-events-none">
         <!-- Modal Content -->
         <div id="download-modal-content" class="bg-card-bg p-6 sm:p-8 rounded-2xl shadow-2xl max-w-sm w-11/12 transform scale-90 transition-all duration-300 relative border-2 border-link-primary/50">
-            
+
             <!-- Close Button -->
             <button id="modal-close-button" class="absolute top-3 right-3 text-white/50 hover:text-white transition duration-200">
                 <i class="fas fa-times-circle text-2xl"></i>
             </button>
 
             <div class="flex flex-col items-center text-center space-y-4">
-                <dotlottie-wc 
-                    src="https://lottie.host/be23f1e0-b091-46b7-8a08-ae79a6f4bb51/KAzxaEOB4s.lottie" 
-                    style="width: 300px;" 
+                <dotlottie-wc
+                    src="https://lottie.host/be23f1e0-b091-46b7-8a08-ae79a6f4bb51/KAzxaEOB4s.lottie"
+                    style="width: 300px;"
                     autoplay loop>
                 </dotlottie-wc>
 
@@ -113,7 +113,7 @@
             </div>
         </div>
     </div>
-    
+
     <div class="max-w-4xl mx-auto space-y-10">
 
         <header class="text-center py-12 hero-section rounded-t-2xl">
@@ -123,14 +123,25 @@
             <p class="text-xl text-white/70 font-light">The latest official release and future development roadmap.</p>
         </header>
 
+        <!-- NEW: About the Game Section -->
+        <div class="bg-card-bg border border-white/10 p-6 sm:p-10 rounded-2xl shadow-xl space-y-4 transition duration-500 hover:scale-[1.01] card-glow">
+            <h2 class="text-3xl font-bold text-link-primary border-b-4 border-link-primary/50 pb-3 flex items-center">
+                <i class="fas fa-book-open mr-3 text-2xl"></i> About the Game
+            </h2>
+            <p class="text-white/90 text-lg leading-relaxed">
+                Quiz for Survival is an intense trivia experience that challenges your knowledge, strategy, and risk management with over 2,500 questions across categories like General Knowledge, Sports, History, Games, Geography, Language, Music, Math, and Measurements. Each round features 10 randomly selected questions with four answer choices, but only one is correct, keeping every playthrough unpredictable. Correct answers award 10 points and 5 coins, while wrong answers reduce health by 10 and cost 3 coins, adding tension and strategy to every decision. After each round, the shop opens, letting you spend coins on Health Potions, Extra Lives, Mystery Boxes, Lucky Triples, and more, to enhance your survival chances. With four gameplay modes, Normal, Gauntlet, Shopless, and Multiplayer, and five difficulty levels Unlimited, Easy, Hard, Extreme, and Unbeatable, players can tailor the challenge to their skill. The game also features 15 achievements, a top-30 leaderboard, and an in-game feedback system for feedback & suggestions. When you reach the target score, a victory screen summarizes your performance, including final score, coins, health, completion time, correct and wrong answers, and a performance rating out of 100, giving a clear picture of how well you did. Combining knowledge, risk, and strategy, Quiz for Survival is an addictive, fast-paced trivia game that tests both your skill and endurance, rewarding careful play and quick thinking alike.
+            </p>
+        </div>
+        <!-- END NEW Section -->
+
         <div id="latest-version-card" class="bg-card-bg border border-white/10 p-6 sm:p-10 rounded-2xl shadow-xl space-y-8 transition duration-500 hover:scale-[1.01] card-glow">
-            
+
             <div id="latest-version-meta" class="text-center space-y-2 mb-6"></div>
 
             <h2 id="latest-version-heading" class="text-3xl font-bold text-link-primary border-b-4 border-link-primary/50 pb-3 mb-4 flex items-center">
                 <i class="fas fa-spinner fa-spin mr-3 text-2xl"></i> Loading Update Info...
             </h2>
-            
+
             <div id="latest-version-content">
                 <div id="version-placeholder" class="space-y-4 animate-pulse">
                     <div class="h-5 bg-gray-600 rounded w-1/4"></div>
@@ -150,7 +161,7 @@
                     class="w-full sm:w-auto px-10 py-4 text-lg font-bold text-white uppercase transition duration-300 transform bg-button-primary rounded-xl shadow-2xl shadow-button-primary/50 hover:shadow-button-primary/80 hover:bg-opacity-90 active:scale-95 disabled:opacity-50">
                     <i class="fas fa-cog fa-spin mr-2"></i> Initializing...
                 </button>
-                
+
                 <a href="https://docs.google.com/document/d/11sxU4b9yxqJY74rFXaz1YaIQF85cnPe7SX3nzGZJ7Zk/edit?tab=t.0" target="_blank"
                     class="w-full sm:w-auto px-6 py-4 text-center text-link-primary hover:text-white transition duration-300 border border-link-primary rounded-xl hover:bg-link-primary/20">
                     <i class="fas fa-scroll mr-2"></i> View Full Change Log
@@ -194,7 +205,7 @@
             };
 
             const defaultButtonText = '<i class="fas fa-download mr-2"></i> Download Latest Version';
-            
+
             const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
             // --- Modal Functions ---
@@ -202,7 +213,7 @@
                 SELECTORS.modalMessage.innerHTML = `The automatic download for version <b>${versionNumber}</b> is starting now. Check your browser's download folder.`;
                 SELECTORS.modalBackdrop.classList.remove('opacity-0', 'pointer-events-none');
                 SELECTORS.modalContent.classList.remove('scale-90');
-                
+
                 // Set click outside to close (optional, but good UX)
                 SELECTORS.modalBackdrop.onclick = (e) => {
                     if (e.target.id === 'download-modal-backdrop') {
@@ -210,7 +221,7 @@
                     }
                 };
             };
-            
+
             const hideDownloadModal = () => {
                 SELECTORS.modalBackdrop.classList.add('opacity-0', 'pointer-events-none');
                 SELECTORS.modalContent.classList.add('scale-90');
@@ -221,10 +232,10 @@
 
             const formatContentText = (text, style = "feather") => {
                 if (!text) return '<p class="text-red-400">Data content is empty.</p>';
-                
+
                 const lines = text.split('\n').map(line => line.trim()).filter(line => line.length > 0);
                 let html = '<ul class="list-none space-y-3 pl-0">';
-                
+
                 lines.forEach(line => {
                     if (line.startsWith('•')) {
                         const content = line.substring(1).trim();
@@ -247,7 +258,7 @@
                         html += `<li class="text-white/80 pl-6">${line}</li>`;
                     }
                 });
-                
+
                 html += '</ul>';
                 return html;
             };
@@ -262,7 +273,7 @@
                 SELECTORS.downloadButton.classList.add('opacity-50', 'cursor-not-allowed');
                 SELECTORS.downloadButton.innerHTML = '<i class="fas fa-times-circle mr-2"></i> Link Error';
             };
-            
+
             const fetchMasterData = async (url, retries = 3) => {
                 for (let i = 0; i < retries; i++) {
                     try {
@@ -290,10 +301,10 @@
 
                     SELECTORS.versionMetaDiv.innerHTML = `
                         <p class="text-4xl font-bold text-white">${versionNumber}</p>
-                        <p class="text-white/70">Developed by 
+                        <p class="text-white/70">Developed by
                             <a href="${authorUrl}" target="_blank" class="text-link-primary hover:text-white transition duration-200 font-bold">${authorName}</a>
                         </p>`;
-                    
+
                     SELECTORS.latestVersionHeading.innerHTML = `<i class="fas fa-tag mr-3 text-2xl"></i> Latest Update (${versionNumber})`;
 
                     const updateSection = data.versionInfo.substring(data.versionInfo.indexOf('--- LATEST UPDATE ---') + '--- LATEST UPDATE ---'.length).trim();
@@ -313,7 +324,7 @@
                         // --- START: Auto-download logic with Modal ---
                         setTimeout(() => {
                             showDownloadModal(versionNumber);
-                            
+
                             const a = document.createElement('a');
                             a.href = data.downloadLink;
                             a.download = '';
@@ -330,30 +341,30 @@
                     handleFetchError(processingError);
                 }
             };
-            
+
             const setupDownloadHandler = () => {
                 // Modal Close Listener
                 SELECTORS.modalCloseButton.addEventListener('click', hideDownloadModal);
 
                 // Manual Download Click Handler
                 SELECTORS.downloadButton.addEventListener('click', (e) => {
-                    e.preventDefault(); 
+                    e.preventDefault();
                     const downloadUrl = SELECTORS.downloadButton.getAttribute('data-download-url');
-                    
+
                     if (downloadUrl && !SELECTORS.downloadButton.disabled) {
                         SELECTORS.downloadButton.disabled = true;
                         SELECTORS.downloadButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Starting Download...';
-                        
+
                         setTimeout(() => {
                             // Show modal on manual click too
                             showDownloadModal(SELECTORS.versionMetaDiv.querySelector('p:first-child').textContent);
-                            
+
                             window.location.href = downloadUrl;
                             setTimeout(() => {
                                 SELECTORS.downloadButton.disabled = false;
                                 SELECTORS.downloadButton.innerHTML = defaultButtonText;
                             }, 1500);
-                        }, 500); 
+                        }, 500);
                     }
                 });
             };
@@ -373,4 +384,3 @@
 
 </body>
 </html>
-
