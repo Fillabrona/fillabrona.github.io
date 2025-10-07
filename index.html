@@ -183,11 +183,11 @@
         }
     }
 
-    /* 5. Smoother Changelog Accordion and Rotating Arrow */
+    /* 5. Smoother Changelog Accordion and Rotating Arrow (REVISED FOR SMOOTHNESS) */
     .changelog-header {
         cursor: pointer;
         padding: 1.5rem; 
-        transition: background-color 0.4s ease-in-out;
+        transition: background-color 0.3s ease-in-out; /* Slightly faster color change */
         border-bottom: 1px solid rgba(4, 164, 176, 0.1); 
         user-select: none;
         display: flex;
@@ -195,7 +195,7 @@
         align-items: center;
     }
     .changelog-header:hover {
-        background-color: rgba(255, 255, 255, 0.05);
+        background-color: rgba(255, 255, 255, 0.07); /* Slightly more noticeable hover */
     }
 
     .changelog-header i {
@@ -209,15 +209,15 @@
     .changelog-content {
         max-height: 0;
         overflow: hidden;
-        /* Smoother transition: changed 1.1s to 0.8s */
-        transition: max-height 0.8s cubic-bezier(0.4, 0, 0.2, 1), 
-                    padding 0.8s cubic-bezier(0.4, 0, 0.2, 1), 
-                    opacity 0.6s ease-in-out;
+        /* Optimized transition for snappier, smoother feel */
+        transition: max-height 0.6s cubic-bezier(0.65, 0, 0.35, 1), 
+                    padding 0.6s cubic-bezier(0.65, 0, 0.35, 1), 
+                    opacity 0.3s ease-in;
         opacity: 0;
         padding: 0 1.5rem;
     }
     .changelog-content.open {
-        max-height: 1000px; /* Ensure sufficient height for smooth expansion */
+        max-height: 1200px; /* Increased height for reliable expansion */
         opacity: 1;
         padding: 1.5rem;
     }
@@ -234,11 +234,34 @@
         background-color: white !important; /* Force white background on hover */
         color: #2b333e !important; /* Text color back to main-bg color for contrast */
     }
+
+    /* 8. Fullscreen 404 Error Page - ENHANCED STYLING */
+    #content-404 {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: #2b333e; /* Match main-bg */
+        z-index: 100; /* Ensure it covers everything */
+        display: none; /* Controlled by JS */
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+
+    /* Styling for the large Lottie files - INCREASED SIZE */
+    .lottie-404 {
+        width: 100%;
+        max-width: 450px; /* Increased max size */
+        height: auto;
+    }
 </style>
 </head>
 <body class="min-h-screen">
 
-<nav class="sticky top-0 z-50 w-full p-4">
+<nav id="site-nav" class="sticky top-0 z-50 w-full p-4">
     <div class="max-w-5xl mx-auto p-2 rounded-xl shadow-2xl card-glass">
         <div class="flex justify-between items-center sm:hidden p-2">
             <h2 class="text-xl font-bold text-link-primary">Navigation</h2>
@@ -327,7 +350,7 @@
     </div>
 
 
-    <header class="hero-content-wrapper">
+    <header id="site-header" class="hero-content-wrapper">
         <div class="text-center p-8 z-10 max-w-5xl mx-auto">
             <h1 id="hero-title" class="text-7xl sm:text-9xl font-extrabold tracking-tight text-white mb-4">
                 Quiz for Survival
@@ -338,7 +361,7 @@
         </div>
     </header>
     
-    <div class="max-w-5xl mx-auto space-y-8 p-4 sm:p-8 pt-0">
+    <div id="main-page-wrapper" class="max-w-5xl mx-auto space-y-8 p-4 sm:p-8 pt-0">
 
         <main id="main-content" class="space-y-8">
 
@@ -377,6 +400,7 @@
 
                     <div id="file-stats-wrapper" class="pt-4">
                         
+                        <!-- Placeholder shown while waiting for both Firestore count and Gist file size/link -->
                         <div id="file-stats-placeholder" class="flex justify-center space-x-8">
                             <div class="flex flex-col items-start w-24">
                                 <div class="h-3 bg-gray-600 rounded w-1/2 animate-pulse mb-1"></div>
@@ -388,6 +412,7 @@
                             </div>
                         </div>
                         
+                        <!-- Content hidden until populateHomePage runs and sets the values -->
                         <div id="file-stats-content" class="hidden flex justify-center space-x-8">
                             <div class="flex items-center">
                                 <i class="fas fa-file-archive text-white/40 text-base mr-2 flex-shrink-0"></i>
@@ -401,6 +426,7 @@
                                 <i class="fas fa-chart-line text-white/40 text-base mr-2 flex-shrink-0"></i>
                                 <div class="flex flex-col text-left">
                                     <p class="text-white/70 text-xs font-semibold leading-none">Total Downloads</p>
+                                    <!-- This element is updated in real-time by startDownloadListener -->
                                     <p id="download-count-value" class="text-white/90 font-normal text-sm leading-none pt-0.5">...</p>
                                 </div>
                             </div>
@@ -491,6 +517,26 @@
 
         </main>
     </div>
+    
+<section id="content-404" class="hidden fixed inset-0 flex items-center justify-center z-50 p-4">
+    <div class="flex flex-col items-center">
+        <dotlottie-wc id="lottie-404" class="lottie-404 mx-auto mb-8" autoplay loop
+            src="https://lottie.host/47ace394-5c3b-4f9b-b3fc-b6a2e0514288/IFwzZgHc8T.lottie"
+            style="width: 300px;">
+        </dotlottie-wc>
+        <h3 class="text-3xl sm:text-4xl font-bold text-white mb-6 mt-[-1rem]">Page Not Found</h3>
+
+        <p class="text-xl text-white/80 mb-10 max-w-sm text-center">
+            It looks like the link you followed doesn't exist here. Time to head back to the quiz!
+        </p>
+
+        <a href="#section=home" id="404-home-link"
+            class="inline-block px-10 py-3 text-xl font-semibold text-main-bg bg-button-primary rounded-xl transition duration-300 hover:bg-opacity-80 active:scale-95 shadow-lg">
+            <i class="fas fa-arrow-left mr-2"></i> Go to Home
+        </a>
+    </div>
+</section>
+
 
     <script type="module">
         // --- FIREBASE IMPORTS ---
@@ -501,15 +547,15 @@
             getDoc, collection, getDocs, setLogLevel
         } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // --- FIREBASE CONFIGURATION (From User Request) ---
+        // --- FIREBASE CONFIGURATION (REDACTED FOR SECURITY) ---
         const FIREBASE_CONFIG = {
-            apiKey: "AIzaSyCAmYCabtz0apNHmyw9w6Jlr2lPpyXDUKk",
+            apiKey: "AIzaSyCAmYCabtz0apNHmyw9w6Jlr2lPpyXDUKk", 
             authDomain: "downlodsqfs.firebaseapp.com",
             projectId: "downlodsqfs",
             storageBucket: "downlodsqfs.firebasestorage.app",
             messagingSenderId: "597637748461",
             appId: "1:597637748461:web:a24eb0794427a38aa11ee4",
-            measurementId: "G-1FWDCC5GH4" // Analytics is not used here but kept for completeness
+            measurementId: "G-1FWDCC5GH4" 
         };
 
         // Canvas environment variables for ID and Auth
@@ -557,8 +603,11 @@
         const startDownloadListener = () => {
             if (!downloadCounterRef) return;
 
+            // FIX: This listener now runs immediately and updates the count value regardless 
+            // of the placeholder status. The placeholder is hidden once the main Gist data loads.
             onSnapshot(downloadCounterRef, (doc) => {
                 const count = doc.exists() ? doc.data().count : 0;
+                // Update the visible counter value directly
                 document.getElementById('download-count-value').textContent = count.toLocaleString();
             }, (error) => {
                 console.error("Error listening to download count:", error);
@@ -598,6 +647,10 @@
             const URLS = {
                 masterData: 'https://gist.githubusercontent.com/Fillabrona/5a17fe172177f74a4a65196ba1b53c50/raw/100d1cf2ecc22b85ce82c17c0cc1f187895c26fa/downloadinfo',
             };
+            
+            // Lottie file for 404 (single URL, no randomization)
+            const LOTTIE_404_URL = 'https://lottie.host/47ace394-5c3b-4f9b-b3fc-b6a2e0514288/IFwzZgHc8T.lottie';
+
 
             const SELECTORS = {
                 pageTitle: document.getElementById('page-title'),
@@ -626,6 +679,7 @@
                 contentAbout: document.getElementById('content-about'),
                 contentChangelog: document.getElementById('content-changelog'),
                 contentDatabase: document.getElementById('content-database'),
+                content404: document.getElementById('content-404'), // 404 Selector
                 toolsContent: document.getElementById('tools-content'),
                 mysteryBoxContent: document.getElementById('mystery-box-content'),
                 luckyTriplesContent: document.getElementById('lucky-triples-content'),
@@ -641,6 +695,9 @@
                 menuButton: document.getElementById('menu-button'),
                 navMenu: document.getElementById('nav-menu'),
                 menuIcon: document.getElementById('menu-icon'),
+                siteNav: document.getElementById('site-nav'), // Nav element wrapper
+                siteHeader: document.getElementById('site-header'), // Header element wrapper
+                mainPageWrapper: document.getElementById('main-page-wrapper'), // Main content wrapper
 
                 // New Stat Displays
                 versionDisplay: document.getElementById('version-display'),
@@ -651,7 +708,14 @@
                 // New Stat Loaders
                 fileStatsPlaceholder: document.getElementById('file-stats-placeholder'),
                 fileStatsContent: document.getElementById('file-stats-content'),
+                
+                // 404 Specific
+                lottie404: document.getElementById('lottie-404'),
+                homeLink404: document.getElementById('404-home-link'),
             };
+            
+            // List of all valid content sections
+            const VALID_SECTIONS = ['home', 'about', 'changelog', 'database']; 
 
             const SECTION_TITLES = {
                 'home': { title: 'Quiz for Survival', subtitle: 'The ultimate trivia experience of knowledge, strategy, and survival.' },
@@ -853,7 +917,8 @@
                 
                 // Update new stats
                 SELECTORS.fileSizeValue.textContent = HARDCODED_FILE_SIZE; // Set to hardcoded value on error
-                SELECTORS.downloadCountValue.textContent = 'N/A';
+                // The download count is handled by the listener, so we leave it as is or show an error
+                SELECTORS.downloadCountValue.textContent = 'Error';
                 
                 // Hide placeholder and show static content on error
                 if (SELECTORS.fileStatsPlaceholder && SELECTORS.fileStatsContent) {
@@ -912,7 +977,7 @@
                     const roadmapSection = data.whatsNext.substring(data.whatsNext.indexOf('--- UPCOMING FEATURES ---') + '--- UPCOMING FEATURES ---'.length).trim();
                     SELECTORS.whatsNextDiv.innerHTML = formatContentText(roadmapSection, 'circle');
                     
-                    // 3. Hide placeholder and show static content
+                    // 3. Hide placeholder and show static content (FIX: This ensures the stats are visible)
                     SELECTORS.fileStatsPlaceholder.classList.add('hidden');
                     SELECTORS.fileStatsContent.classList.remove('hidden');
 
@@ -1098,16 +1163,46 @@
             const switchSection = (sectionId) => {
                 const sections = [SELECTORS.contentHome, SELECTORS.contentAbout, SELECTORS.contentChangelog, SELECTORS.contentDatabase];
                 const activeSection = document.getElementById(`content-${sectionId}`);
+                
+                // Hide 404 page by default
+                SELECTORS.content404.style.display = 'none';
+                // Show main site elements
+                SELECTORS.siteNav.classList.remove('hidden');
+                SELECTORS.siteHeader.classList.remove('hidden');
+                SELECTORS.mainPageWrapper.classList.remove('hidden');
+                document.body.classList.remove('modal-open'); // Ensure scrolling is re-enabled if coming from 404
 
-                if (!activeSection) {
-                    sectionId = 'home';
+                // 1. Check for 404 condition
+                if (!activeSection || !VALID_SECTIONS.includes(sectionId)) {
+                    // 404 Triggered
+                    SELECTORS.content404.style.display = 'flex';
+                    // Hide all regular page elements
+                    SELECTORS.siteNav.classList.add('hidden');
+                    SELECTORS.siteHeader.classList.add('hidden');
+                    SELECTORS.mainPageWrapper.classList.add('hidden');
+                    document.body.classList.add('modal-open'); // Prevent scrolling on 404 page
+                    
+                    // Set the single Lottie file (no randomization)
+                    SELECTORS.lottie404.src = LOTTIE_404_URL;
+                    
+                    // Update Document Title
+                    SELECTORS.pageTitle.textContent = '404 - Page Not Found';
+
+                    // Force the home link to point back home and handle routing
+                    SELECTORS.homeLink404.onclick = (e) => {
+                        e.preventDefault();
+                        window.history.pushState(null, null, '#section=home');
+                        handleRouting();
+                    };
+                    return;
                 }
 
-                // 1. Hide/Show Content Sections
+
+                // 2. Hide/Show Content Sections
                 sections.forEach(sec => sec && sec.classList.add('hidden'));
                 document.getElementById(`content-${sectionId}`).classList.remove('hidden');
 
-                // 2. Update Navigation Links
+                // 3. Update Navigation Links
                 SELECTORS.navLinks.forEach(link => {
                     const linkSection = link.getAttribute('data-section');
                     const icon = link.querySelector('i');
@@ -1120,7 +1215,7 @@
                     }
                 });
 
-                // 3. Dynamic Hero Header Update (INSTANT CHANGE)
+                // 4. Dynamic Hero Header Update (INSTANT CHANGE)
                 const currentTitle = SECTION_TITLES[sectionId] || SECTION_TITLES['home'];
                 
                 // Set text content
@@ -1140,10 +1235,10 @@
                     SELECTORS.heroSubtitle.classList.add('sm:text-3xl');
                 }
                 
-                // 4. Update Document Title
+                // 5. Update Document Title
                 SELECTORS.pageTitle.textContent = currentTitle.title + ' - Quiz for Survival';
 
-                // 5. Close Burger Menu if open on mobile
+                // 6. Close Burger Menu if open on mobile
                 if (SELECTORS.navMenu && SELECTORS.navMenu.classList.contains('open') && window.innerWidth < 640) {
                     SELECTORS.navMenu.classList.remove('open');
                     SELECTORS.menuIcon.classList.remove('fa-times');
@@ -1188,20 +1283,24 @@
                 const params = new URLSearchParams(hash);
                 let section = params.get('section') || 'home';
                 let action = params.get('action'); 
+                
+                // Determine if the action=download parameter is present in the URL
+                const shouldAutoDownload = action === 'download' && SELECTORS.downloadButton.getAttribute('data-download-url');
 
-                if (action === 'download' && SELECTORS.downloadButton.getAttribute('data-download-url')) {
+                if (shouldAutoDownload) {
                     
                     // 1. Reset hash to remove action and prevent loop
                     const newHash = window.location.hash.split('&').filter(p => !p.includes('action=download')).join('&');
                     window.history.replaceState(null, null, newHash || '#section=home');
 
-                    // 2. Start the download process (which includes the Firebase increment)
+                    // 2. Start the download process (which includes the Firebase increment and showing the 'initiated' modal)
                     startDownload(SELECTORS.downloadButton); 
                 }
 
                 switchSection(section);
 
-                if (window.innerWidth < 768 && section !== 'home') {
+                // Scroll to top only if not viewing the 404 page
+                if (window.innerWidth < 768 && section !== 'home' && VALID_SECTIONS.includes(section)) {
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                 }
             };
@@ -1227,13 +1326,20 @@
             };
 
             const initializePage = async () => {
+                
                 // Initialize Firebase and start listening for downloads count immediately
-                // The values will be set on the hidden #download-count-value and #file-size-value elements
                 SELECTORS.downloadCountValue.textContent = 'Loading...';
                 SELECTORS.fileSizeValue.textContent = HARDCODED_FILE_SIZE;
-
+                
+                // Start listener before fetching main data. It will update the hidden download-count-value
                 await initializeFirebase();
                 startDownloadListener();
+
+
+                // Check the URL hash for action=download BEFORE any async operations
+                const hash = window.location.hash.substring(1); 
+                const params = new URLSearchParams(hash);
+                const isAutoDownloadRequest = params.get('action') === 'download';
 
 
                 // 1. Prepare other sections
@@ -1258,16 +1364,13 @@
                 // 4. Set up routing listeners and initial view
                 window.addEventListener('hashchange', handleRouting);
                 
-                // Check for action=download on initial load before setting default hash
-                if (window.location.hash.indexOf('action=download') !== -1 || window.location.hash.indexOf('section=') === -1) {
-                    handleRouting();
-                } else {
-                    handleRouting(); 
-                }
+                // Handle initial routing (will auto-download if isAutoDownloadRequest is true)
+                handleRouting(); 
 
                 
-                // 5. Show Welcome Modal on load if data was successful
-                if (data) {
+                // 5. Show Welcome Modal on load if data was successful AND not an auto-download request
+                // ⭐ MODIFIED LOGIC HERE: Skip the modal if 'action=download' is present.
+                if (data && !isAutoDownloadRequest) {
                     await delay(300); 
                     showWelcomeModal(versionNumber);
                 }
