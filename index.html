@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="page-title">Quiz for Survival - Latest Download & Info</title>
     <link rel="icon" type="image/png" href="https://i.ibb.co/Xxrtbmmp/cropped-circle-image-3.png">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght=400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.8.1/dist/dotlottie-wc.js" type="module"></script>
@@ -235,37 +235,6 @@
         color: #2b333e !important; /* Text color back to main-bg color for contrast */
     }
 </style>
-
-<script type="application/ld+json" id="game-structured-data">
-{
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "Quiz for Survival",
-  "operatingSystem": "Windows", 
-  "applicationCategory": "Game",
-  "description": "An intense trivia experience that challenges your knowledge, strategy, and risk management with over 2,500 questions across multiple categories. Features four gameplay modes (Normal, Gauntlet, Shopless, Multiplayer) and five difficulty levels (Unlimited, Easy, Hard, Extreme, Unbeatable).",
-  "author": {
-    "@type": "Organization",
-    "name": "Fillabrona"
-  },
-  "url": "https://fillabrona.itch.io/quiz-for-survival",
-  "offers": {
-    "@type": "Offer",
-    "price": "0",
-    "priceCurrency": "USD",
-    "availability": "https://schema.org/InStock"
-  },
-  "softwareVersion": "Loading...", 
-  "fileSize": "Loading...",
-  "downloadUrl": "Loading...",
-  "aggregateRating": {
-    "@type": "AggregateRating",
-    "ratingValue": "N/A",
-    "ratingCount": "N/A"
-  }
-}
-</script>
-
 </head>
 <body class="min-h-screen">
 
@@ -550,7 +519,6 @@
         let db = null;
         let auth = null;
         let downloadCounterRef = null;
-        let latestVersionData = null; // Store fetched data globally
 
         // --- FIREBASE INITIALIZATION AND AUTHENTICATION ---
         const initializeFirebase = async () => {
@@ -592,10 +560,6 @@
             onSnapshot(downloadCounterRef, (doc) => {
                 const count = doc.exists() ? doc.data().count : 0;
                 document.getElementById('download-count-value').textContent = count.toLocaleString();
-                
-                // UPDATE: Update Schema.org with real-time download count
-                updateStructuredData({ downloadCount: count });
-
             }, (error) => {
                 console.error("Error listening to download count:", error);
                 document.getElementById('download-count-value').textContent = 'Error';
@@ -618,6 +582,7 @@
                         transaction.set(downloadCounterRef, { count: 1 });
                     } else {
                         // Increment the existing count
+                        const newCount = sfDoc.data().count + 1;
                         transaction.update(downloadCounterRef, { count: increment(1) });
                     }
                 });
@@ -626,61 +591,13 @@
                 console.error("Transaction failed to increment download count:", error);
             }
         };
-		
-        const updateStructuredData = (updates) => {
-            const scriptTag = document.getElementById('game-structured-data');
-            if (!scriptTag) return;
 
-            try {
-                const data = JSON.parse(scriptTag.textContent);
-                
-                // Update properties based on the input object
-                Object.keys(updates).forEach(key => {
-                    if (key === 'downloadCount') {
-                        // Special handling for download count if needed, or simply update an auxiliary property
-                        data.aggregateRating = data.aggregateRating || {};
-                        data.aggregateRating.reviewCount = updates.downloadCount; // Using reviewCount as a proxy for download count
-                    } else if (key === 'downloadUrl') {
-                        data.downloadUrl = updates.downloadUrl;
-                    } else if (key === 'softwareVersion') {
-                        data.softwareVersion = updates.softwareVersion;
-                    } else if (key === 'fileSize') {
-                        data.fileSize = updates.fileSize;
-                    } else if (key === 'latestChanges') {
-                        // Provide the latest change log in the description, or a dedicated field if schema supported it
-                        const firstChange = updates.latestChanges.split('\n')[0].trim();
-                        data.description = `LATEST UPDATE (${data.softwareVersion || 'Unknown'}): ${firstChange}. ${data.description}`;
-                    } else if (key === 'fallbackUrl') {
-                        data.url = updates.fallbackUrl;
-                    }
-                });
-
-                // Write the updated data back to the script tag
-                scriptTag.textContent = JSON.stringify(data, null, 2);
-                console.log("Structured data updated:", updates);
-
-            } catch (error) {
-                console.error("Failed to parse or update structured data:", error);
-            }
-        };
 
         // --- MAIN APP LOGIC ---
         document.addEventListener('DOMContentLoaded', () => {
             const URLS = {
                 masterData: 'https://gist.githubusercontent.com/Fillabrona/5a17fe172177f74a4a65196ba1b53c50/raw/100d1cf2ecc22b85ce82c17c0cc1f187895c26fa/downloadinfo',
             };
-            
-            // --- Static Fallback Data for AI/Bots (Game Mechanics Summary) ---
-            const GAME_MECHANICS_SUMMARY = `
-                Quiz for Survival is a trivia game featuring over 2,500 questions across 9 categories.
-                Core Logic: 10 questions per round. Correct answer: +10 points, +5 coins. Wrong answer: -10 health, -3 coins.
-                Shop Tools: Health Potion (+25 Health, 10 Coins), Extra Life (+100 Health, 35 Coins), Skipper (skip 3 questions, 20 Coins), Double Score Boost (x2 score for 5 questions, 45 Coins).
-                Risky Tools: Mystery Box (random item, 30 Coins), Lucky Triples (40% chance to triple Coins/Health, 20% to lose 1/3, 65 Coins).
-                Game Modes: Normal, Gauntlet (5-minute timer), Shopless (no shop), Multiplayer.
-                Difficulties: Unlimited (no target), Easy (250), Hard (500), Extreme (1000), Unbeatable (5000).
-                Website Purpose: The main function of this page is to provide the latest download link for the game, track total downloads, and display version updates, changelogs, and game information.
-                Fallback Link: The master link for the game is https://fillabrona.itch.io/quiz-for-survival.
-            `;
 
             const SELECTORS = {
                 pageTitle: document.getElementById('page-title'),
@@ -745,6 +662,7 @@
 
             const defaultButtonText = '<i class="fas fa-download mr-2"></i> Download Latest Version';
             
+            // 💡 HARDCODED FILE SIZE (used as fallback for loading errors)
             const HARDCODED_FILE_SIZE = 'N/A'; 
 
             const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
@@ -947,14 +865,6 @@
                 SELECTORS.welcomeDownloadButton.disabled = true;
                 SELECTORS.welcomeDownloadButton.innerHTML = '<i class="fas fa-times-circle mr-2"></i> Load Error';
                 SELECTORS.welcomeDownloadButton.classList.remove('animate-pulse');
-                
-                // UPDATE: Update Schema.org with error/fallback info
-                updateStructuredData({ 
-                    softwareVersion: 'Error Loading',
-                    fileSize: HARDCODED_FILE_SIZE,
-                    downloadUrl: 'N/A',
-                    fallbackUrl: 'https://fillabrona.itch.io/quiz-for-survival'
-                });
             };
 
             const fetchMasterData = async (url, retries = 3) => {
@@ -976,8 +886,6 @@
 
             const populateHomePage = (data) => {
                 try {
-                    latestVersionData = data; // Store the fetched data
-                    
                     const versionMatch = data.versionInfo.match(/Game:.*(v[\d.]+)/);
                     const versionNumber = versionMatch ? versionMatch[1] : 'Unknown';
                     const authorLineMatch = data.versionInfo.match(/Author: (.*?)\s-\s(https:\/\/fillabrona\.itch\.io\/)/);
@@ -986,10 +894,6 @@
                     
                     // 💡 MODIFIED: Read fileSize directly from the fetched data, using HARDCODED_FILE_SIZE as a fallback
                     const fileSize = data.fileSize || HARDCODED_FILE_SIZE; 
-                    const downloadLink = data.downloadLink || 'N/A';
-                    
-                    // The main change log is used for structured data description
-                    const updateSectionFull = data.versionInfo.substring(data.versionInfo.indexOf('--- LATEST UPDATE ---') + '--- LATEST UPDATE ---'.length).trim();
 
 
                     // 1. Update Meta Data (Version, Author, File Size)
@@ -1002,7 +906,8 @@
                     SELECTORS.latestVersionHeading.innerHTML = `<i class="fas fa-tag mr-3 text-2xl"></i> Latest Update`;
 
                     // 2. Update Content Sections
-                    SELECTORS.versionContentDiv.innerHTML = formatContentText(updateSectionFull, 'fa-feather'); 
+                    const updateSection = data.versionInfo.substring(data.versionInfo.indexOf('--- LATEST UPDATE ---') + '--- LATEST UPDATE ---'.length).trim();
+                    SELECTORS.versionContentDiv.innerHTML = formatContentText(updateSection, 'fa-feather'); 
 
                     const roadmapSection = data.whatsNext.substring(data.whatsNext.indexOf('--- UPCOMING FEATURES ---') + '--- UPCOMING FEATURES ---'.length).trim();
                     SELECTORS.whatsNextDiv.innerHTML = formatContentText(roadmapSection, 'circle');
@@ -1013,8 +918,8 @@
 
 
                     // 4. Setup Download Button
-                    if (downloadLink && downloadLink !== 'N/A') {
-                        SELECTORS.downloadButton.setAttribute('data-download-url', downloadLink);
+                    if (data.downloadLink) {
+                        SELECTORS.downloadButton.setAttribute('data-download-url', data.downloadLink);
                         SELECTORS.downloadButton.disabled = false;
                         SELECTORS.downloadButton.classList.remove('opacity-50', 'cursor-not-allowed');
                         SELECTORS.downloadButton.innerHTML = defaultButtonText;
@@ -1025,16 +930,6 @@
                     } else {
                         throw new Error("Download link not found in data.");
                     }
-                    
-                    // 5. UPDATE: Update Schema.org with fetched data
-                    updateStructuredData({
-                        softwareVersion: versionNumber,
-                        fileSize: fileSize,
-                        downloadUrl: downloadLink,
-                        latestChanges: updateSectionFull,
-                        fallbackUrl: 'https://fillabrona.itch.io/quiz-for-survival' // Explicitly set it
-                    });
-
                 } catch (processingError) {
                     console.error("Error processing fetched data for homepage:", processingError);
                     handleFetchError(processingError);
@@ -1293,11 +1188,8 @@
                 const params = new URLSearchParams(hash);
                 let section = params.get('section') || 'home';
                 let action = params.get('action'); 
-                
-                // NEW LOGIC: Check for action=download on initial load
-                const isDirectDownloadAction = (action === 'download' && SELECTORS.downloadButton.getAttribute('data-download-url'));
 
-                if (isDirectDownloadAction) {
+                if (action === 'download' && SELECTORS.downloadButton.getAttribute('data-download-url')) {
                     
                     // 1. Reset hash to remove action and prevent loop
                     const newHash = window.location.hash.split('&').filter(p => !p.includes('action=download')).join('&');
@@ -1308,9 +1200,10 @@
                 }
 
                 switchSection(section);
-                
-                // Return the status of the action for the welcome modal logic
-                return { isDirectDownloadAction: isDirectDownloadAction };
+
+                if (window.innerWidth < 768 && section !== 'home') {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
             };
 
             // --- Initialization ---
@@ -1365,16 +1258,19 @@
                 // 4. Set up routing listeners and initial view
                 window.addEventListener('hashchange', handleRouting);
                 
-                const routingStatus = handleRouting(); 
+                // Check for action=download on initial load before setting default hash
+                if (window.location.hash.indexOf('action=download') !== -1 || window.location.hash.indexOf('section=') === -1) {
+                    handleRouting();
+                } else {
+                    handleRouting(); 
+                }
 
                 
-                // 5. Show Welcome Modal on load if data was successful AND not a direct download action
-                if (data && !routingStatus.isDirectDownloadAction) {
+                // 5. Show Welcome Modal on load if data was successful
+                if (data) {
                     await delay(300); 
                     showWelcomeModal(versionNumber);
                 }
-                
-                // If the direct download was triggered, the modals are already handled by startDownload
 
                 // 6. Burger Menu Click Handler
                 if (SELECTORS.menuButton) {
