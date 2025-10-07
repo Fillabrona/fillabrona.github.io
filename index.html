@@ -39,11 +39,19 @@
         transition: background-color 0.3s;
         font-family: 'Times New Roman', serif;
     }
+    /* NEW: Class to disable scrolling on the body when a modal is open */
+    .modal-open {
+        overflow: hidden;
+        /* Compensate for the scrollbar width (8px) to prevent content shift */
+        padding-right: 8px; 
+    }
+
     body::-webkit-scrollbar {
         width: 8px;
     }
     body::-webkit-scrollbar-thumb {
-        background-color: '#04a4b0'; /* Use new muted accent */
+        /* FIX: Removed single quotes for color to work */
+        background-color: #04a4b0; 
         border-radius: 4px;
     }
 
@@ -746,8 +754,11 @@
             // --- End Game Data ---
 
 
-            // --- Modal Functions ---
+            // --- Modal Functions (UPDATED) ---
             const showDownloadModal = (versionNumber) => {
+                // ADDED: Disable body scrolling when modal is open
+                document.body.classList.add('modal-open');
+                
                 SELECTORS.modalMessage.innerHTML = `The automatic download for version <b>${versionNumber}</b> is starting now. Check your browser's download folder.`;
                 SELECTORS.modalBackdrop.classList.remove('opacity-0', 'pointer-events-none');
                 SELECTORS.modalContent.classList.remove('scale-90');
@@ -760,19 +771,28 @@
             };
 
             const hideDownloadModal = () => {
+                // ADDED: Re-enable body scrolling when modal is closed
+                document.body.classList.remove('modal-open');
+                
                 SELECTORS.modalBackdrop.classList.add('opacity-0', 'pointer-events-none');
                 SELECTORS.modalContent.classList.add('scale-90');
                 SELECTORS.modalBackdrop.onclick = null; 
             };
             
-            // Welcome Modal Functions
+            // Welcome Modal Functions (UPDATED)
             const showWelcomeModal = (versionNumber) => {
+                // ADDED: Disable body scrolling when modal is open
+                document.body.classList.add('modal-open');
+                
                 SELECTORS.welcomeDownloadButton.innerHTML = `<i class="fas fa-download mr-2"></i> Download ${versionNumber}`;
                 SELECTORS.welcomeModalBackdrop.classList.remove('opacity-0', 'pointer-events-none');
                 SELECTORS.welcomeModalContent.classList.remove('scale-90');
             };
 
             const hideWelcomeModal = () => {
+                // ADDED: Re-enable body scrolling when modal is closed
+                document.body.classList.remove('modal-open');
+                
                 SELECTORS.welcomeModalBackdrop.classList.add('opacity-0', 'pointer-events-none');
                 SELECTORS.welcomeModalContent.classList.add('scale-90');
             };
