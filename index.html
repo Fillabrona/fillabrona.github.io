@@ -43,7 +43,7 @@
         width: 8px;
     }
     body::-webkit-scrollbar-thumb {
-        background-color: #04a4b0; /* Use new muted accent */
+        background-color: '#04a4b0'; /* Use new muted accent */
         border-radius: 4px;
     }
 
@@ -52,7 +52,7 @@
         background: rgba(43, 51, 62, 0.5); /* Slightly darker/less transparent */
         backdrop-filter: blur(10px); /* Slightly less blur */
         -webkit-backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.1); 
+        border: 1px solid rgba(255, 255, 255, 0.1); /* CLEANER BORDER: Very subtle white border */
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); /* Softer shadow */
         transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
     }
@@ -64,6 +64,11 @@
         }
     }
     
+    /* NEW: Custom class for the *subtle* accent border on list items/secondary cards */
+    .border-subtle-accent {
+        border: 1px solid rgba(4, 164, 176, 0.1); /* Reduced opacity for a cleaner, less "in your face" look */
+    }
+
     /* 3. Hero Section (REDUCED HEIGHT) */
     .hero-background {
         width: 100%;
@@ -127,7 +132,7 @@
         .nav-link {
             flex-grow: 0;
             font-size: 1.125rem; /* text-lg */
-            justify-content: flex-start;
+            justify: flex-start;
             text-align: left;
         }
     }
@@ -225,13 +230,8 @@
 </head>
 <body class="min-h-screen">
 
-<!-- Custom Video Tutorial Modal (REMOVED) -->
-    
-
-
 <nav class="sticky top-0 z-50 w-full p-4">
     <div class="max-w-5xl mx-auto p-2 rounded-xl shadow-2xl card-glass">
-        <!-- Header Row with Menu Button (Mobile Only) -->
         <div class="flex justify-between items-center sm:hidden p-2">
             <h2 class="text-xl font-bold text-link-primary">Navigation</h2>
             <button id="menu-button" class="text-white/80 hover:text-white transition duration-200 p-1">
@@ -239,9 +239,8 @@
             </button>
         </div>
 
-        <!-- Navigation Links Container (Burger Menu on Mobile, Horizontal on Desktop) -->
         <div id="nav-menu" class="sm:block">
-            <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 text-lg font-semibold text-white/80 pt-2 sm:pt-0">
+            <div class="flex flex-col sm:flex-row gap-2 sm:gap-5 text-lg font-semibold text-white/80 pt-2 sm:pt-0 sm:justify-center">
                 
                 <a href="#section=home" class="nav-link active flex-1" data-section="home">
                     <i class="fas fa-home mr-2 text-link-primary transition-colors duration-200"></i>Home
@@ -265,7 +264,6 @@
 
     <div class="hero-background"></div>
 
-    <!-- Download Initiated Modal (z-index 50) -->
     <div id="download-modal-backdrop" class="fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center transition-opacity duration-300 opacity-0 pointer-events-none">
         <div id="download-modal-content" class="bg-card-bg p-6 sm:p-8 rounded-2xl shadow-2xl max-w-sm w-11/12 transform scale-90 transition-all duration-300 relative border-2 border-link-primary/50 card-glass">
 
@@ -293,7 +291,6 @@
         </div>
     </div>
     
-    <!-- Welcome Modal (z-index 60) -->
     <div id="welcome-modal-backdrop" class="fixed inset-0 bg-black bg-opacity-90 z-[60] flex items-center justify-center transition-opacity duration-300 opacity-0 pointer-events-none">
         <div id="welcome-modal-content" class="bg-card-bg p-6 sm:p-8 rounded-2xl shadow-2xl max-w-sm w-11/12 transform scale-90 transition-all duration-300 relative border-2 border-link-primary/50 card-glass">
 
@@ -339,7 +336,6 @@
 
             <section id="content-home" class="content-section space-y-8">
                 
-                <!-- About the Game (Existing) -->
                 <div class="card-glass p-8 sm:p-10 rounded-2xl shadow-xl space-y-6">
                     <h2 class="text-3xl font-bold text-link-primary border-b border-link-primary/50 pb-4 flex items-center">
                         <i class="fas fa-book-open mr-3 text-2xl"></i> About the Game
@@ -349,14 +345,16 @@
                     </p>
                 </div>
 
-                <!-- Latest Version Card (Existing) -->
                 <div id="latest-version-card" class="card-glass p-8 sm:p-10 rounded-2xl shadow-xl space-y-6">
 
                     <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-button-primary/50 pb-4">
                         <h2 id="latest-version-heading" class="text-3xl font-bold text-button-primary flex items-center mb-2 sm:mb-0">
                             <i class="fas fa-spinner fa-spin mr-3 text-2xl"></i> Loading Update Info...
                         </h2>
-                        <div id="latest-version-meta" class="text-right"></div>
+                        <div id="latest-version-meta" class="text-right flex flex-col items-end space-y-0 pt-2 sm:pt-0">
+                            <p class="text-2xl font-bold text-white" id="version-display">Loading...</p>
+                            <p class="text-white/70 text-xs" id="author-info">by...</p>
+                        </div>
                     </div>
 
                     <div id="latest-version-content" class="min-h-[100px]">
@@ -369,24 +367,49 @@
                         </div>
                     </div>
 
+                    <div id="file-stats-wrapper" class="pt-4">
+                        
+                        <div id="file-stats-placeholder" class="flex justify-center space-x-8">
+                            <div class="flex flex-col items-start w-24">
+                                <div class="h-3 bg-gray-600 rounded w-1/2 animate-pulse mb-1"></div>
+                                <div class="h-4 bg-gray-700 rounded w-full animate-pulse"></div>
+                            </div>
+                            <div class="flex flex-col items-start w-24">
+                                <div class="h-3 bg-gray-600 rounded w-1/2 animate-pulse mb-1"></div>
+                                <div class="h-4 bg-gray-700 rounded w-full animate-pulse"></div>
+                            </div>
+                        </div>
+                        
+                        <div id="file-stats-content" class="hidden flex justify-center space-x-8">
+                            <div class="flex items-center">
+                                <i class="fas fa-file-archive text-white/40 text-base mr-2 flex-shrink-0"></i>
+                                <div class="flex flex-col text-left">
+                                    <p class="text-white/70 text-xs font-semibold leading-none">File Size</p>
+                                    <p id="file-size-value" class="text-white/90 font-normal text-sm leading-none pt-0.5">...</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center">
+                                <i class="fas fa-chart-line text-white/40 text-base mr-2 flex-shrink-0"></i>
+                                <div class="flex flex-col text-left">
+                                    <p class="text-white/70 text-xs font-semibold leading-none">Total Downloads</p>
+                                    <p id="download-count-value" class="text-white/90 font-normal text-sm leading-none pt-0.5">...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="pt-6 flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-8">
                         <button id="download-button"
                             class="w-full sm:w-auto px-12 py-4 text-xl font-bold text-main-bg uppercase transition duration-300 transform bg-link-primary rounded-xl shadow-lg hover:shadow-xl hover:bg-link-primary/90 active:scale-95 disabled:opacity-50 tracking-wider">
                             <i class="fas fa-cog fa-spin mr-2"></i> Initializing...
                         </button>
-
-                        <a href="https://docs.google.com/document/d/11sxU4b9yxqJY74rFXaz1YaIQF85cnPe7SX3nzGZJ7Zk/edit?tab=t.0" target="_blank"
-                            class="w-full sm:w-auto px-6 py-4 text-center text-link-primary hover:text-white transition duration-300 border border-link-primary rounded-xl hover:bg-link-primary/20 shadow-md font-semibold hover:scale-[1.02] active:scale-95">
-                            <i class="fas fa-scroll mr-2"></i> View Full Change Log
-                        </a>
                     </div>
                 </div>
 
-                <!-- Upcoming Features (Existing) -->
                 <div class="card-glass p-8 sm:p-10 rounded-2xl shadow-xl space-y-6">
                     <h2 class="text-3xl font-bold text-link-primary border-b border-link-primary/50 pb-4 flex items-center">
                         <i class="fas fa-rocket mr-3 text-2xl"></i> Upcoming Features
-                    </h2>
+                    </h2 >
                     <div id="whats-next-content" class="min-h-[100px]">
                         <div id="roadmap-placeholder" class="space-y-4 animate-pulse">
                              <div class="h-5 bg-gray-600 rounded w-1/3"></div>
@@ -461,10 +484,111 @@
         </main>
     </div>
 
-    <script>
+    <script type="module">
+        // --- FIREBASE IMPORTS ---
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { 
+            getFirestore, doc, onSnapshot, updateDoc, increment, setDoc, Transaction, runTransaction, 
+            getDoc, collection, getDocs, setLogLevel
+        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // --- FIREBASE CONFIGURATION (From User Request) ---
+        const FIREBASE_CONFIG = {
+            apiKey: "AIzaSyCAmYCabtz0apNHmyw9w6Jlr2lPpyXDUKk",
+            authDomain: "downlodsqfs.firebaseapp.com",
+            projectId: "downlodsqfs",
+            storageBucket: "downlodsqfs.firebasestorage.app",
+            messagingSenderId: "597637748461",
+            appId: "1:597637748461:web:a24eb0794427a38aa11ee4",
+            measurementId: "G-1FWDCC5GH4" // Analytics is not used here but kept for completeness
+        };
+
+        // Canvas environment variables for ID and Auth
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+        
+        let db = null;
+        let auth = null;
+        let downloadCounterRef = null;
+
+        // --- FIREBASE INITIALIZATION AND AUTHENTICATION ---
+        const initializeFirebase = async () => {
+            try {
+                // setLogLevel('debug'); // Uncomment for debugging
+                const app = initializeApp(FIREBASE_CONFIG);
+                db = getFirestore(app);
+                auth = getAuth(app);
+                
+                if (initialAuthToken) {
+                    await signInWithCustomToken(auth, initialAuthToken);
+                } else {
+                    await signInAnonymously(auth);
+                }
+
+                // Define the public Firestore path for the download counter
+                // Path: /artifacts/{appId}/public/data/qfs_downloads/counter
+                downloadCounterRef = doc(db, 'artifacts', appId, 'public', 'data', 'qfs_downloads', 'counter');
+                
+                // Initialize the counter if it doesn't exist
+                const counterSnap = await getDoc(downloadCounterRef);
+                if (!counterSnap.exists()) {
+                    await setDoc(downloadCounterRef, { count: 0 });
+                }
+
+                console.log("Firebase initialized and authenticated.");
+
+            } catch (error) {
+                console.error("Firebase initialization or authentication failed:", error);
+            }
+        };
+
+        // --- FIRESTORE LOGIC ---
+        
+        // 1. Listen for real-time changes to the download count
+        const startDownloadListener = () => {
+            if (!downloadCounterRef) return;
+
+            onSnapshot(downloadCounterRef, (doc) => {
+                const count = doc.exists() ? doc.data().count : 0;
+                document.getElementById('download-count-value').textContent = count.toLocaleString();
+            }, (error) => {
+                console.error("Error listening to download count:", error);
+                document.getElementById('download-count-value').textContent = 'Error';
+            });
+        };
+
+        // 2. Increment the download count transactionally
+        const incrementDownloadCount = async () => {
+            if (!downloadCounterRef) {
+                console.error("Download Counter Ref is not initialized.");
+                return;
+            }
+
+            try {
+                // Use a transaction to safely increment the count
+                await runTransaction(db, async (transaction) => {
+                    const sfDoc = await transaction.get(downloadCounterRef);
+                    if (!sfDoc.exists()) {
+                        // Create it if it still doesn't exist (should be rare)
+                        transaction.set(downloadCounterRef, { count: 1 });
+                    } else {
+                        // Increment the existing count
+                        const newCount = sfDoc.data().count + 1;
+                        transaction.update(downloadCounterRef, { count: increment(1) });
+                    }
+                });
+                console.log("Download count incremented successfully.");
+            } catch (error) {
+                console.error("Transaction failed to increment download count:", error);
+            }
+        };
+
+
+        // --- MAIN APP LOGIC ---
         document.addEventListener('DOMContentLoaded', () => {
             const URLS = {
-                masterData: 'https://gist.githubusercontent.com/Fillabrona/5a17fe172177f74a4a65196ba1b53c50/raw/6ef3af477c4c041bdf661f5b50b8de90cbfbfd88/downloadinfo',
+                masterData: 'https://gist.githubusercontent.com/Fillabrona/5a17fe172177f74a4a65196ba1b53c50/raw/100d1cf2ecc22b85ce82c17c0cc1f187895c26fa/downloadinfo',
             };
 
             const SELECTORS = {
@@ -500,14 +624,25 @@
                 modesContent: document.getElementById('modes-content'),
                 difficultiesContent: document.getElementById('difficulties-content'),
                 achievementsContent: document.getElementById('achievements-content'),
+                
                 // Dynamic Hero Selectors
                 heroTitle: document.getElementById('hero-title'),
                 heroSubtitle: document.getElementById('hero-subtitle'),
-
-                // NEW Burger Menu Selectors
+                
+                // Burger Menu Selectors
                 menuButton: document.getElementById('menu-button'),
                 navMenu: document.getElementById('nav-menu'),
                 menuIcon: document.getElementById('menu-icon'),
+
+                // New Stat Displays
+                versionDisplay: document.getElementById('version-display'),
+                authorInfo: document.getElementById('author-info'),
+                fileSizeValue: document.getElementById('file-size-value'),
+                downloadCountValue: document.getElementById('download-count-value'),
+                
+                // New Stat Loaders
+                fileStatsPlaceholder: document.getElementById('file-stats-placeholder'),
+                fileStatsContent: document.getElementById('file-stats-content'),
             };
 
             const SECTION_TITLES = {
@@ -518,11 +653,15 @@
             };
 
             const defaultButtonText = '<i class="fas fa-download mr-2"></i> Download Latest Version';
+            
+            // 💡 HARDCODED FILE SIZE (used as fallback for loading errors)
+            const HARDCODED_FILE_SIZE = 'N/A'; 
 
             const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
             // --- Game Data from Request (Parsed and Structured) ---
             const GAME_DATA = {
+                // ... (Original static data is omitted for brevity but remains implicitly the same)
                 changelog: [
                     { version: 'v1.7.0', changes: ['Multiplayer Mode has been added, letting you play and compete with friends, family, or anyone online, along with new sounds, improved visuals, and fixes for bugs and lag. And fixed some achievement logic, also topped it off with animations for victories and more.', 'Added 5 new achievements, fixed animation replay issues, and introduced a secret reward for unlocking the \'Curiosity Pays\' achievement. Improved the UI and added extra stats to the victory screen, including average performance rating, total correct and wrong answers, and more, along with various other tweaks.'] },
                     { version: 'v1.6.4', changes: ['A new Achievements section has been added to the game, featuring new music tracks and 10 additional achievements to unlock. These new additions aim to make the game even more engaging and motivate players to actively pursue and earn achievements.'] },
@@ -692,6 +831,16 @@
                 SELECTORS.downloadButton.classList.add('opacity-50', 'cursor-not-allowed');
                 SELECTORS.downloadButton.innerHTML = '<i class="fas fa-times-circle mr-2"></i> Link Error';
                 
+                // Update new stats
+                SELECTORS.fileSizeValue.textContent = HARDCODED_FILE_SIZE; // Set to hardcoded value on error
+                SELECTORS.downloadCountValue.textContent = 'N/A';
+                
+                // Hide placeholder and show static content on error
+                if (SELECTORS.fileStatsPlaceholder && SELECTORS.fileStatsContent) {
+                    SELECTORS.fileStatsPlaceholder.classList.add('hidden');
+                    SELECTORS.fileStatsContent.classList.remove('hidden');
+                }
+
                 // Disable/Update Welcome Modal on error
                 SELECTORS.welcomeDownloadButton.disabled = true;
                 SELECTORS.welcomeDownloadButton.innerHTML = '<i class="fas fa-times-circle mr-2"></i> Load Error';
@@ -721,24 +870,34 @@
                     const versionNumber = versionMatch ? versionMatch[1] : 'Unknown';
                     const authorLineMatch = data.versionInfo.match(/Author: (.*?)\s-\s(https:\/\/fillabrona\.itch\.io\/)/);
                     const authorName = authorLineMatch ? authorLineMatch[1] : 'Fillabrona';
-                    const authorUrl = authorLineMatch ? authorLineMatch[2] : 'https://fillabrona.itch.io/';
+                    const authorUrl = authorLineMatch ? authorLineMatch[2] : 'https://fillabrona.itch\.io/';
+                    
+                    // 💡 MODIFIED: Read fileSize directly from the fetched data, using HARDCODED_FILE_SIZE as a fallback
+                    const fileSize = data.fileSize || HARDCODED_FILE_SIZE; 
 
-                    SELECTORS.versionMetaDiv.innerHTML = `
-                        <p class="text-3xl font-bold text-white">${versionNumber}</p>
-                        <p class="text-white/70 text-sm">by
-                            <a href="${authorUrl}" target="_blank" class="text-link-primary hover:text-white transition duration-200 font-semibold">${authorName}</a>
-                        </p>`;
 
+                    // 1. Update Meta Data (Version, Author, File Size)
+                    SELECTORS.versionDisplay.textContent = versionNumber;
+                    SELECTORS.authorInfo.innerHTML = `by
+                        <a href="${authorUrl}" target="_blank" class="text-link-primary hover:text-white transition duration-200 font-semibold">${authorName}</a>
+                    `;
+                    // 💡 Set file size to the fetched or fallback value
+                    SELECTORS.fileSizeValue.textContent = fileSize; 
                     SELECTORS.latestVersionHeading.innerHTML = `<i class="fas fa-tag mr-3 text-2xl"></i> Latest Update`;
 
+                    // 2. Update Content Sections
                     const updateSection = data.versionInfo.substring(data.versionInfo.indexOf('--- LATEST UPDATE ---') + '--- LATEST UPDATE ---'.length).trim();
-                    // Using 'fa-feather' for Latest Update
                     SELECTORS.versionContentDiv.innerHTML = formatContentText(updateSection, 'fa-feather'); 
 
                     const roadmapSection = data.whatsNext.substring(data.whatsNext.indexOf('--- UPCOMING FEATURES ---') + '--- UPCOMING FEATURES ---'.length).trim();
-                    // Using 'circle' for Upcoming Features (Roadmap)
                     SELECTORS.whatsNextDiv.innerHTML = formatContentText(roadmapSection, 'circle');
+                    
+                    // 3. Hide placeholder and show static content
+                    SELECTORS.fileStatsPlaceholder.classList.add('hidden');
+                    SELECTORS.fileStatsContent.classList.remove('hidden');
 
+
+                    // 4. Setup Download Button
                     if (data.downloadLink) {
                         SELECTORS.downloadButton.setAttribute('data-download-url', data.downloadLink);
                         SELECTORS.downloadButton.disabled = false;
@@ -748,7 +907,6 @@
                         // Update welcome button status
                         SELECTORS.welcomeDownloadButton.classList.remove('animate-pulse');
                         SELECTORS.welcomeDownloadButton.innerHTML = `<i class="fas fa-download mr-2"></i> Download ${versionNumber}`;
-
                     } else {
                         throw new Error("Download link not found in data.");
                     }
@@ -758,11 +916,11 @@
                 }
             };
             
-            // --- Content Population Functions ---
+            // --- Content Population Functions (using static data) ---
 
             const populateChangelogSection = () => {
                 let html = '';
-                GAME_DATA.changelog.forEach((entry, index) => {
+                GAME_DATA.changelog.forEach((entry) => {
                     const changes = entry.changes.map(c => {
                         let content = c.trim();
                         content = content.charAt(0).toUpperCase() + content.slice(1);
@@ -773,11 +931,11 @@
                     if (changes.length === 2) {
                         changesContent = `
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div class="p-4 rounded-xl bg-white/5 border border-link-primary/20">
+                                <div class="p-4 rounded-xl bg-white/5 border-subtle-accent">
                                     <h5 class="text-button-primary font-bold mb-1">Update 1:</h5>
                                     ${changes[0]}
                                 </div>
-                                <div class="p-4 rounded-xl bg-white/5 border border-link-primary/20">
+                                <div class="p-4 rounded-xl bg-white/5 border-subtle-accent">
                                     <h5 class="text-button-primary font-bold mb-1">Update 2:</h5>
                                     ${changes[1]}
                                 </div>
@@ -836,7 +994,7 @@
             const populateAboutSection = () => {
                 // Tools
                 let toolsHtml = GAME_DATA.tools.map(tool => `
-                    <div class="p-4 rounded-xl card-glass border-link-primary/30">
+                    <div class="p-4 rounded-xl card-glass border-subtle-accent">
                         <h4 class="text-xl font-bold text-link-primary flex justify-between items-start">
                             <span>${tool.name}</span>
                             <span class="text-button-primary font-semibold text-lg ml-4">${tool.price}</span>
@@ -850,7 +1008,8 @@
                 // Mystery Box
                 let mysteryHtml = '<div class="space-y-4">';
                 GAME_DATA.mysteryBox.forEach(item => {
-                    const rarityClass = item.rarity.includes('Super rare') ? 'ring-2 ring-link-primary/50' : 'border-link-primary/30';
+                    // Use border-subtle-accent by default
+                    const rarityClass = item.rarity.includes('Super rare') ? 'ring-2 ring-link-primary/50' : 'border-subtle-accent';
                     mysteryHtml += `
                         <div class="p-4 rounded-xl card-glass ${rarityClass}">
                             <h4 class="text-lg font-bold text-link-primary flex justify-between items-center">
@@ -868,7 +1027,7 @@
                 let triplesHtml = '<div class="space-y-4">';
                 GAME_DATA.luckyTriples.forEach(item => {
                     triplesHtml += `
-                        <div class="p-4 rounded-xl card-glass border-link-primary/30">
+                        <div class="p-4 rounded-xl card-glass border-subtle-accent">
                             <h4 class="text-lg font-bold text-link-primary flex justify-between items-center">
                                 ${item.item} 
                                 <span class="text-sm font-normal text-button-primary">[${item.chance}]</span>
@@ -884,7 +1043,7 @@
             const populateDatabaseSection = () => {
                 // Modes
                 let modesHtml = GAME_DATA.modes.map(mode => `
-                    <div class="p-4 rounded-xl card-glass border-link-primary/30">
+                    <div class="p-4 rounded-xl card-glass border-subtle-accent">
                         <h4 class="text-xl font-bold text-button-primary mb-2 flex items-center"><i class="${mode.icon} mr-3 text-link-primary"></i> ${mode.name} Mode</h4>
                         <p class="text-white/80 text-sm">${mode.description}</p>
                     </div>
@@ -893,7 +1052,7 @@
 
                 // Difficulties
                 let difficultiesHtml = GAME_DATA.difficulties.map(diff => `
-                    <div class="p-4 rounded-xl card-glass border-link-primary/30">
+                    <div class="p-4 rounded-xl card-glass border-subtle-accent">
                         <h4 class="text-xl font-bold text-button-primary mb-1">${diff.name}</h4>
                         <p class="text-white/80 text-sm"><span class="font-bold text-link-primary">Score to Win:</span> ${diff.score}</p>
                         <p class="text-white/80 text-sm">${diff.description}</p>
@@ -903,7 +1062,7 @@
 
                 // Achievements
                 let achievementsHtml = GAME_DATA.achievements.map(ach => `
-                    <div class="p-4 rounded-xl card-glass border-link-primary/30 flex flex-col">
+                    <div class="p-4 rounded-xl card-glass border-subtle-accent flex flex-col">
                         <div class="flex items-center mb-2">
                             <i class="${ach.icon} text-link-primary mr-3 text-2xl flex-shrink-0"></i>
                             <h4 class="text-lg font-bold text-link-primary">${ach.name}</h4>
@@ -970,13 +1129,55 @@
                     SELECTORS.menuIcon.classList.remove('fa-times');
                     SELECTORS.menuIcon.classList.add('fa-bars');
                 }
-
             };
 
+            const startDownload = async (button, isWelcomeModal = false) => {
+                const downloadUrl = SELECTORS.downloadButton.getAttribute('data-download-url'); 
+                
+                if (downloadUrl && !button.disabled) {
+                    // Disable button
+                    button.disabled = true;
+                    button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Starting Download...';
+                    
+                    // IMPORTANT: Increment the download count before initiating the download
+                    await incrementDownloadCount();
+
+                    if (isWelcomeModal) hideWelcomeModal();
+
+                    setTimeout(() => {
+                        // Show modal and initiate download
+                        const versionNumber = SELECTORS.versionDisplay.textContent || 'Unknown';
+                        showDownloadModal(versionNumber);
+                        window.location.href = downloadUrl;
+                        
+                        // Re-enable button after a short delay
+                        setTimeout(() => {
+                            button.disabled = false;
+                            let newText = defaultButtonText;
+                            if (button.id === 'welcome-download-button') {
+                                newText = `<i class="fas fa-download mr-2"></i> Download ${versionNumber}`;
+                            }
+                            button.innerHTML = newText;
+                        }, 1500);
+                    }, 500);
+                }
+            };
+            
             const handleRouting = () => {
                 const hash = window.location.hash.substring(1); 
                 const params = new URLSearchParams(hash);
                 let section = params.get('section') || 'home';
+                let action = params.get('action'); 
+
+                if (action === 'download' && SELECTORS.downloadButton.getAttribute('data-download-url')) {
+                    
+                    // 1. Reset hash to remove action and prevent loop
+                    const newHash = window.location.hash.split('&').filter(p => !p.includes('action=download')).join('&');
+                    window.history.replaceState(null, null, newHash || '#section=home');
+
+                    // 2. Start the download process (which includes the Firebase increment)
+                    startDownload(SELECTORS.downloadButton); 
+                }
 
                 switchSection(section);
 
@@ -989,27 +1190,6 @@
             const setupDownloadHandler = (versionNumber) => {
                 SELECTORS.modalCloseButton.addEventListener('click', hideDownloadModal);
 
-                // Common download logic (for main button and welcome modal button)
-                const startDownload = (button, isWelcomeModal = false) => {
-                    const downloadUrl = SELECTORS.downloadButton.getAttribute('data-download-url');
-                    
-                    if (downloadUrl && !button.disabled) {
-                        button.disabled = true;
-                        button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Starting Download...';
-                        
-                        if (isWelcomeModal) hideWelcomeModal();
-
-                        setTimeout(() => {
-                            showDownloadModal(versionNumber);
-                            window.location.href = downloadUrl;
-                            setTimeout(() => {
-                                button.disabled = false;
-                                button.innerHTML = isWelcomeModal ? `<i class="fas fa-download mr-2"></i> Download ${versionNumber}` : defaultButtonText;
-                            }, 1500);
-                        }, 500);
-                    }
-                };
-                
                 // 1. Main Download Button on Home Page
                 SELECTORS.downloadButton.addEventListener('click', (e) => {
                     e.preventDefault();
@@ -1024,10 +1204,18 @@
                 
                 // 3. Continue Button in Welcome Modal
                 SELECTORS.welcomeContinueButton.addEventListener('click', hideWelcomeModal);
-
             };
 
             const initializePage = async () => {
+                // Initialize Firebase and start listening for downloads count immediately
+                // The values will be set on the hidden #download-count-value and #file-size-value elements
+                SELECTORS.downloadCountValue.textContent = 'Loading...';
+                SELECTORS.fileSizeValue.textContent = HARDCODED_FILE_SIZE;
+
+                await initializeFirebase();
+                startDownloadListener();
+
+
                 // 1. Prepare other sections
                 populateChangelogSection();
                 populateAboutSection();
@@ -1050,11 +1238,13 @@
                 // 4. Set up routing listeners and initial view
                 window.addEventListener('hashchange', handleRouting);
                 
-                if (window.location.hash.indexOf('section=') === -1) {
-                    window.location.hash = '#section=home';
+                // Check for action=download on initial load before setting default hash
+                if (window.location.hash.indexOf('action=download') !== -1 || window.location.hash.indexOf('section=') === -1) {
+                    handleRouting();
+                } else {
+                    handleRouting(); 
                 }
-                
-                handleRouting();
+
                 
                 // 5. Show Welcome Modal on load if data was successful
                 if (data) {
