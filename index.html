@@ -251,12 +251,11 @@
         text-align: center;
     }
 
-    /* Styling for the large Lottie files - INCREASED SIZE */
-    .lottie-404 {
-        width: 100%;
-        max-width: 450px; /* Increased max size */
-        height: auto;
-    }
+	.lottie-404 {
+		width: 100% !important; /* Forces the width to be 100% */
+		max-width: 300px; 
+		height: auto;
+	}
     
     /* NEW: Lottie Security Enhancement */
     /* Prevents right-click, selection, and other pointer interactions on all Lottie elements */
@@ -528,10 +527,9 @@
     
 <section id="content-404" class="hidden fixed inset-0 flex items-center justify-center z-50 p-4">
     <div class="flex flex-col items-center">
-        <dotlottie-wc id="lottie-404" class="lottie-404 mx-auto mb-8" autoplay loop
-            src="https://lottie.host/47ace394-5c3b-4f9b-b3fc-b6a2e0514288/IFwzZgHc8T.lottie"
-            style="width: 300px;">
-        </dotlottie-wc>
+		<dotlottie-wc id="lottie-404" class="lottie-404 mx-auto mb-8" autoplay loop
+			src="https://lottie.host/47ace394-5c3b-4f9b-b3fc-b6a2e0514288/IFwzZgHc8T.lottie">
+		</dotlottie-wc>
         <h3 class="text-3xl sm:text-4xl font-bold text-white mb-6 mt-[-1rem]">Page Not Found</h3>
 
         <p class="text-xl text-white/80 mb-10 max-w-sm text-center">
@@ -655,10 +653,6 @@
             const URLS = {
                 masterData: 'https://gist.githubusercontent.com/Fillabrona/5a17fe172177f74a4a65196ba1b53c50/raw/100d1cf2ecc22b85ce82c17c0cc1f187895c26fa/downloadinfo',
             };
-            
-            // Lottie file for 404 (single URL, no randomization)
-            const LOTTIE_404_URL = 'https://lottie.host/47ace394-5c3b-4f9b-b3fc-b6a2e0514288/IFwzZgHc8T.lottie';
-
 
             const SELECTORS = {
                 pageTitle: document.getElementById('page-title'),
@@ -1399,3 +1393,4 @@
 
 </body>
 </html>
+
