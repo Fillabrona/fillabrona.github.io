@@ -257,6 +257,17 @@
         max-width: 450px; /* Increased max size */
         height: auto;
     }
+    
+    /* NEW: Lottie Security Enhancement */
+    /* Prevents right-click, selection, and other pointer interactions on all Lottie elements */
+    dotlottie-wc {
+        user-select: none; /* Standard property */
+        -moz-user-select: none; /* Firefox */
+        -webkit-user-select: none; /* Safari/Chrome */
+        -ms-user-select: none; /* IE/Edge */
+        pointer-events: none; /* Disables all mouse events on the element */
+        cursor: default; /* Ensures no hover cursor appears */
+    }
 </style>
 </head>
 <body class="min-h-screen">
@@ -400,7 +411,6 @@
 
                     <div id="file-stats-wrapper" class="pt-4">
                         
-                        <!-- Placeholder shown while waiting for both Firestore count and Gist file size/link -->
                         <div id="file-stats-placeholder" class="flex justify-center space-x-8">
                             <div class="flex flex-col items-start w-24">
                                 <div class="h-3 bg-gray-600 rounded w-1/2 animate-pulse mb-1"></div>
@@ -412,7 +422,6 @@
                             </div>
                         </div>
                         
-                        <!-- Content hidden until populateHomePage runs and sets the values -->
                         <div id="file-stats-content" class="hidden flex justify-center space-x-8">
                             <div class="flex items-center">
                                 <i class="fas fa-file-archive text-white/40 text-base mr-2 flex-shrink-0"></i>
@@ -426,7 +435,6 @@
                                 <i class="fas fa-chart-line text-white/40 text-base mr-2 flex-shrink-0"></i>
                                 <div class="flex flex-col text-left">
                                     <p class="text-white/70 text-xs font-semibold leading-none">Total Downloads</p>
-                                    <!-- This element is updated in real-time by startDownloadListener -->
                                     <p id="download-count-value" class="text-white/90 font-normal text-sm leading-none pt-0.5">...</p>
                                 </div>
                             </div>
