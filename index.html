@@ -191,12 +191,19 @@
 
 .changelog-header {
     cursor: pointer;
-    padding: 1.5rem; 
+    /* REDUCED PADDING ON MOBILE */
+    padding: 1rem; 
     transition: background-color 0.3s ease-in-out; 
     user-select: none;
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+/* RESTORE PADDING ON LARGER SCREENS */
+@media (min-width: 640px) {
+    .changelog-header {
+        padding: 1.5rem;
+    }
 }
 
 .changelog-header:hover {
@@ -226,14 +233,41 @@
     background-color: rgba(255, 255, 255, 0.03); 
     border: 1px solid rgba(4, 164, 176, 0.1); 
     border-left: 5px solid #04a4b0; /* Accent border */
+    /* ADDED: Reduced mobile padding on the change blocks */
+    padding: 1rem; 
+    margin-bottom: 0.5rem;
+}
+@media (min-width: 640px) {
+    .changelog-change-block {
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+    }
 }
     
     /* 6. Mobile adjustments for overall padding and flow */
     /* Reduce padding on the main content wrapper on small screens */
-    .max-w-5xl.mx-auto.space-y-8.p-4.sm\:p-8 {
-        padding: 1rem !important; /* Forces 1rem padding on all sides */
-        padding-top: 0 !important; /* Maintain the pt-0 for the top section */
+    /* Adjusted the original block to target the spacing more effectively */
+    .main-wrapper {
+        /* Default small padding and reduced space-y */
+        padding: 1rem !important; 
+        padding-top: 0 !important; 
+        /* ADDED: Reduce spacing between sections on mobile */
+        --tw-space-y-reverse: 0;
+        margin-top: calc(1.5rem * calc(1 - var(--tw-space-y-reverse)));
+        margin-bottom: calc(1.5rem * var(--tw-space-y-reverse));
+        
     }
+    /* Restored original spacing on larger screens (sm:space-y-8) */
+    @media (min-width: 640px) {
+        .main-wrapper {
+            padding: 2rem !important; /* sm:p-8 */
+            padding-top: 0 !important; 
+            --tw-space-y-reverse: 0;
+            margin-top: calc(2rem * calc(1 - var(--tw-space-y-reverse)));
+            margin-bottom: calc(2rem * var(--tw-space-y-reverse));
+        }
+    }
+
 
     /* 7. Specific Download Button Hover */
     #download-button:hover {
@@ -272,6 +306,24 @@
         -ms-user-select: none; /* IE/Edge */
         pointer-events: none; /* Disables all mouse events on the element */
         cursor: default; /* Ensures no hover cursor appears */
+    }
+    
+    /* NEW: Mobile Font and Spacing Adjustments */
+    @media (max-width: 639px) {
+        /* Smaller font size for main text on mobile */
+        .text-lg.text-start.md\:text-justify {
+            font-size: 1.05rem; /* Slightly smaller than 1.125rem (text-lg) */
+            line-height: 1.6;
+        }
+        /* Fix the justified text issue on mobile by forcing left alignment */
+        .text-start {
+            text-align: left !important;
+        }
+        
+        /* Reduce card padding on small screens (original was p-6 sm:p-8) */
+        .card-glass.p-6.sm\:p-8 {
+            padding: 1.25rem !important; /* p-5 */
+        }
     }
 </style>
 </head>
@@ -368,7 +420,7 @@
 
     <header id="site-header" class="hero-content-wrapper">
         <div class="text-center p-8 z-10 max-w-5xl mx-auto">
-            <h1 id="hero-title" class="text-7xl sm:text-9xl font-extrabold tracking-tight text-white mb-4">
+            <h1 id="hero-title" class="text-5xl sm:text-7xl font-extrabold tracking-tight text-white mb-4">
                 Quiz for Survival
             </h1>
             <p id="hero-subtitle" class="text-xl sm:text-3xl text-link-primary font-light tracking-wider">
@@ -377,27 +429,27 @@
         </div>
     </header>
     
-    <div id="main-page-wrapper" class="max-w-5xl mx-auto space-y-8 p-4 sm:p-8 pt-0">
+    <div id="main-page-wrapper" class="max-w-5xl mx-auto space-y-6 sm:space-y-8 p-4 sm:p-8 pt-0 main-wrapper">
 
-        <main id="main-content" class="space-y-8">
+        <main id="main-content" class="space-y-6 sm:space-y-8">
 
-            <section id="content-home" class="content-section space-y-8">
+            <section id="content-home" class="content-section space-y-6 sm:space-y-8">
                 
-                <div class="card-glass p-8 sm:p-10 rounded-2xl shadow-xl space-y-6">
-                    <h2 class="text-3xl font-bold text-link-primary border-b border-link-primary/50 pb-4 flex items-center">
+                <div class="card-glass p-6 sm:p-8 rounded-2xl shadow-xl space-y-6">
+                    <h2 class="text-2xl sm:text-3xl font-bold text-link-primary border-b border-link-primary/50 pb-4 flex items-center">
                         <i class="fas fa-book-open mr-3 text-2xl"></i> About the Game
                     </h2>
-					<p class="text-white/90 leading-relaxed text-lg" style="text-align: justify;">
+                    <p class="text-white/90 leading-relaxed text-lg text-start md:text-justify">
 						<span class="font-bold text-link-primary">
 							<a href="https://fillabrona.itch.io/quiz-for-survival" target="_blank">Quiz for Survival</a>
 						</span> is an intense trivia experience that challenges your knowledge, strategy, and risk management with over 2,500 questions across categories like General Knowledge, Sports, History, Games, Geography, Language, Music, Math, and Measurements. Each round features 10 randomly selected questions with four answer choices, but only one is correct, keeping every playthrough unpredictable. Correct answers award 10 points and 5 coins, while wrong answers reduce health by 10 and cost 3 coins, adding tension and strategy to every decision. After each round, the shop opens, letting you spend coins on Health Potions, Extra Lives, Mystery Boxes, Lucky Triples, and more, to enhance your survival chances. With four gameplay modes, Normal, Gauntlet, Shopless, and Multiplayer, and five difficulty levels Unlimited, Easy, Hard, Extreme, and Unbeatable, players can tailor the challenge to their skill. The game also features 15 achievements, a top-30 leaderboard, and an in-game feedback system for feedback & suggestions. When you reach the target score, a victory screen summarizes your performance, including final score, coins, health, completion time, correct and wrong answers, and a performance rating out of 100, giving a clear picture of how well you did. Combining knowledge, risk, and strategy, Quiz for Survival is an addictive, fast-paced trivia game that tests both your skill and endurance, rewarding careful play and quick thinking alike.
 					</p>
                 </div>
 
-                <div id="latest-version-card" class="card-glass p-8 sm:p-10 rounded-2xl shadow-xl space-y-6">
+                <div id="latest-version-card" class="card-glass p-6 sm:p-8 rounded-2xl shadow-xl space-y-6">
 
                     <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-button-primary/50 pb-4">
-                        <h2 id="latest-version-heading" class="text-3xl font-bold text-button-primary flex items-center mb-2 sm:mb-0">
+                        <h2 id="latest-version-heading" class="text-2xl sm:text-3xl font-bold text-button-primary flex items-center mb-2 sm:mb-0">
                             <i class="fas fa-spinner fa-spin mr-3 text-2xl"></i> Loading Update Info...
                         </h2>
                         <div id="latest-version-meta" class="text-right flex flex-col items-end space-y-0 pt-2 sm:pt-0">
@@ -449,14 +501,14 @@
                     </div>
                     <div class="pt-6 flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-8">
                         <button id="download-button"
-                            class="w-full sm:w-auto px-12 py-4 text-xl font-bold text-main-bg uppercase transition duration-300 transform bg-link-primary rounded-xl shadow-lg hover:shadow-xl hover:bg-link-primary/90 active:scale-95 disabled:opacity-50 tracking-wider">
+                            class="w-11/12 sm:w-auto px-12 py-4 text-xl font-bold text-main-bg uppercase transition duration-300 transform bg-link-primary rounded-xl shadow-lg hover:shadow-xl hover:bg-link-primary/90 active:scale-95 disabled:opacity-50 tracking-wider">
                             <i class="fas fa-cog fa-spin mr-2"></i> Initializing...
                         </button>
                     </div>
                 </div>
 
-                <div class="card-glass p-8 sm:p-10 rounded-2xl shadow-xl space-y-6">
-                    <h2 class="text-3xl font-bold text-link-primary border-b border-link-primary/50 pb-4 flex items-center">
+                <div class="card-glass p-6 sm:p-8 rounded-2xl shadow-xl space-y-6">
+                    <h2 class="text-2xl sm:text-3xl font-bold text-link-primary border-b border-link-primary/50 pb-4 flex items-center">
                         <i class="fas fa-rocket mr-3 text-2xl"></i> Upcoming Features
                     </h2 >
                     <div id="whats-next-content" class="min-h-[100px]">
@@ -471,25 +523,25 @@
                 </div>
             </section>
 
-            <section id="content-about" class="content-section space-y-8 hidden">
-                <div class="card-glass p-8 sm:p-10 rounded-2xl shadow-xl space-y-6">
-                    <h3 class="text-3xl font-bold text-button-primary border-b border-button-primary/50 pb-3 flex items-center">
+            <section id="content-about" class="content-section space-y-6 sm:space-y-8 hidden">
+                <div class="card-glass p-6 sm:p-8 rounded-2xl shadow-xl space-y-6">
+                    <h3 class="text-2xl sm:text-3xl font-bold text-button-primary border-b border-button-primary/50 pb-3 flex items-center">
                         <i class="fas fa-toolbox mr-3 text-2xl"></i> Shop Tools
                     </h3>
-                    <div id="tools-content" class="grid md:grid-cols-2 gap-6">
+                    <div id="tools-content" class="grid md:grid-cols-2 gap-4 sm:gap-6">
                         </div>
                 </div>
 
-                <div class="card-glass p-8 sm:p-10 rounded-2xl shadow-xl space-y-6">
-                    <h3 class="text-3xl font-bold text-button-primary border-b border-button-primary/50 pb-3 flex items-center">
+                <div class="card-glass p-6 sm:p-8 rounded-2xl shadow-xl space-y-6">
+                    <h3 class="text-2xl sm:text-3xl font-bold text-button-primary border-b border-button-primary/50 pb-3 flex items-center">
                         <i class="fas fa-box-open mr-3 text-2xl"></i> Mystery Box Rewards & Mechanics
                     </h3>
                     <div id="mystery-box-content" class="space-y-4">
                         </div>
                 </div>
 
-                <div class="card-glass p-8 sm:p-10 rounded-2xl shadow-xl space-y-6">
-                    <h3 class="text-3xl font-bold text-button-primary border-b border-button-primary/50 pb-3 flex items-center">
+                <div class="card-glass p-6 sm:p-8 rounded-2xl shadow-xl space-y-6">
+                    <h3 class="text-2xl sm:text-3xl font-bold text-button-primary border-b border-button-primary/50 pb-3 flex items-center">
                         <i class="fas fa-dice-three mr-3 text-2xl"></i> Lucky Triples Rewards
                     </h3>
                     <div id="lucky-triples-content" class="space-y-4">
@@ -497,35 +549,35 @@
                 </div>
             </section>
 
-            <section id="content-changelog" class="content-section space-y-8 hidden">
+            <section id="content-changelog" class="content-section space-y-6 sm:space-y-8 hidden">
                 <div class="card-glass p-0 rounded-2xl shadow-xl overflow-hidden">
                     <div id="changelog-content">
                         </div>
                 </div>
             </section>
 
-            <section id="content-database" class="content-section space-y-8 hidden">
-                <div class="card-glass p-8 sm:p-10 rounded-2xl shadow-xl space-y-6">
-                    <h3 class="text-3xl font-bold text-button-primary border-b border-button-primary/50 pb-3 flex items-center">
+            <section id="content-database" class="content-section space-y-6 sm:space-y-8 hidden">
+                <div class="card-glass p-6 sm:p-8 rounded-2xl shadow-xl space-y-6">
+                    <h3 class="text-2xl sm:text-3xl font-bold text-button-primary border-b border-button-primary/50 pb-3 flex items-center">
                         <i class="fas fa-gamepad mr-3 text-2xl"></i> Game Modes
                     </h3>
-                    <div id="modes-content" class="grid md:grid-cols-2 gap-6">
+                    <div id="modes-content" class="grid md:grid-cols-2 gap-4 sm:gap-6">
                         </div>
                 </div>
 
-                <div class="card-glass p-8 sm:p-10 rounded-2xl shadow-xl space-y-6">
-                    <h3 class="text-3xl font-bold text-button-primary border-b border-button-primary/50 pb-3 flex items-center">
+                <div class="card-glass p-6 sm:p-8 rounded-2xl shadow-xl space-y-6">
+                    <h3 class="text-2xl sm:text-3xl font-bold text-button-primary border-b border-button-primary/50 pb-3 flex items-center">
                         <i class="fas fa-brain mr-3 text-2xl"></i> Difficulty Levels
                     </h3>
-                    <div id="difficulties-content" class="grid md:grid-cols-2 gap-6">
+                    <div id="difficulties-content" class="grid md:grid-cols-2 gap-4 sm:gap-6">
                         </div>
                 </div>
 
-                <div class="card-glass p-8 sm:p-10 rounded-2xl shadow-xl space-y-6">
-                    <h3 class="text-3xl font-bold text-button-primary border-b border-button-primary/50 pb-3 flex items-center">
+                <div class="card-glass p-6 sm:p-8 rounded-2xl shadow-xl space-y-6">
+                    <h3 class="text-2xl sm:text-3xl font-bold text-button-primary border-b border-button-primary/50 pb-3 flex items-center">
                         <i class="fas fa-trophy mr-3 text-2xl"></i> All Achievements
                     </h3>
-                    <div id="achievements-content" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div id="achievements-content" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                         </div>
                 </div>
             </section>
@@ -699,11 +751,11 @@
                 modesContent: document.getElementById('modes-content'),
                 difficultiesContent: document.getElementById('difficulties-content'),
                 achievementsContent: document.getElementById('achievements-content'),
-                
+
                 // Dynamic Hero Selectors
                 heroTitle: document.getElementById('hero-title'),
                 heroSubtitle: document.getElementById('hero-subtitle'),
-                
+
                 // Burger Menu Selectors
                 menuButton: document.getElementById('menu-button'),
                 navMenu: document.getElementById('nav-menu'),
@@ -717,18 +769,18 @@
                 authorInfo: document.getElementById('author-info'),
                 fileSizeValue: document.getElementById('file-size-value'),
                 downloadCountValue: document.getElementById('download-count-value'),
-                
+
                 // New Stat Loaders
                 fileStatsPlaceholder: document.getElementById('file-stats-placeholder'),
                 fileStatsContent: document.getElementById('file-stats-content'),
-                
+
                 // 404 Specific
                 lottie404: document.getElementById('lottie-404'),
                 homeLink404: document.getElementById('404-home-link'),
             };
-            
+
             // List of all valid content sections
-            const VALID_SECTIONS = ['home', 'about', 'changelog', 'database']; 
+            const VALID_SECTIONS = ['home', 'about', 'changelog', 'database'];
 
             const SECTION_TITLES = {
                 'home': { title: 'Quiz for Survival', subtitle: 'The ultimate trivia experience of knowledge, strategy, and survival.' },
@@ -738,14 +790,14 @@
             };
 
             const defaultButtonText = '<i class="fas fa-download mr-2"></i> Download Latest Version';
-            
+
             // 💡 HARDCODED FILE SIZE (used as fallback for loading errors)
-            const HARDCODED_FILE_SIZE = 'N/A'; 
+            const HARDCODED_FILE_SIZE = 'N/A';
 
             const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
             // --- Game Data from Request (Parsed and Structured) ---
-            const GAME_DATA = {
+            const GAME_DATA = { 
                 // ... (Original static data is omitted for brevity but remains implicitly the same)
                 changelog: [
                     { version: 'v1.7.0', changes: ['Multiplayer Mode has been added, letting you play and compete with friends, family, or anyone online, along with new sounds, improved visuals, and fixes for bugs and lag. And fixed some achievement logic, also topped it off with animations for victories and more.', 'Added 5 new achievements, fixed animation replay issues, and introduced a secret reward for unlocking the \'Curiosity Pays\' achievement. Improved the UI and added extra stats to the victory screen, including average performance rating, total correct and wrong answers, and more, along with various other tweaks.'] },
@@ -770,7 +822,7 @@
                     { version: 'v1.2.0', changes: ['New font implemented, leaderboard added, UI and in-game stats fixed, and total coins display updated in the shop'] },
                     { version: 'v1.1.0', changes: ['Resolved bugs, added new features, and introduced new tools for use'] },
                     { version: 'v1.0.0', changes: ['The game’s opening sequence, featuring all core functions and visual elements'] },
-                ],
+                ], 
                 tools: [
                     { name: 'Health Potion', price: '10 Coins', description: 'Restores 25 Health points', cooldown: 'Null' },
                     { name: 'Coin Boost', price: '15 Coins', description: 'Gains 10 extra coins (Not a scam)', cooldown: 'Null' },
