@@ -184,43 +184,49 @@
     }
 
     /* 5. Smoother Changelog Accordion and Rotating Arrow (REVISED FOR SMOOTHNESS) */
-    .changelog-header {
-        cursor: pointer;
-        padding: 1.5rem; 
-        transition: background-color 0.3s ease-in-out; /* Slightly faster color change */
-        border-bottom: 1px solid rgba(4, 164, 176, 0.1); 
-        user-select: none;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-    .changelog-header:hover {
-        background-color: rgba(255, 255, 255, 0.07); /* Slightly more noticeable hover */
-    }
+/* 5. Smoother Changelog Accordion (REVISED FOR SMOOTHNESS) */
+.changelog-entry {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05); 
+}
 
-    .changelog-header i {
-        transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-        margin-left: 1rem; 
-    }
-    .changelog-header i.rotated {
-        transform: rotate(180deg);
-    }
-    
-    .changelog-content {
-        max-height: 0;
-        overflow: hidden;
-        /* Optimized transition for snappier, smoother feel */
-        transition: max-height 0.6s cubic-bezier(0.65, 0, 0.35, 1), 
-                    padding 0.6s cubic-bezier(0.65, 0, 0.35, 1), 
-                    opacity 0.3s ease-in;
-        opacity: 0;
-        padding: 0 1.5rem;
-    }
-    .changelog-content.open {
-        max-height: 1200px; /* Increased height for reliable expansion */
-        opacity: 1;
-        padding: 1.5rem;
-    }
+.changelog-header {
+    cursor: pointer;
+    padding: 1.5rem; 
+    transition: background-color 0.3s ease-in-out; 
+    user-select: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.changelog-header:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.changelog-header i {
+    /* Updated default color to #008C8C (button-primary) */
+    color: #008C8C; 
+    transition: transform 0.3s ease;
+}
+
+.changelog-header i.rotated {
+    /* Updated rotated color to #008C8C */
+    transform: rotate(180deg);
+    color: #008C8C; /* Changed from #00c7d4 to #008C8C */
+}
+
+.changelog-content {
+    /* CRITICAL for smooth slide effect */
+    transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden; 
+}
+
+/* Polishing the change blocks inside */
+.changelog-change-block {
+    background-color: rgba(255, 255, 255, 0.03); 
+    border: 1px solid rgba(4, 164, 176, 0.1); 
+    border-left: 5px solid #04a4b0; /* Accent border */
+}
     
     /* 6. Mobile adjustments for overall padding and flow */
     /* Reduce padding on the main content wrapper on small screens */
@@ -1005,78 +1011,83 @@
             
             // --- Content Population Functions (using static data) ---
 
-            const populateChangelogSection = () => {
-                let html = '';
-                GAME_DATA.changelog.forEach((entry) => {
-                    const changes = entry.changes.map(c => {
-                        let content = c.trim();
-                        content = content.charAt(0).toUpperCase() + content.slice(1);
-                        return `<div class="text-white/80 text-lg leading-relaxed">${content}</div>`;
-                    });
-                    
-                    let changesContent;
-                    if (changes.length === 2) {
-                        changesContent = `
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div class="p-4 rounded-xl bg-white/5 border-subtle-accent">
-                                    <h5 class="text-button-primary font-bold mb-1">Update 1:</h5>
-                                    ${changes[0]}
-                                </div>
-                                <div class="p-4 rounded-xl bg-white/5 border-subtle-accent">
-                                    <h5 class="text-button-primary font-bold mb-1">Update 2:</h5>
-                                    ${changes[1]}
-                                </div>
-                            </div>
-                        `;
-                    } else {
-                        changesContent = `<div class="space-y-4">${changes.join('')}</div>`;
-                    }
-                        
-                    html += `
-                        <div class="changelog-entry">
-                            <div class="changelog-header flex justify-between items-center text-xl font-bold text-link-primary">
-                                <span class="hover:text-white transition duration-200">${entry.version}</span>
-                                <i class="fas fa-chevron-down text-lg text-link-primary/70"></i>
-                            </div>
-                            <div class="changelog-content">
-                                ${changesContent}
-                            </div>
-                        </div>
-                    `;
-                });
-                
-                SELECTORS.contentChangelog.querySelector('#changelog-content').innerHTML = html;
-                
-                document.querySelectorAll('.changelog-header').forEach(header => {
-                    header.addEventListener('click', () => toggleChangelog(header));
-                });
-            };
+			const populateChangelogSection = () => {
+				let html = '';
+				
+				GAME_DATA.changelog.forEach((entry) => {
+					// Date formatting logic REMOVED
 
-            const toggleChangelog = (header) => {
-                const content = header.nextElementSibling;
-                const icon = header.querySelector('.fas');
+					const changes = entry.changes.map((c, index) => {
+						let content = c.trim();
+						content = content.charAt(0).toUpperCase() + content.slice(1);
+						
+						// Use the desired display for individual change blocks
+						return `
+							<div class="changelog-change-block p-4 sm:p-6 rounded-lg shadow-md">
+								<h5 class="text-link-primary font-bold mb-1">${entry.changes.length > 1 ? `Update ${index + 1}:` : 'Update:'}</h5>
+								<div class="text-white/80 text-lg leading-relaxed">${content}</div>
+							</div>
+						`;
+					});
+					
+					const changesContent = `<div class="space-y-4">${changes.join('')}</div>`;
+						
+					html += `
+						<div class="changelog-entry">
+							<div class="changelog-header flex justify-between items-center transition-colors duration-300">
+								<div class="flex flex-col sm:flex-row sm:items-baseline">
+									<span class="text-button-primary text-xl font-bold mr-4">${entry.version}</span>
+								</div>
+								<i class="fas fa-chevron-down text-xl text-link-primary transition-transform duration-300"></i>
+							</div>
+							
+							<div class="changelog-content overflow-hidden" style="max-height: 0;">
+								<div class="p-4 sm:p-6 pb-8">
+									${changesContent}
+								</div>
+							</div>
+						</div>
+					`;
+				});
+				
+				SELECTORS.contentChangelog.querySelector('#changelog-content').innerHTML = html;
+				
+				// Attach the new toggle function to the headers
+				document.querySelectorAll('.changelog-header').forEach(header => {
+					header.addEventListener('click', () => toggleChangelog(header));
+				});
+			};
 
-                document.querySelectorAll('.changelog-content.open').forEach(openContent => {
-                    if (openContent !== content) {
-                        openContent.classList.remove('open');
-                        const openHeader = openContent.previousElementSibling;
-                        openHeader.style.backgroundColor = 'transparent'; 
-                        const openIcon = openHeader.querySelector('.fas');
-                        if(openIcon) openIcon.classList.remove('rotated'); 
-                    }
-                });
+			const toggleChangelog = (header) => {
+				const entry = header.closest('.changelog-entry');
+				const content = entry.querySelector('.changelog-content');
+				const icon = header.querySelector('i');
 
-                if (content.classList.contains('open')) {
-                    content.classList.remove('open');
-                    icon.classList.remove('rotated');
-                    header.style.backgroundColor = 'transparent'; 
-                } else {
-                    content.classList.add('open');
-                    icon.classList.add('rotated');
-                    header.style.backgroundColor = 'rgba(4, 164, 176, 0.1)'; 
-                }
-            };
+				// Check if currently open
+				const isOpen = content.classList.contains('open');
 
+				// Close all other open entries for a clean look 
+				document.querySelectorAll('.changelog-content.open').forEach(openContent => {
+					if (openContent !== content) {
+						openContent.style.maxHeight = '0';
+						openContent.classList.remove('open');
+						openContent.closest('.changelog-entry').querySelector('i').classList.remove('rotated');
+					}
+				});
+
+				if (isOpen) {
+					// CLOSE
+					content.style.maxHeight = '0';
+					content.classList.remove('open');
+					icon.classList.remove('rotated');
+				} else {
+					// OPEN
+					// Set max-height to the content's scroll height for a smooth animation
+					content.style.maxHeight = content.scrollHeight + 50 + 'px'; // +50px buffer
+					content.classList.add('open');
+					icon.classList.add('rotated');
+				}
+			};
 
             const populateAboutSection = () => {
                 // Tools
@@ -1371,7 +1382,6 @@
 
                 
                 // 5. Show Welcome Modal on load if data was successful AND not an auto-download request
-                // ⭐ MODIFIED LOGIC HERE: Skip the modal if 'action=download' is present.
                 if (data && !isAutoDownloadRequest) {
                     await delay(300); 
                     showWelcomeModal(versionNumber);
@@ -1393,4 +1403,5 @@
 
 </body>
 </html>
+
 
