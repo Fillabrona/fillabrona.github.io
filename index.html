@@ -673,16 +673,25 @@
         const startDownloadListener = () => {
             if (!downloadCounterRef) return;
 
+			
+			const abbreviateNumber = (num) => {
+				if (num === null || num === undefined) { return '0'; }
+				return new Intl.NumberFormat('en-US', {
+					notation: 'compact',
+					maximumFractionDigits: 1
+				}).format(num);
+			};
+
             // FIX: This listener now runs immediately and updates the count value regardless 
             // of the placeholder status. The placeholder is hidden once the main Gist data loads.
-            onSnapshot(downloadCounterRef, (doc) => {
-                const count = doc.exists() ? doc.data().count : 0;
-                // Update the visible counter value directly
-                document.getElementById('download-count-value').textContent = count.toLocaleString();
-            }, (error) => {
-                console.error("Error listening to download count:", error);
-                document.getElementById('download-count-value').textContent = 'Error';
-            });
+			onSnapshot(downloadCounterRef, (doc) => {
+				const count = doc.exists() ? doc.data().count : 0;
+				// Update the visible counter value directly
+				document.getElementById('download-count-value').textContent = abbreviateNumber(count); // <-- Modified line (Step 2)
+			}, (error) => {
+				console.error("Error listening to download count:", error);
+				document.getElementById('download-count-value').textContent = 'Error';
+			});
         };
 
         // 2. Increment the download count transactionally
