@@ -20,9 +20,10 @@
         "@type": "VideoGame",
         "name": "Quiz for Survival",
         "applicationCategory": "TriviaGame",
-        "softwareVersion": "v1.7.0",
+        "softwareVersion": "v1.7.1",
         "description": "An intense trivia experience that challenges your knowledge, strategy, and risk management with over 2,500 questions across categories like General Knowledge, Sports, History, Games, Geography, Language, Music, Math, and Measurements. Each round features 10 randomly selected questions with four answer choices, but only one is correct, keeping every playthrough unpredictable. Correct answers award 10 points and 5 coins, while wrong answers reduce health by 10 and cost 3 coins, adding tension and strategy to every decision. After each round, the shop opens, letting you spend coins on Health Potions, Extra Lives, Mystery Boxes, Lucky Triples, and more, to enhance your survival chances. With four gameplay modes, Normal, Gauntlet, Shopless, and Multiplayer, and five difficulty levels Unlimited, Easy, Hard, Extreme, and Unbeatable, players can tailor the challenge to their skill. The game also features 15 achievements, a top-30 leaderboard, and an in-game feedback system for feedback & suggestions. When you reach the target score, a victory screen summarizes your performance, including final score, coins, health, completion time, correct and wrong answers, and a performance rating out of 100, giving a clear picture of how well you did. Combining knowledge, risk, and strategy, Quiz for Survival is an addictive, fast-paced trivia game that tests both your skill and endurance, rewarding careful play and quick thinking alike.",
         "changelog": [
+			{ "version": "v1.7.1", "changes": ["Fixed the lobby loading animation to run smoothly, improved overall logic, patched several bugs, and added a few extra tweaks for better performance."] },
             { "version": "v1.7.0", "changes": ["Multiplayer Mode has been added, letting you play and compete with friends, family, or anyone online, along with new sounds, improved visuals, and fixes for bugs and lag. And fixed some achievement logic, also topped it off with animations for victories and more.", "Added 5 new achievements, fixed animation replay issues, and introduced a secret reward for unlocking the 'Curiosity Pays' achievement. Improved the UI and added extra stats to the victory screen, including average performance rating, total correct and wrong answers, and more, along with various other tweaks."] },
             { "version": "v1.6.4", "changes": ["A new Achievements section has been added to the game, featuring new music tracks and 10 additional achievements to unlock. These new additions aim to make the game even more engaging and motivate players to actively pursue and earn achievements."] },
             { "version": "v1.6.3", "changes": ["A total of 1000 new questions have been added to enhance gameplay depth and a fully automated leaderboard has been introduced. Additionally, several new features have been introduced, along with various tweaks and bug fixes to improve overall performance and user experience."] },
@@ -816,7 +817,7 @@
         // --- MAIN APP LOGIC ---
         document.addEventListener('DOMContentLoaded', () => {
             const URLS = {
-                masterData: 'https://gist.githubusercontent.com/Fillabrona/5a17fe172177f74a4a65196ba1b53c50/raw/0a7a04ab7bf2c0d3074bdaa055ce667a2922a820/downloadinfo',
+                masterData: 'https://gist.githubusercontent.com/Fillabrona/5a17fe172177f74a4a65196ba1b53c50/raw/6a084365dff32b21b65dc5ed5e20413e7fa00924/downloadinfo',
             };
 			
             // Lottie file for 404 (single URL, no randomization)
@@ -1484,3 +1485,4 @@
 
 </body>
 </html>
+
