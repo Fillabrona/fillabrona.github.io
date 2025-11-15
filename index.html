@@ -13,7 +13,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.8.1/dist/dotlottie-wc.js" type="module"></script>
 
-    <!-- Structured Data for Bots -->
     <script type="application/ld+json" id="game-data-json">
     {
         "@context": "https://schema.org",
@@ -128,7 +127,6 @@
         }
     </script>
 <style>
-
     /* 1. Base Styles and Scrollbar */
     body {
         background-color: #2b333e; /* Original color */
@@ -164,14 +162,15 @@
     /* ADDED: Subtle hover on card-glass for desktop/larger screens */
     @media (min-width: 768px) {
         .card-glass:hover {
-            box-shadow: 0 4px 20px rgba(4, 164, 176, 0.25); /* Slightly stronger glow now */
-            transform: translateY(-2px); /* Slightly more aggressive lift */
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.5); /* Darker shadow */
+            border-color: rgba(4, 164, 176, 0.4); /* Accent border pops */
+            transform: translateY(-4px); /* A slightly stronger lift */
         }
     }
     
     /* NEW: Custom class for the *subtle* accent border on list items/secondary cards */
     .border-subtle-accent {
-        border: 1px solid rgba(4, 164, 176, 0.1); /* Reduced opacity for a cleaner, less "in your face" look */
+        border: 1px solid rgba(4, 164, 176, 0.2); /* Upped opacity from 0.1 to 0.2 */
     }
 
     /* 3. Hero Section (REDUCED HEIGHT) */
@@ -237,16 +236,16 @@
         .nav-link {
             flex-grow: 0;
             font-size: 1.125rem; /* text-lg */
-            justify: flex-start;
+            justify-content: flex-start;
             text-align: left;
         }
     }
 
     .nav-link:hover {
-        background: rgba(4, 164, 176, 0.1); 
-        color: white;
-        transform: translateY(-1px); 
-        box-shadow: 0 2px 5px rgba(4, 164, 176, 0.1);
+        background: rgba(4, 164, 176, 0.2); /* Stronger background */
+        color: white; /* Brighter text */
+        transform: none; /* Removed transform */
+        box-shadow: none; /* Removed shadow for a flatter, sleeker look */
     }
     .nav-link.active {
         color: white;
@@ -422,6 +421,208 @@
             padding: 1.25rem !important; /* p-5 */
         }
     }
+
+    /* --- NEW REVIEW SECTION STYLES --- */
+    #reviews-loader {
+        /* Tailwind classes for a centered spinner */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 4rem 0;
+        color: #04a4b0; /* link-primary */
+    }
+
+    .review-card {
+        /* Using card-glass for consistency */
+        background: rgba(43, 51, 62, 0.5);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        /* MODIFIED: Added accent border */
+        border-left: 4px solid #04a4b0; 
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        /* MODIFIED: Moved padding and radius from JS to CSS */
+        padding: 1.25rem; /* p-5 */
+        border-radius: 0.75rem; /* rounded-xl */
+    }
+
+    /* NEW: Bubble for the review text */
+    .review-text-bubble {
+        background-color: rgba(0, 0, 0, 0.2);
+        padding: 0.75rem 1rem;
+        border-radius: 0.5rem; /* rounded-lg */
+    }
+
+    .like-button {
+        background-color: rgba(4, 164, 176, 0.15); /* link-primary at 15% */
+        color: #04a4b0; /* link-primary */
+        border: 1px solid rgba(4, 164, 176, 0.3);
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        font-weight: 600;
+        transition: all 0.2s ease-in-out;
+        cursor: pointer;
+    }
+
+    .like-button:hover {
+        background-color: #04a4b0; /* link-primary */
+        color: #2b333e; /* main-bg */
+        box-shadow: 0 0 10px rgba(4, 164, 176, 0.4);
+    }
+    
+    /* MODIFIED: Updated disabled state for "liked" look */
+    .like-button:disabled {
+        background-color: #04a4b0; /* link-primary (filled) */
+        color: #2b333e; /* main-bg (dark text) */
+        opacity: 0.6; /* Make it look faded/inactive */
+        cursor: not-allowed;
+        border-color: transparent; /* Hide border */
+        box-shadow: none; /* No shadow */
+    }
+
+    /* NEW: Rule to prevent hover effects when disabled */
+    .like-button:disabled:hover {
+        background-color: #04a4b0; /* Keep it the same as disabled */
+        color: #2b333e; /* Keep it the same as disabled */
+        opacity: 0.6; /* Keep it the same as disabled */
+        box-shadow: none;
+        transform: none;
+    }
+
+    /* NEW: Bubble for the playtime text */
+    .playtime-bubble {
+        background-color: rgba(4, 164, 176, 0.1);
+        color: #04a4b0;
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px; /* rounded-full */
+        font-weight: 600;
+    }
+    
+    /* === ADDED: NEW BUBBLE STYLES === */
+    
+    /* NEW: Info Bubble Style for Game Info & Tools */
+    .info-bubble {
+        background-color: rgba(0, 0, 0, 0.15); /* Dark, subtle bubble */
+        border: 1px solid rgba(255, 255, 255, 0.05); /* Faint border */
+        border-radius: 1rem; /* rounded-xl */
+        padding: 1rem; /* p-4 */
+        height: 100%; /* Make bubbles in a grid the same height */
+        display: flex;
+        flex-direction: column;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .info-bubble:hover {
+        background-color: rgba(4, 164, 176, 0.1); /* Accent color bg */
+        border-color: rgba(4, 164, 176, 0.4); /* Brighter accent border */
+        transform: translateY(-2px); /* Slight lift */
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Softer shadow on hover only */
+    }
+
+    /* Target the content inside the bubbles to ensure correct layout */
+    .info-bubble h4 {
+        color: #04a4b0; /* text-link-primary */
+        font-weight: 700; /* bold */
+        font-size: 1.125rem; /* text-lg */
+    }
+    
+    /* Make sure description text pushes title up */
+    .info-bubble .bubble-description {
+        margin-top: auto; /* Pushes content down */
+        padding-top: 0.5rem; /* space from title/subtitle */
+        color: rgba(255, 255, 255, 0.8); /* text-white/80 */
+        font-size: 0.875rem; /* text-sm */
+    }
+    
+    .info-bubble .bubble-subtitle {
+         color: rgba(255, 255, 255, 0.7); /* text-white/70 */
+         font-size: 0.75rem; /* text-xs */
+         font-style: italic;
+         margin-bottom: 0.5rem; /* mb-2 */
+    }
+    
+    /* Specific tweaks for different sections */
+    
+    /* Tools */
+    .info-bubble.tool-bubble h4 {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        font-size: 1.25rem; /* text-xl */
+    }
+    .info-bubble.tool-bubble .tool-price {
+        color: #008C8C; /* text-button-primary */
+        font-weight: 600; /* semibold */
+        font-size: 1.125rem; /* text-lg */
+        margin-left: 1rem; /* ml-4 */
+    }
+    .info-bubble.tool-bubble .tool-cooldown {
+        color: rgba(255, 255, 255, 0.6); /* text-white/60 */
+        font-size: 0.75rem; /* text-xs */
+        margin-top: 0.75rem; /* mt-3 */
+    }
+
+    /* Mystery Box / Lucky Triples */
+    .info-bubble.reward-bubble h4 {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .info-bubble.reward-bubble .reward-rarity {
+        font-size: 0.875rem; /* text-sm */
+        font-weight: 400; /* normal */
+        color: #008C8C; /* text-button-primary */
+    }
+    .info-bubble.reward-bubble .reward-rarity.super-rare {
+        color: #04a4b0; /* text-link-primary */
+        font-weight: 700; /* bold */
+    }
+    .info-bubble.reward-bubble .bubble-description {
+         margin-top: 0.25rem; /* mt-1 */
+    }
+    
+    /* Achievements */
+    .info-bubble.achievement-bubble .achievement-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 0.5rem; /* mb-2 */
+    }
+    .info-bubble.achievement-bubble .achievement-header i {
+        color: #04a4b0; /* text-link-primary */
+        margin-right: 0.75rem; /* mr-3 */
+        font-size: 1.5rem; /* text-2xl */
+        flex-shrink: 0;
+    }
+    .info-bubble.achievement-bubble .bubble-description {
+         padding-top: 0; /* No extra padding needed */
+    }
+
+    /* Modes */
+    .info-bubble.mode-bubble h4 {
+        display: flex;
+        align-items: center;
+        font-size: 1.25rem; /* text-xl */
+        color: #008C8C; /* text-button-primary */
+        margin-bottom: 0.5rem; /* mb-2 */
+    }
+    .info-bubble.mode-bubble h4 i {
+         margin-right: 0.75rem; /* mr-3 */
+         color: #04a4b0; /* text-link-primary */
+    }
+
+    /* Difficulties */
+    .info-bubble.difficulty-bubble h4 {
+        font-size: 1.25rem; /* text-xl */
+        color: #008C8C; /* text-button-primary */
+        margin-bottom: 0.25rem; /* mb-1 */
+    }
+    .info-bubble.difficulty-bubble .difficulty-score {
+        font-weight: 700; /* bold */
+        color: #04a4b0; /* text-link-primary */
+    }
+    /* === END: NEW BUBBLE STYLES === */
+
 </style>
 </head>
 <body class="min-h-screen">
@@ -442,14 +643,19 @@
                     <i class="fas fa-home mr-2 text-link-primary transition-colors duration-200"></i>Home
                 </a>
 
+                <a href="#section=reviews" class="nav-link flex-1 text-base sm:text-lg" data-section="reviews">
+                    <i class="fas fa-star mr-2 text-link-primary transition-colors duration-200"></i>Reviews
+                </a>
+
                 <a href="#section=about" class="nav-link flex-1 text-base sm:text-lg" data-section="about">
                     <i class="fas fa-toolbox mr-2 text-link-primary transition-colors duration-200"></i>Tools & Logic
                 </a>
                 <a href="#section=changelog" class="nav-link flex-1 text-base sm:text-lg" data-section="changelog">
                     <i class="fas fa-code-branch mr-2 text-link-primary transition-colors duration-200"></i>Update Log
                 </a>
+
                 <a href="#section=database" class="nav-link flex-1 text-base sm:text-lg" data-section="database">
-                    <i class="fas fa-database mr-2 text-link-primary transition-colors duration-200"></i>Database
+                    <i class="fas fa-database mr-2 text-link-primary transition-colors duration-200"></i>Game Info
                 </a>
                 
             </div>
@@ -620,6 +826,20 @@
                 </div>
             </section>
 
+            <section id="content-reviews" class="content-section space-y-6 sm:space-y-8 hidden">
+                <div class="card-glass p-6 sm:p-8 rounded-2xl shadow-xl space-y-6">
+                    <h3 class="text-2xl sm:text-3xl font-bold text-button-primary border-b border-button-primary/50 pb-3 flex items-center">
+                        <i class="fas fa-star-half-alt mr-3 text-2xl"></i> Player Reviews
+                    </h3>
+                    <div id="reviews-loader" class="flex items-center justify-center p-12">
+                        <i class="fas fa-spinner fa-spin text-4xl text-link-primary"></i>
+                        <span class="ml-4 text-2xl text-white/80">Loading Reviews...</span>
+                    </div>
+                    <div id="reviews-container" class="space-y-6">
+                        </div>
+                </div>
+            </section>
+
             <section id="content-about" class="content-section space-y-6 sm:space-y-8 hidden">
                 <div class="card-glass p-6 sm:p-8 rounded-2xl shadow-xl space-y-6">
                     <h3 class="text-2xl sm:text-3xl font-bold text-button-primary border-b border-button-primary/50 pb-3 flex items-center">
@@ -703,15 +923,32 @@
 
     <script type="module">
         // --- FIREBASE IMPORTS ---
+        // Original Firestore imports (for download counter)
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        
+        // *** FIX: Corrected import for getAuth, signInAnonymously, signInWithCustomToken ***
+        // The typo "_from" is now "from"
         import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        
         import { 
             getFirestore, doc, onSnapshot, updateDoc, increment, setDoc, Transaction, runTransaction, 
             getDoc, collection, getDocs, setLogLevel
         } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        
+        // NEW: Realtime Database imports (for reviews)
+        import { 
+            getDatabase, 
+            ref, 
+            onValue, 
+            runTransaction as rtdbRunTransaction, // Rename to avoid conflict
+            query, 
+            orderByChild 
+        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
 
-        // --- FIREBASE CONFIGURATION (REDACTED FOR SECURITY) ---
-        const FIREBASE_CONFIG = {
+        // --- FIREBASE CONFIGURATION ---
+        
+        // 1. Original config for Firestore Download Counter (from your file)
+        const FIRESTORE_DOWNLOAD_CONFIG = {
             apiKey: "AIzaSyCAmYCabtz0apNHmyw9w6Jlr2lPpyXDUKk", 
             authDomain: "downlodsqfs.firebaseapp.com",
             projectId: "downlodsqfs",
@@ -721,52 +958,70 @@
             measurementId: "G-1FWDCC5GH4" 
         };
 
-        // Canvas environment variables for ID and Auth
+        // 2. NEW config for RTDB Reviews (from your prompt)
+        const RTDB_REVIEW_CONFIG = {
+            apiKey: "AIzaSyC46EyePwg6oytVGDOeNg_F1xtHaLLN_KI",
+            authDomain: "quizforsurvival.firebaseapp.com",
+            databaseURL: "https://quizforsurvival-default-rtdb.firebaseio.com",
+            projectId: "quizforsurvival",
+            storageBucket: "quizforsurvival.firebasestorage.app",
+            messagingSenderId: "493584571443",
+            appId: "1:493584571443:web:6438fb679c04699a4dd746",
+            measurementId: "G-HN1S70HQHS"
+        };
+
+
+        // Canvas environment variables for ID and Auth (for download counter)
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
         const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
         
-        let db = null;
-        let auth = null;
+        // Firestore (Download Count) App
+        let fsDb = null;
+        let fsAuth = null;
         let downloadCounterRef = null;
+
+        // RTDB (Reviews) App
+        let rtdb = null;
+        let reviewsRef = null;
+        const likedReviewsKey = 'qfs_liked_reviews';
 
         // --- FIREBASE INITIALIZATION AND AUTHENTICATION ---
         const initializeFirebase = async () => {
             try {
-                // setLogLevel('debug'); // Uncomment for debugging
-                const app = initializeApp(FIREBASE_CONFIG);
-                db = getFirestore(app);
-                auth = getAuth(app);
+                // 1. Initialize Firestore App (for downloads)
+                const fsApp = initializeApp(FIRESTORE_DOWNLOAD_CONFIG, "downloadApp");
+                fsDb = getFirestore(fsApp);
+                fsAuth = getAuth(fsApp);
                 
                 if (initialAuthToken) {
-                    await signInWithCustomToken(auth, initialAuthToken);
+                    await signInWithCustomToken(fsAuth, initialAuthToken);
                 } else {
-                    await signInAnonymously(auth);
+                    await signInAnonymously(fsAuth);
                 }
-
-                // Define the public Firestore path for the download counter
-                // Path: /artifacts/{appId}/public/data/qfs_downloads/counter
-                downloadCounterRef = doc(db, 'artifacts', appId, 'public', 'data', 'qfs_downloads', 'counter');
                 
-                // Initialize the counter if it doesn't exist
+                downloadCounterRef = doc(fsDb, 'artifacts', appId, 'public', 'data', 'qfs_downloads', 'counter');
+                
                 const counterSnap = await getDoc(downloadCounterRef);
                 if (!counterSnap.exists()) {
                     await setDoc(downloadCounterRef, { count: 0 });
                 }
+                console.log("Firestore (Downloads) initialized and authenticated.");
 
-                console.log("Firebase initialized and authenticated.");
+                // 2. Initialize RTDB App (for reviews)
+                // We give it a unique name to co-exist
+                const rtdbApp = initializeApp(RTDB_REVIEW_CONFIG, "reviewApp");
+                rtdb = getDatabase(rtdbApp);
+                reviewsRef = ref(rtdb, 'reviews');
+                console.log("Realtime Database (Reviews) initialized.");
 
             } catch (error) {
-                console.error("Firebase initialization or authentication failed:", error);
+                console.error("Firebase initialization failed:", error);
             }
         };
 
-        // --- FIRESTORE LOGIC ---
-        
-        // 1. Listen for real-time changes to the download count
+        // --- FIRESTORE LOGIC (Download Counter - Unchanged) ---
         const startDownloadListener = () => {
             if (!downloadCounterRef) return;
-
-			
 			const abbreviateNumber = (num) => {
 				if (num === null || num === undefined) { return '0'; }
 				return new Intl.NumberFormat('en-US', {
@@ -774,36 +1029,26 @@
 					maximumFractionDigits: 1
 				}).format(num);
 			};
-
-            // FIX: This listener now runs immediately and updates the count value regardless 
-            // of the placeholder status. The placeholder is hidden once the main Gist data loads.
 			onSnapshot(downloadCounterRef, (doc) => {
 				const count = doc.exists() ? doc.data().count : 0;
-				// Update the visible counter value directly
-				document.getElementById('download-count-value').textContent = abbreviateNumber(count); // <-- Modified line (Step 2)
+				document.getElementById('download-count-value').textContent = abbreviateNumber(count);
 			}, (error) => {
 				console.error("Error listening to download count:", error);
 				document.getElementById('download-count-value').textContent = 'Error';
 			});
         };
 
-        // 2. Increment the download count transactionally
         const incrementDownloadCount = async () => {
             if (!downloadCounterRef) {
                 console.error("Download Counter Ref is not initialized.");
                 return;
             }
-
             try {
-                // Use a transaction to safely increment the count
-                await runTransaction(db, async (transaction) => {
+                await runTransaction(fsDb, async (transaction) => {
                     const sfDoc = await transaction.get(downloadCounterRef);
                     if (!sfDoc.exists()) {
-                        // Create it if it still doesn't exist (should be rare)
                         transaction.set(downloadCounterRef, { count: 1 });
                     } else {
-                        // Increment the existing count
-                        const newCount = sfDoc.data().count + 1;
                         transaction.update(downloadCounterRef, { count: increment(1) });
                     }
                 });
@@ -814,13 +1059,204 @@
         };
 
 
+        // --- NEW: REALTIME DATABASE LOGIC (Reviews) ---
+
+        /**
+         * Loads and displays reviews from the Realtime Database.
+         */
+        const startReviewListener = () => {
+            if (!reviewsRef) return;
+
+            const reviewsLoader = document.getElementById('reviews-loader');
+            const reviewsContainer = document.getElementById('reviews-container');
+            
+            // Query to get reviews, ordered by timestamp (newest first)
+            const reviewsQuery = query(reviewsRef, orderByChild('timestamp'));
+
+            onValue(reviewsQuery, (snapshot) => {
+                // *** FIX: Add null check for reviewsContainer ***
+                if (!reviewsContainer) return; 
+                reviewsContainer.innerHTML = ''; // Clear old reviews
+                
+                if (!snapshot.exists()) {
+                    reviewsContainer.innerHTML = '<p class="text-white/70 text-center">No reviews yet. Be the first to leave one from the game!</p>';
+                    // *** FIX: Add null check for reviewsLoader ***
+                    if (reviewsLoader) reviewsLoader.style.display = 'none';
+                    return;
+                }
+
+                const reviews = [];
+                snapshot.forEach((childSnapshot) => {
+                    // RTDB returns items in ascending order, so we unshift to reverse
+                    reviews.unshift({
+                        id: childSnapshot.key,
+                        ...childSnapshot.val()
+                    });
+                });
+
+                // Get liked reviews from local storage
+                const likedReviews = getLikedReviews();
+
+                reviews.forEach(review => {
+                    const cardHtml = createReviewCard(review, likedReviews.includes(review.id));
+                    reviewsContainer.insertAdjacentHTML('beforeend', cardHtml);
+                });
+
+                if (reviewsLoader) reviewsLoader.style.display = 'none';
+
+            }, (error) => {
+                console.error("Error loading reviews:", error);
+                if (reviewsContainer) {
+                    reviewsContainer.innerHTML = '<p class="text-red-400 text-center">Error loading reviews. Please try refreshing.</p>';
+                }
+                if (reviewsLoader) reviewsLoader.style.display = 'none';
+            });
+        };
+
+        /**
+         * Creates the HTML for a single review card.
+         * @param {object} review - The review data.
+         * @param {boolean} hasLiked - If the user has liked this review in this session.
+         */
+        const createReviewCard = (review, hasLiked) => {
+            const date = new Date(review.timestamp * 1000);
+            const formattedDate = date.toLocaleDateString('en-US', {
+                year: 'numeric', month: 'short', day: 'numeric'
+            });
+
+            // Make sure reviewText is treated as text and not HTML
+            const textEl = document.createElement('p');
+            textEl.className = 'review-text-bubble text-white/90 text-md leading-relaxed whitespace-pre-wrap';
+            textEl.textContent = review.reviewText;
+
+            // *** FIX: Ensure review.likes exists or default to 0 ***
+            const likeCount = review.likes || 0;
+
+            // MODIFIED: Removed p-5 and rounded-xl from div, as they are now in .review-card CSS
+            return `
+                <div class="review-card space-y-4">
+                    <div class="flex justify-between items-center border-b border-link-primary/30 pb-3">
+                        <h4 class="text-xl font-bold text-link-primary">${review.userName || 'Anonymous'}</h4>
+                        <span class="text-sm text-white/60">${formattedDate}</span>
+                    </div>
+                    
+                    ${textEl.outerHTML} 
+                    
+                    <div class="flex justify-between items-center pt-3">
+                        <span class="playtime-bubble text-sm italic">Playtime: ${(review.playtimeHours || 0).toFixed(1)} hours</span>
+                        <button 
+                            class="like-button" 
+                            data-review-id="${review.id}"
+                            ${hasLiked ? 'disabled' : ''}>
+                            <i class="fas fa-thumbs-up mr-2"></i> 
+                            ${hasLiked ? 'Liked' : 'Helpful'} (${likeCount})
+                        </button>
+                    </div>
+                </div>
+            `;
+        };
+
+        /**
+         * Increments the 'likes' count for a review using a transaction.
+         * @param {string} reviewId - The ID of the review to like.
+         */
+        const incrementReviewLike = (reviewId) => {
+            if (!rtdb) return;
+
+            const button = document.querySelector(`button[data-review-id="${reviewId}"]`);
+            if (!button || button.disabled) return;
+
+            // --- FIX FOR SPAM CLICK (RACE CONDITION) ---
+            // 1. Disable button immediately
+            button.disabled = true;
+            // 2. Add to local storage *immediately*. This ensures that if the
+            //    onValue listener re-renders the page, the button will
+            //    *still* be rendered as 'disabled' (because hasLiked will be true).
+            addLikedReview(reviewId);
+            // 3. Update text
+            button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Liking...';
+
+            const likeRef = ref(rtdb, `reviews/${reviewId}/likes`);
+            
+            rtdbRunTransaction(likeRef, (currentLikes) => {
+                if (currentLikes === null) {
+                    return 1; // It was null or 0, set to 1
+                }
+                return currentLikes + 1;
+            }).then(() => {
+                console.log("Like transaction successful.");
+                // The onValue listener will automatically update the UI with the new count.
+                // We already added to local storage, so we're done here.
+            }).catch((error) => {
+                console.error("Like transaction failed: ", error);
+                
+                // If it fails (e.g., security rules), roll back:
+                // 1. Remove from local storage so the user can try again.
+                removeLikedReview(reviewId); 
+                
+                // 2. Re-enable the button *if it still exists*.
+                //    (The onValue listener might have re-rendered, so we query again)
+                const currentButton = document.querySelector(`button[data-review-id="${reviewId}"]`);
+                if(currentButton) {
+                    currentButton.disabled = false;
+                    currentButton.innerHTML = '<i class="fas fa-thumbs-up mr-2"></i> Helpful (Error)';
+                }
+            });
+        };
+
+        /**
+         * Gets the list of liked review IDs from local storage.
+         */
+        const getLikedReviews = () => {
+            try {
+                return JSON.parse(localStorage.getItem(likedReviewsKey) || '[]');
+            } catch (e) {
+                console.error("Error parsing liked reviews from localStorage", e);
+                return []; // Return empty array on error
+            }
+        };
+
+        /**
+         * Adds a review ID to the liked list in local storage.
+         * @param {string} reviewId
+         */
+        const addLikedReview = (reviewId) => {
+            const likedReviews = getLikedReviews();
+            if (!likedReviews.includes(reviewId)) {
+                likedReviews.push(reviewId);
+                try {
+                    localStorage.setItem(likedReviewsKey, JSON.stringify(likedReviews));
+                } catch (e) {
+                    console.error("Error saving liked reviews to localStorage", e);
+                }
+            }
+        };
+
+        /**
+         * (NEW) Removes a review ID from the liked list in local storage.
+         * Used for rolling back a failed transaction.
+         * @param {string} reviewId
+         */
+        const removeLikedReview = (reviewId) => {
+            let likedReviews = getLikedReviews();
+            if (likedReviews.includes(reviewId)) {
+                likedReviews = likedReviews.filter(id => id !== reviewId);
+                try {
+                    localStorage.setItem(likedReviewsKey, JSON.stringify(likedReviews));
+                } catch (e) {
+                    console.error("Error removing liked review from localStorage", e);
+                }
+            }
+        };
+
+
         // --- MAIN APP LOGIC ---
         document.addEventListener('DOMContentLoaded', () => {
             const URLS = {
+                // Using the newer Gist URL from the second script
                 masterData: 'https://gist.githubusercontent.com/Fillabrona/5a17fe172177f74a4a65196ba1b53c50/raw/db01c181626149e3e067b30fbc4a4c4ee4270889/downloadinfo',
             };
 			
-            // Lottie file for 404 (single URL, no randomization)
             const LOTTIE_404_URL = 'https://lottie.host/47ace394-5c3b-4f9b-b3fc-b6a2e0514288/IFwzZgHc8T.lottie';
 
             const SELECTORS = {
@@ -833,24 +1269,25 @@
                 versionMetaDiv: document.getElementById('latest-version-meta'),
                 whatsNextDiv: document.getElementById('whats-next-content'),
                 
-                // Download Initiated Modal
                 modalBackdrop: document.getElementById('download-modal-backdrop'),
                 modalContent: document.getElementById('download-modal-content'),
                 modalCloseButton: document.getElementById('modal-close-button'),
                 modalMessage: document.getElementById('modal-message'),
                 
-                // Welcome Modal Selectors
                 welcomeModalBackdrop: document.getElementById('welcome-modal-backdrop'),
                 welcomeModalContent: document.getElementById('welcome-modal-content'),
                 welcomeDownloadButton: document.getElementById('welcome-download-button'),
                 welcomeContinueButton: document.getElementById('welcome-continue-button'),
 
-                // New Section Selectors
+                // Content Sections
                 contentHome: document.getElementById('content-home'),
+                contentReviews: document.getElementById('content-reviews'), // NEW
                 contentAbout: document.getElementById('content-about'),
                 contentChangelog: document.getElementById('content-changelog'),
                 contentDatabase: document.getElementById('content-database'),
-                content404: document.getElementById('content-404'), // 404 Selector
+                content404: document.getElementById('content-404'),
+                
+                // Dynamic Content Holders
                 toolsContent: document.getElementById('tools-content'),
                 mysteryBoxContent: document.getElementById('mystery-box-content'),
                 luckyTriplesContent: document.getElementById('lucky-triples-content'),
@@ -858,129 +1295,92 @@
                 difficultiesContent: document.getElementById('difficulties-content'),
                 achievementsContent: document.getElementById('achievements-content'),
 
-                // Dynamic Hero Selectors
                 heroTitle: document.getElementById('hero-title'),
                 heroSubtitle: document.getElementById('hero-subtitle'),
 
-                // Burger Menu Selectors
                 menuButton: document.getElementById('menu-button'),
                 navMenu: document.getElementById('nav-menu'),
                 menuIcon: document.getElementById('menu-icon'),
-                siteNav: document.getElementById('site-nav'), // Nav element wrapper
-                siteHeader: document.getElementById('site-header'), // Header element wrapper
-                mainPageWrapper: document.getElementById('main-page-wrapper'), // Main content wrapper
+                siteNav: document.getElementById('site-nav'),
+                siteHeader: document.getElementById('site-header'),
+                mainPageWrapper: document.getElementById('main-page-wrapper'),
 
-                // New Stat Displays
                 versionDisplay: document.getElementById('version-display'),
                 authorInfo: document.getElementById('author-info'),
                 fileSizeValue: document.getElementById('file-size-value'),
                 downloadCountValue: document.getElementById('download-count-value'),
 
-                // New Stat Loaders
                 fileStatsPlaceholder: document.getElementById('file-stats-placeholder'),
                 fileStatsContent: document.getElementById('file-stats-content'),
 
-                // 404 Specific
                 lottie404: document.getElementById('lottie-404'),
                 homeLink404: document.getElementById('404-home-link'),
             };
 
-            // List of all valid content sections
-            const VALID_SECTIONS = ['home', 'about', 'changelog', 'database'];
+            // MODIFIED: List of all valid content sections
+            const VALID_SECTIONS = ['home', 'reviews', 'about', 'changelog', 'database'];
 
+            // MODIFIED: Section titles
             const SECTION_TITLES = {
                 'home': { title: 'Quiz for Survival', subtitle: 'The ultimate trivia experience of knowledge, strategy, and survival.' },
+                'reviews': { title: 'Player Reviews', subtitle: 'See what players are saying about the game.' }, // NEW
                 'about': { title: 'Game Mechanics & Tools Logic', subtitle: 'Understanding the shop tools, mystery box rewards, and Lucky Triples mechanics.' },
                 'changelog': { title: 'Game Update Log', subtitle: 'A detailed history of all game versions, features, and fixes.' },
-                'database': { title: 'Game Database', subtitle: 'Explore all game modes, difficulty levels, and achievements.' },
+                'database': { title: 'Game Info', subtitle: 'Explore all game modes, difficulty levels, and achievements.' }, // Renamed
             };
 
             const defaultButtonText = '<i class="fas fa-download mr-2"></i> Download Latest Version';
-
-            // 💡 HARDCODED FILE SIZE (used as fallback for loading errors)
             const HARDCODED_FILE_SIZE = 'N/A';
-
             const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
-
-            // --- Game Data from Request (Parsed and Structured) ---
             const GAME_DATA = JSON.parse(document.getElementById('game-data-json').textContent);
-            // --- End Game Data ---
 
-
-            // --- Modal Functions (UPDATED) ---
+            // --- Modal Functions (Unchanged) ---
             const showDownloadModal = (versionNumber) => {
-                // ADDED: Disable body scrolling when modal is open
                 document.body.classList.add('modal-open');
-                
                 SELECTORS.modalMessage.innerHTML = `The automatic download for version <b>${versionNumber}</b> is starting now. Check your browser's download folder.`;
                 SELECTORS.modalBackdrop.classList.remove('opacity-0', 'pointer-events-none');
                 SELECTORS.modalContent.classList.remove('scale-90');
-
                 SELECTORS.modalBackdrop.onclick = (e) => {
                     if (e.target.id === 'download-modal-backdrop') {
                         hideDownloadModal();
                     }
                 };
             };
-
             const hideDownloadModal = () => {
-                // ADDED: Re-enable body scrolling when modal is closed
                 document.body.classList.remove('modal-open');
-                
                 SELECTORS.modalBackdrop.classList.add('opacity-0', 'pointer-events-none');
                 SELECTORS.modalContent.classList.add('scale-90');
                 SELECTORS.modalBackdrop.onclick = null; 
             };
-            
-            // Welcome Modal Functions (UPDATED)
             const showWelcomeModal = (versionNumber) => {
-                // ADDED: Disable body scrolling when modal is open
                 document.body.classList.add('modal-open');
-                
                 SELECTORS.welcomeDownloadButton.innerHTML = `<i class="fas fa-download mr-2"></i> Download ${versionNumber}`;
                 SELECTORS.welcomeModalBackdrop.classList.remove('opacity-0', 'pointer-events-none');
                 SELECTORS.welcomeModalContent.classList.remove('scale-90');
             };
-
             const hideWelcomeModal = () => {
-                // ADDED: Re-enable body scrolling when modal is closed
                 document.body.classList.remove('modal-open');
-                
                 SELECTORS.welcomeModalBackdrop.classList.add('opacity-0', 'pointer-events-none');
                 SELECTORS.welcomeModalContent.classList.add('scale-90');
             };
 
-            // --- End Modal Functions ---
-
-
+            // --- Content Formatting (Unchanged) ---
             const formatContentText = (text, iconType = 'fa-feather') => {
                 if (!text) return '<p class="text-red-400">Data content is empty.</p>';
-
                 const lines = text.split('\n').map(line => line.trim()).filter(line => line.length > 0);
                 let html = '<ul class="list-none space-y-3 pl-0">';
-
                 lines.forEach(line => {
                     if (line.startsWith('•')) {
                         let content = line.substring(1).trim();
-                        // Capitalize the first letter of the content after the bullet for a 'sentence start' look
                         content = content.charAt(0).toUpperCase() + content.slice(1);
-                        
                         let iconHtml;
                         if (iconType === 'circle') {
-                            // Solid circle bullet (●) - using HTML entity
-                            // pt-[2px] aligns the text element itself to compensate for line-height differences
                             iconHtml = `<span class="text-link-primary text-xl mr-3 flex-shrink-0 leading-none pt-[2px]">&#9679;</span>`;
                         } else {
-                            // Font Awesome icon (e.g., fas fa-feather)
-                            // pt-0.5 is Tailwind equivalent of pt-[2px] or pt-[0.125rem]
                             iconType = iconType === 'fa-feather-alt' ? 'fa-feather-alt' : 'fa-feather';
                             iconHtml = `<span class="text-link-primary text-xl mr-3 flex-shrink-0 leading-none pt-0.5"><i class="fas ${iconType}"></i></span>`;
                         }
-
-                        html += `<li class="flex items-start text-white/90 text-lg">
-                            ${iconHtml}
-                            <span class="block">${content}</span>
-                        </li>`;
+                        html += `<li class="flex items-start text-white/90 text-lg">${iconHtml}<span class="block">${content}</span></li>`;
                     } else if (line.endsWith(':')) {
                         html += `<li class="pt-4 pb-1 text-xl font-bold text-button-primary">${line}</li>`;
                     } else if (line.match(/^\d+\./)) {
@@ -989,11 +1389,11 @@
                         html += `<li class="text-white/80 pl-6 text-lg">${line}</li>`;
                     }
                 });
-
                 html += '</ul>';
                 return html;
             };
 
+            // --- Fetch Logic (Unchanged) ---
             const handleFetchError = (error) => {
                 console.error("Failed to fetch master data:", error);
                 const failureMessage = `<p class="text-red-400 text-center p-6"><i class="fas fa-exclamation-triangle mr-2"></i> Failed to load data. Please check the console for more details.</p>`;
@@ -1003,19 +1403,12 @@
                 SELECTORS.downloadButton.disabled = true;
                 SELECTORS.downloadButton.classList.add('opacity-50', 'cursor-not-allowed');
                 SELECTORS.downloadButton.innerHTML = '<i class="fas fa-times-circle mr-2"></i> Link Error';
-                
-                // Update new stats
-                SELECTORS.fileSizeValue.textContent = HARDCODED_FILE_SIZE; // Set to hardcoded value on error
-                // The download count is handled by the listener, so we leave it as is or show an error
+                SELECTORS.fileSizeValue.textContent = HARDCODED_FILE_SIZE;
                 SELECTORS.downloadCountValue.textContent = 'Error';
-                
-                // Hide placeholder and show static content on error
                 if (SELECTORS.fileStatsPlaceholder && SELECTORS.fileStatsContent) {
                     SELECTORS.fileStatsPlaceholder.classList.add('hidden');
                     SELECTORS.fileStatsContent.classList.remove('hidden');
                 }
-
-                // Disable/Update Welcome Modal on error
                 SELECTORS.welcomeDownloadButton.disabled = true;
                 SELECTORS.welcomeDownloadButton.innerHTML = '<i class="fas fa-times-circle mr-2"></i> Load Error';
                 SELECTORS.welcomeDownloadButton.classList.remove('animate-pulse');
@@ -1038,47 +1431,36 @@
                 }
             };
 
+            // --- Content Population Functions (Unchanged) ---
             const populateHomePage = (data) => {
                 try {
                     const versionMatch = data.versionInfo.match(/Game:.*(v[\d.]+)/);
                     const versionNumber = versionMatch ? versionMatch[1] : 'Unknown';
-                    const authorLineMatch = data.versionInfo.match(/Author: (.*?)\s-\s(https:\/\/fillabrona\.itch\.io\/)/);
-                    const authorName = authorLineMatch ? authorLineMatch[1] : 'Fillabrona';
-                    const authorUrl = authorLineMatch ? authorLineMatch[2] : 'https://fillabrona.itch\.io/';
                     
-                    // 💡 MODIFIED: Read fileSize directly from the fetched data, using HARDCODED_FILE_SIZE as a fallback
+                    // *** FIX: Changed regex to use new RegExp() constructor ***
+                    const authorRegex = new RegExp("Author: (.*?)\\s-\\s(https:\\/\\/fillabrona\\.itch\\.io\\/)");
+                    const authorLineMatch = data.versionInfo.match(authorRegex);
+                    
+                    const authorName = authorLineMatch ? authorLineMatch[1] : 'Fillabrona';
+                    const authorUrl = authorLineMatch ? authorLineMatch[2] : 'https://fillabrona\.itch\.io/';
                     const fileSize = data.fileSize || HARDCODED_FILE_SIZE; 
-
-
-                    // 1. Update Meta Data (Version, Author, File Size)
                     SELECTORS.versionDisplay.textContent = versionNumber;
                     SELECTORS.authorInfo.innerHTML = `by
                         <a href="${authorUrl}" target="_blank" class="text-link-primary hover:text-white transition duration-200 font-semibold">${authorName}</a>
                     `;
-                    // 💡 Set file size to the fetched or fallback value
                     SELECTORS.fileSizeValue.textContent = fileSize; 
                     SELECTORS.latestVersionHeading.innerHTML = `<i class="fas fa-tag mr-3 text-2xl"></i> Latest Update`;
-
-                    // 2. Update Content Sections
                     const updateSection = data.versionInfo.substring(data.versionInfo.indexOf('--- LATEST UPDATE ---') + '--- LATEST UPDATE ---'.length).trim();
                     SELECTORS.versionContentDiv.innerHTML = formatContentText(updateSection, 'fa-feather'); 
-
                     const roadmapSection = data.whatsNext.substring(data.whatsNext.indexOf('--- UPCOMING FEATURES ---') + '--- UPCOMING FEATURES ---'.length).trim();
                     SELECTORS.whatsNextDiv.innerHTML = formatContentText(roadmapSection, 'circle');
-                    
-                    // 3. Hide placeholder and show static content (FIX: This ensures the stats are visible)
                     SELECTORS.fileStatsPlaceholder.classList.add('hidden');
                     SELECTORS.fileStatsContent.classList.remove('hidden');
-
-
-                    // 4. Setup Download Button
                     if (data.downloadLink) {
                         SELECTORS.downloadButton.setAttribute('data-download-url', data.downloadLink);
                         SELECTORS.downloadButton.disabled = false;
                         SELECTORS.downloadButton.classList.remove('opacity-50', 'cursor-not-allowed');
                         SELECTORS.downloadButton.innerHTML = defaultButtonText;
-                        
-                        // Update welcome button status
                         SELECTORS.welcomeDownloadButton.classList.remove('animate-pulse');
                         SELECTORS.welcomeDownloadButton.innerHTML = `<i class="fas fa-download mr-2"></i> Download ${versionNumber}`;
                     } else {
@@ -1089,20 +1471,12 @@
                     handleFetchError(processingError);
                 }
             };
-            
-            // --- Content Population Functions (using static data) ---
-
-			const populateChangelogSection = () => {
+            const populateChangelogSection = () => {
 				let html = '';
-				
 				GAME_DATA.changelog.forEach((entry) => {
-					// Date formatting logic REMOVED
-
 					const changes = entry.changes.map((c, index) => {
 						let content = c.trim();
 						content = content.charAt(0).toUpperCase() + content.slice(1);
-						
-						// Use the desired display for individual change blocks
 						return `
 							<div class="changelog-change-block p-4 sm:p-6 rounded-lg shadow-md">
 								<h5 class="text-link-primary font-bold mb-1">${entry.changes.length > 1 ? `Update ${index + 1}:` : 'Update:'}</h5>
@@ -1110,9 +1484,7 @@
 							</div>
 						`;
 					});
-					
 					const changesContent = `<div class="space-y-4">${changes.join('')}</div>`;
-						
 					html += `
 						<div class="changelog-entry">
 							<div class="changelog-header flex justify-between items-center transition-colors duration-300">
@@ -1121,7 +1493,6 @@
 								</div>
 								<i class="fas fa-chevron-down text-xl text-link-primary transition-transform duration-300"></i>
 							</div>
-							
 							<div class="changelog-content overflow-hidden" style="max-height: 0;">
 								<div class="p-4 sm:p-6 pb-8">
 									${changesContent}
@@ -1130,24 +1501,16 @@
 						</div>
 					`;
 				});
-				
 				SELECTORS.contentChangelog.querySelector('#changelog-content').innerHTML = html;
-				
-				// Attach the new toggle function to the headers
 				document.querySelectorAll('.changelog-header').forEach(header => {
 					header.addEventListener('click', () => toggleChangelog(header));
 				});
 			};
-
 			const toggleChangelog = (header) => {
 				const entry = header.closest('.changelog-entry');
 				const content = entry.querySelector('.changelog-content');
 				const icon = header.querySelector('i');
-
-				// Check if currently open
 				const isOpen = content.classList.contains('open');
-
-				// Close all other open entries for a clean look 
 				document.querySelectorAll('.changelog-content.open').forEach(openContent => {
 					if (openContent !== content) {
 						openContent.style.maxHeight = '0';
@@ -1155,134 +1518,127 @@
 						openContent.closest('.changelog-entry').querySelector('i').classList.remove('rotated');
 					}
 				});
-
 				if (isOpen) {
-					// CLOSE
 					content.style.maxHeight = '0';
 					content.classList.remove('open');
 					icon.classList.remove('rotated');
 				} else {
-					// OPEN
-					// Set max-height to the content's scroll height for a smooth animation
 					content.style.maxHeight = content.scrollHeight + 50 + 'px'; // +50px buffer
 					content.classList.add('open');
 					icon.classList.add('rotated');
 				}
 			};
-
+            
+            // === MODIFIED: populateAboutSection ===
             const populateAboutSection = () => {
-                // Tools
                 let toolsHtml = GAME_DATA.tools.map(tool => `
-                    <div class="p-4 rounded-xl card-glass border-subtle-accent">
-                        <h4 class="text-xl font-bold text-link-primary flex justify-between items-start">
+                    <div class="info-bubble tool-bubble">
+                        <h4>
                             <span>${tool.name}</span>
-                            <span class="text-button-primary font-semibold text-lg ml-4">${tool.price}</span>
+                            <span class="tool-price">${tool.price}</span>
                         </h4>
-                        <p class="text-white/80 text-sm mt-2">${tool.description}</p>
-                        <p class="text-white/60 text-xs mt-3"><i class="fas fa-hourglass-half mr-1"></i> Cooldown: ${tool.cooldown}</p>
+                        <p class="bubble-description">${tool.description}</p>
+                        <p class="tool-cooldown"><i class="fas fa-hourglass-half mr-1"></i> Cooldown: ${tool.cooldown}</p>
                     </div>
                 `).join('');
                 SELECTORS.toolsContent.innerHTML = toolsHtml;
 
-                // Mystery Box
                 let mysteryHtml = '<div class="space-y-4">';
                 GAME_DATA.mysteryBox.forEach(item => {
-                    // Use border-subtle-accent by default
-                    const rarityClass = item.rarity.includes('Super rare') ? 'ring-2 ring-link-primary/50' : 'border-subtle-accent';
+                    const rarityClass = item.rarity.includes('Super rare') ? 'super-rare' : '';
                     mysteryHtml += `
-                        <div class="p-4 rounded-xl card-glass ${rarityClass}">
-                            <h4 class="text-lg font-bold text-link-primary flex justify-between items-center">
+                        <div class="info-bubble reward-bubble">
+                            <h4>
                                 ${item.item} 
-                                <span class="text-sm font-normal ${item.rarity.includes('Super rare') ? 'text-link-primary font-bold' : 'text-button-primary'}">[${item.rarity}]</span>
+                                <span class="reward-rarity ${rarityClass}">[${item.rarity}]</span>
                             </h4>
-                            <p class="text-white/80 text-sm mt-1">${item.howItWorks}</p>
+                            <p class="bubble-description">${item.howItWorks}</p>
                         </div>
                     `;
                 });
                 mysteryHtml += '</div>';
                 SELECTORS.mysteryBoxContent.innerHTML = mysteryHtml;
 
-                // Lucky Triples
                 let triplesHtml = '<div class="space-y-4">';
                 GAME_DATA.luckyTriples.forEach(item => {
                     triplesHtml += `
-                        <div class="p-4 rounded-xl card-glass border-subtle-accent">
-                            <h4 class="text-lg font-bold text-link-primary flex justify-between items-center">
+                        <div class="info-bubble reward-bubble">
+                            <h4>
                                 ${item.item} 
-                                <span class="text-sm font-normal text-button-primary">[${item.chance}]</span>
+                                <span class="reward-rarity">[${item.chance}]</span>
                             </h4>
-                            <p class="text-white/80 text-sm mt-1">${item.howItWorks}</p>
+                            <p class="bubble-description">${item.howItWorks}</p>
                         </div>
                     `;
                 });
                 triplesHtml += '</div>';
                 SELECTORS.luckyTriplesContent.innerHTML = triplesHtml;
             };
-
+            
+            // === MODIFIED: populateDatabaseSection ===
             const populateDatabaseSection = () => {
-                // Modes
                 let modesHtml = GAME_DATA.modes.map(mode => `
-                    <div class="p-4 rounded-xl card-glass border-subtle-accent">
-                        <h4 class="text-xl font-bold text-button-primary mb-2 flex items-center"><i class="${mode.icon} mr-3 text-link-primary"></i> ${mode.name} Mode</h4>
-                        <p class="text-white/80 text-sm">${mode.description}</p>
+                    <div class="info-bubble mode-bubble">
+                        <h4><i class="${mode.icon}"></i> ${mode.name} Mode</h4>
+                        <p class="bubble-description">${mode.description}</p>
                     </div>
                 `).join('');
                 SELECTORS.modesContent.innerHTML = modesHtml;
 
-                // Difficulties
                 let difficultiesHtml = GAME_DATA.difficulties.map(diff => `
-                    <div class="p-4 rounded-xl card-glass border-subtle-accent">
-                        <h4 class="text-xl font-bold text-button-primary mb-1">${diff.name}</h4>
-                        <p class="text-white/80 text-sm"><span class="font-bold text-link-primary">Score to Win:</span> ${diff.score}</p>
-                        <p class="text-white/80 text-sm">${diff.description}</p>
+                    <div class="info-bubble difficulty-bubble">
+                        <h4>${diff.name}</h4>
+                        <p class="text-white/80 text-sm"><span class="difficulty-score">Score to Win:</span> ${diff.score}</p>
+                        <p class="bubble-description">${diff.description}</p>
                     </div>
                 `).join('');
                 SELECTORS.difficultiesContent.innerHTML = difficultiesHtml;
 
-                // Achievements
                 let achievementsHtml = GAME_DATA.achievements.map(ach => `
-                    <div class="p-4 rounded-xl card-glass border-subtle-accent flex flex-col">
-                        <div class="flex items-center mb-2">
-                            <i class="${ach.icon} text-link-primary mr-3 text-2xl flex-shrink-0"></i>
-                            <h4 class="text-lg font-bold text-link-primary">${ach.name}</h4>
+                    <div class="info-bubble achievement-bubble">
+                        <div class="achievement-header">
+                            <i class="${ach.icon}"></i>
+                            <h4>${ach.name}</h4>
                         </div>
-                        <p class="text-white/70 text-xs italic mb-2">${ach.subtitle}</p>
-                        <p class="text-white/80 text-sm mt-auto">${ach.description}</p>
+                        <p class="bubble-subtitle">${ach.subtitle}</p>
+                        <p class="bubble-description">${ach.description}</p>
                     </div>
                 `).join('');
                 SELECTORS.achievementsContent.innerHTML = achievementsHtml;
             };
             
-            // --- Routing Logic ---
+            // --- Routing Logic (MODIFIED) ---
             const switchSection = (sectionId) => {
-                const sections = [SELECTORS.contentHome, SELECTORS.contentAbout, SELECTORS.contentChangelog, SELECTORS.contentDatabase];
+                // MODIFIED: Added contentReviews
+                const sections = [
+                    SELECTORS.contentHome, 
+                    SELECTORS.contentReviews, 
+                    SELECTORS.contentAbout, 
+                    SELECTORS.contentChangelog, 
+                    SELECTORS.contentDatabase
+                ];
                 const activeSection = document.getElementById(`content-${sectionId}`);
                 
-                // Hide 404 page by default
                 SELECTORS.content404.style.display = 'none';
-                // Show main site elements
                 SELECTORS.siteNav.classList.remove('hidden');
                 SELECTORS.siteHeader.classList.remove('hidden');
                 SELECTORS.mainPageWrapper.classList.remove('hidden');
-                document.body.classList.remove('modal-open'); // Ensure scrolling is re-enabled if coming from 404
+                document.body.classList.remove('modal-open'); 
 
-                // 1. Check for 404 condition
                 if (!activeSection || !VALID_SECTIONS.includes(sectionId)) {
-                    // 404 Triggered
+                    // This is the 404 logic. It will no longer trigger for 'reviews'
+                    // because VALID_SECTIONS is correct.
+                    // *** FIX: Check if section exists before adding 'hidden' ***
+                    sections.forEach(sec => {
+                        if (sec) sec.classList.add('hidden');
+                    });
                     SELECTORS.content404.style.display = 'flex';
-                    // Hide all regular page elements
                     SELECTORS.siteNav.classList.add('hidden');
                     SELECTORS.siteHeader.classList.add('hidden');
                     SELECTORS.mainPageWrapper.classList.add('hidden');
-                    document.body.classList.add('modal-open'); // Prevent scrolling on 404 page
-                    
-                    // Set the single Lottie file (no randomization)
+                    document.body.classList.add('modal-open'); 
                     SELECTORS.lottie404.src = LOTTIE_404_URL;
-                    
-                    // Update Document Title
                     SELECTORS.pageTitle.textContent = '404 - Page Not Found';
-
-                    // Force the home link to point back home and handle routing
                     SELECTORS.homeLink404.onclick = (e) => {
                         e.preventDefault();
                         window.history.pushState(null, null, '#section=home');
@@ -1291,12 +1647,12 @@
                     return;
                 }
 
-
-                // 2. Hide/Show Content Sections
-                sections.forEach(sec => sec && sec.classList.add('hidden'));
+                // *** FIX: Check if section exists before adding 'hidden' ***
+                sections.forEach(sec => {
+                    if (sec) sec.classList.add('hidden');
+                });
                 document.getElementById(`content-${sectionId}`).classList.remove('hidden');
 
-                // 3. Update Navigation Links
                 SELECTORS.navLinks.forEach(link => {
                     const linkSection = link.getAttribute('data-section');
                     const icon = link.querySelector('i');
@@ -1309,30 +1665,26 @@
                     }
                 });
 
-                // 4. Dynamic Hero Header Update (INSTANT CHANGE)
                 const currentTitle = SECTION_TITLES[sectionId] || SECTION_TITLES['home'];
                 
-                // Set text content
                 SELECTORS.heroTitle.textContent = currentTitle.title;
                 SELECTORS.heroSubtitle.textContent = currentTitle.subtitle;
 
-                // Adjust font size for non-home titles to be less prominent
                 if (sectionId !== 'home') {
-                    SELECTORS.heroTitle.classList.remove('text-7xl', 'sm:text-9xl');
-                    SELECTORS.heroTitle.classList.add('text-5xl', 'sm:text-7xl');
+                    SELECTORS.heroTitle.classList.remove('sm:text-7xl'); // Use sm:text-7xl from home
+                    SELECTORS.heroTitle.classList.add('text-5xl', 'sm:text-7xl'); // Keep text-5xl for mobile
                     SELECTORS.heroSubtitle.classList.remove('sm:text-3xl');
                     SELECTORS.heroSubtitle.classList.add('sm:text-2xl');
                 } else {
-                    SELECTORS.heroTitle.classList.remove('text-5xl', 'sm:text-7xl');
-                    SELECTORS.heroTitle.classList.add('text-7xl', 'sm:text-9xl');
+                    // This is for 'home'
+                    SELECTORS.heroTitle.classList.remove('text-5xl'); // Remove mobile override
+                    SELECTORS.heroTitle.classList.add('sm:text-7xl'); // Add/keep desktop size
                     SELECTORS.heroSubtitle.classList.remove('sm:text-2xl');
                     SELECTORS.heroSubtitle.classList.add('sm:text-3xl');
                 }
                 
-                // 5. Update Document Title
                 SELECTORS.pageTitle.textContent = currentTitle.title + ' - Quiz for Survival';
 
-                // 6. Close Burger Menu if open on mobile
                 if (SELECTORS.navMenu && SELECTORS.navMenu.classList.contains('open') && window.innerWidth < 640) {
                     SELECTORS.navMenu.classList.remove('open');
                     SELECTORS.menuIcon.classList.remove('fa-times');
@@ -1340,26 +1692,24 @@
                 }
             };
 
+            // --- Download Logic (Unchanged) ---
             const startDownload = async (button, isWelcomeModal = false) => {
                 const downloadUrl = SELECTORS.downloadButton.getAttribute('data-download-url'); 
                 
                 if (downloadUrl && !button.disabled) {
-                    // Disable button
                     button.disabled = true;
                     button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Starting Download...';
                     
-                    // IMPORTANT: Increment the download count before initiating the download
+                    // Increment Firestore download count
                     await incrementDownloadCount();
 
                     if (isWelcomeModal) hideWelcomeModal();
 
                     setTimeout(() => {
-                        // Show modal and initiate download
                         const versionNumber = SELECTORS.versionDisplay.textContent || 'Unknown';
                         showDownloadModal(versionNumber);
                         window.location.href = downloadUrl;
                         
-                        // Re-enable button after a short delay
                         setTimeout(() => {
                             button.disabled = false;
                             let newText = defaultButtonText;
@@ -1372,28 +1722,23 @@
                 }
             };
             
+            // --- Routing (Unchanged) ---
             const handleRouting = () => {
                 const hash = window.location.hash.substring(1); 
                 const params = new URLSearchParams(hash);
                 let section = params.get('section') || 'home';
                 let action = params.get('action'); 
                 
-                // Determine if the action=download parameter is present in the URL
                 const shouldAutoDownload = action === 'download' && SELECTORS.downloadButton.getAttribute('data-download-url');
 
                 if (shouldAutoDownload) {
-                    
-                    // 1. Reset hash to remove action and prevent loop
                     const newHash = window.location.hash.split('&').filter(p => !p.includes('action=download')).join('&');
                     window.history.replaceState(null, null, newHash || '#section=home');
-
-                    // 2. Start the download process (which includes the Firebase increment and showing the 'initiated' modal)
                     startDownload(SELECTORS.downloadButton); 
                 }
 
                 switchSection(section);
 
-                // Scroll to top only if not viewing the 404 page
                 if (window.innerWidth < 768 && section !== 'home' && VALID_SECTIONS.includes(section)) {
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                 }
@@ -1403,52 +1748,42 @@
             // --- Initialization ---
             const setupDownloadHandler = (versionNumber) => {
                 SELECTORS.modalCloseButton.addEventListener('click', hideDownloadModal);
-
-                // 1. Main Download Button on Home Page
                 SELECTORS.downloadButton.addEventListener('click', (e) => {
                     e.preventDefault();
                     startDownload(SELECTORS.downloadButton);
                 });
-
-                // 2. Download Button in Welcome Modal
                 SELECTORS.welcomeDownloadButton.addEventListener('click', (e) => {
                     e.preventDefault();
                     startDownload(SELECTORS.welcomeDownloadButton, true);
                 });
-                
-                // 3. Continue Button in Welcome Modal
                 SELECTORS.welcomeContinueButton.addEventListener('click', hideWelcomeModal);
             };
 
             const initializePage = async () => {
                 
-                // Initialize Firebase and start listening for downloads count immediately
+                // Initialize BOTH Firebase apps
                 SELECTORS.downloadCountValue.textContent = 'Loading...';
                 SELECTORS.fileSizeValue.textContent = HARDCODED_FILE_SIZE;
                 
-                // Start listener before fetching main data. It will update the hidden download-count-value
                 await initializeFirebase();
-                startDownloadListener();
+                
+                // Start BOTH listeners
+                startDownloadListener(); // For Firestore downloads
+                startReviewListener();   // For RTDB reviews
 
-
-                // Check the URL hash for action=download BEFORE any async operations
                 const hash = window.location.hash.substring(1); 
                 const params = new URLSearchParams(hash);
                 const isAutoDownloadRequest = params.get('action') === 'download';
 
-
-                // 1. Prepare other sections
                 populateChangelogSection();
                 populateAboutSection();
                 populateDatabaseSection();
 
-                // 2. Fetch data for the Home section (Latest Update)
                 SELECTORS.downloadButton.disabled = true;
                 const data = await fetchMasterData(URLS.masterData);
                 
                 let versionNumber = 'Unknown';
 
-                // 3. Populate Home section and set up download logic
                 if (data) {
                     populateHomePage(data);
                     const versionMatch = data.versionInfo.match(/Game:.*(v[\d.]+)/);
@@ -1456,20 +1791,14 @@
                     setupDownloadHandler(versionNumber);
                 }
 
-                // 4. Set up routing listeners and initial view
                 window.addEventListener('hashchange', handleRouting);
-                
-                // Handle initial routing (will auto-download if isAutoDownloadRequest is true)
                 handleRouting(); 
 
-                
-                // 5. Show Welcome Modal on load if data was successful AND not an auto-download request
                 if (data && !isAutoDownloadRequest) {
                     await delay(300); 
                     showWelcomeModal(versionNumber);
                 }
 
-                // 6. Burger Menu Click Handler
                 if (SELECTORS.menuButton) {
                     SELECTORS.menuButton.addEventListener('click', () => {
                         const isOpen = SELECTORS.navMenu.classList.toggle('open');
@@ -1477,6 +1806,18 @@
                         SELECTORS.menuIcon.classList.toggle('fa-times', isOpen);
                     });
                 }
+
+                // NEW: Global click listener for review like buttons
+                document.body.addEventListener('click', (e) => {
+                    const likeButton = e.target.closest('.like-button');
+                    if (likeButton) {
+                        e.preventDefault();
+                        const reviewId = likeButton.getAttribute('data-review-id');
+                        if (reviewId) {
+                            incrementReviewLike(reviewId);
+                        }
+                    }
+                });
             };
 
             initializePage();
@@ -1485,10 +1826,3 @@
 
 </body>
 </html>
-
-
-
-
-
-
-
