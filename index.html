@@ -622,6 +622,35 @@
         color: #04a4b0; /* text-link-primary */
     }
     /* === END: NEW BUBBLE STYLES === */
+    
+    /* --- NEW FOOTER STYLES --- */
+    #site-footer .card-glass {
+        /* Prevent the footer from having hover effects that lift it */
+        transform: none !important;
+        border-top-left-radius: 1rem; /* rounded-t-xl */
+        border-top-right-radius: 1rem; /* rounded-t-xl */
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+    
+    @media (min-width: 768px) {
+        #site-footer .card-glass:hover {
+            transform: none !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); /* Keep original shadow */
+            border-color: rgba(255, 255, 255, 0.1); /* Keep original border */
+        }
+    }
+
+    .footer-link {
+        color: rgba(255, 255, 255, 0.6);
+        transition: all 0.3s ease;
+    }
+
+    .footer-link:hover {
+        color: #04a4b0; /* link-primary */
+        transform: scale(1.15) translateY(-2px);
+    }
+    /* --- END: NEW FOOTER STYLES --- */
 
 </style>
 </head>
@@ -732,7 +761,7 @@
         </div>
     </header>
     
-    <div id="main-page-wrapper" class="max-w-5xl mx-auto space-y-6 sm:space-y-8 p-4 sm:p-8 pt-0 main-wrapper">
+    <div id="main-page-wrapper" class="max-w-6xl mx-auto space-y-6 sm:space-y-8 p-4 sm:p-8 pt-0 main-wrapper">
 
         <main id="main-content" class="space-y-6 sm:space-y-8">
 
@@ -924,6 +953,42 @@
         </a>
     </div>
 </section>
+
+    <!-- NEW FOOTER SECTION -->
+    <footer id="site-footer" class="mt-auto">
+        <div class="max-w-5xl mx-auto px-4 sm:px-2">
+            <div class="p-6 sm:p-8">
+                <div class="flex flex-col md:flex-row justify-between items-center text-center md:text-left space-y-6 md:space-y-0">
+                    
+                    <!-- Left Section: Copyright -->
+                    <div class="flex-1">
+                        <h4 class="text-lg font-bold text-link-primary mb-1">Quiz for Survival</h4>
+                        <p class="text-sm text-white/60">&copy; 2025 Fillabrona. All Rights Reserved.</p>
+                    </div>
+
+                    <!-- Center Section: Social Links -->
+                    <div class="flex-1 flex justify-center items-center space-x-8">
+                        <a href="https://fillabrona.itch.io/quiz-for-survival" target="_blank" class="footer-link" aria-label="itch.io Page">
+                            <i class="fab fa-itch-io text-3xl"></i>
+                        </a>
+                        <a href="https://www.youtube.com/@FillabronaOfficial" target="_blank" class="footer-link" aria-label="YouTube Channel">
+                            <i class="fab fa-youtube text-3xl"></i>
+                        </a>
+                        <a href="https://discord.gg/8N3W6dJzbn" target="_blank" class="footer-link" aria-label="Discord Server">
+                            <i class="fab fa-discord text-3xl"></i>
+                        </a>
+                    </div>
+                    
+                    <!-- Right Section: Developer Credit -->
+                    <div class="flex-1 text-center md:text-right">
+                         <p class="text-sm text-white/50">Game by Fillabrona</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- END: NEW FOOTER SECTION -->
+
 
     <script type="module">
         // --- FIREBASE IMPORTS ---
