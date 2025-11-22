@@ -147,11 +147,6 @@ const createReviewCard = (review, hasLiked) => {
     const formattedDate = date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
     const likeCount = review.likes || 0;
 
-    // Safe text escaping via textContent logic in typical DOM usage, 
-    // here string interpolation implies trust or we need an escape function.
-    // For simplicity in this snippet, we assume basic text. 
-    // Ideally, use DOM creation for text safety.
-    
     return `
         <div class="review-card space-y-4">
             <div class="flex justify-between items-center border-b border-link-primary/30 pb-3">
@@ -498,6 +493,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // 3. Static Data Pages
     if (gameData) {
+        // NEW: Add artificial delay so the loading skeletons are visible
+        await delay(600); 
         populateChangelog(gameData);
         populateAbout(gameData);
         populateDatabase(gameData);
