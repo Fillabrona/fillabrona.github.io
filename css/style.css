@@ -475,3 +475,57 @@ dotlottie-wc {
     color: #04a4b0;
     transform: scale(1.15) translateY(-2px);
 }
+
+/* 11. Review Modal & Share Button */
+#review-modal-content {
+    /* Remove padding-bottom to allow cat animation to sit at the very bottom */
+    padding-bottom: 0 !important; 
+}
+
+#review-modal-body {
+    /* Re-apply padding to the content area inside the modal */
+    padding: 1.25rem;
+}
+@media (min-width: 640px) {
+    #review-modal-body {
+        padding: 2rem; /* Corresponds to sm:p-8 */
+    }
+}
+
+/* A static, non-interactive version of the like button for the modal */
+.like-button-static {
+    background-color: #04a4b0;
+    color: #2b333e;
+    opacity: 0.6;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+}
+
+/* New Share Button for review cards */
+.share-button {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+    margin-left: 0.5rem; /* Ensure spacing from like button if needed */
+    flex-shrink: 0;
+}
+.share-button:hover {
+    background-color: white;
+    color: #2b333e;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+.share-button:disabled {
+    background-color: #04a4b0;
+    color: #2b333e;
+    opacity: 0.8;
+    cursor: not-allowed;
+    border-color: transparent;
+}
