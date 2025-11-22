@@ -36,14 +36,6 @@ body::-webkit-scrollbar-thumb {
     }
 }
 
-/* Modal specific override to prevent hover effects on the modal itself */
-.card-glass.modal-content, #share-modal .card-glass, #single-review-modal .card-glass {
-    transform: scale(1) !important;
-}
-#share-modal.opacity-0 .card-glass, #single-review-modal.opacity-0 .card-glass {
-    transform: scale(0.95) !important;
-}
-
 .border-subtle-accent {
     border: 1px solid rgba(4, 164, 176, 0.2);
 }
@@ -278,7 +270,11 @@ dotlottie-wc {
 
 /* 8. Reviews Section */
 #reviews-loader {
-    padding: 1rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 0;
+    color: #04a4b0;
 }
 
 .review-card {
@@ -299,7 +295,7 @@ dotlottie-wc {
     border-radius: 0.5rem;
 }
 
-.action-button {
+.like-button {
     background-color: rgba(4, 164, 176, 0.15);
     color: #04a4b0;
     border: 1px solid rgba(4, 164, 176, 0.3);
@@ -308,18 +304,15 @@ dotlottie-wc {
     font-weight: 600;
     transition: all 0.2s ease-in-out;
     cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
 }
 
-.action-button:hover {
+.like-button:hover {
     background-color: #04a4b0;
     color: #2b333e;
     box-shadow: 0 0 10px rgba(4, 164, 176, 0.4);
 }
 
-.action-button:disabled {
+.like-button:disabled {
     background-color: #04a4b0;
     color: #2b333e;
     opacity: 0.6;
@@ -328,17 +321,12 @@ dotlottie-wc {
     box-shadow: none;
 }
 
-.action-button.share-btn {
-    margin-left: 0.5rem;
-    background-color: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 255, 255, 0.2);
-    color: rgba(255, 255, 255, 0.8);
-}
-
-.action-button.share-btn:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-    color: white;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+.like-button:disabled:hover {
+    background-color: #04a4b0;
+    color: #2b333e;
+    opacity: 0.6;
+    box-shadow: none;
+    transform: none;
 }
 
 .playtime-bubble {
