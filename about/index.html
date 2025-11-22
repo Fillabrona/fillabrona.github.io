@@ -4,70 +4,145 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tools & Logic - Quiz for Survival</title>
+    <meta name="description" content="Understand the mechanics, shop tools, mystery boxes and rewards in Quiz for Survival.">
     <link rel="canonical" href="https://fillabrona.github.io/about/">
+
+    <meta property="og:title" content="Quiz for Survival - Tools & Logic">
+    <meta property="og:image" content="https://i.ibb.co/Xxrtbmmp/cropped-circle-image-3.png">
+    <link rel="icon" type="image/png" href="https://i.ibb.co/Xxrtbmmp/cropped-circle-image-3.png">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.8.1/dist/dotlottie-wc.js" type="module"></script>
+    
+    <link rel="stylesheet" href="../css/style.css">
+
     <script>
         tailwind.config = { theme: { extend: { colors: { 'main-bg': '#2b333e', 'link-primary': '#04a4b0', 'button-primary': '#008C8C', 'card-bg': 'rgba(43, 51, 62, 0.5)' }, fontFamily: { sans: ['Times New Roman', 'serif'] } } } }
     </script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <link rel="stylesheet" href="../css/style.css">
-</head>
-<body class="min-h-screen">
 
-<nav class="sticky top-0 z-50 w-full p-4">
-    <div class="max-w-5xl mx-auto p-2 rounded-xl shadow-2xl card-glass">
-        <div class="flex justify-between items-center sm:hidden p-2">
-            <h2 class="text-xl font-bold text-link-primary">Menu</h2>
-            <button id="menu-button" class="text-white/80 p-1"><i class="fas fa-bars text-2xl"></i></button>
-        </div>
-        <div id="nav-menu" class="sm:block">
-            <div class="flex flex-col sm:flex-row gap-2 sm:gap-5 text-lg font-semibold text-white/80 pt-2 sm:pt-0 sm:justify-center">
-                <a href="/" class="nav-link"><i class="fas fa-home mr-2"></i>Home</a>
-                <a href="/reviews/" class="nav-link"><i class="fas fa-star mr-2"></i>Reviews</a>
-                <a href="/about/" class="nav-link"><i class="fas fa-toolbox mr-2"></i>Tools & Logic</a>
-                <a href="/changelog/" class="nav-link"><i class="fas fa-code-branch mr-2"></i>Update Log</a>
-                <a href="/database/" class="nav-link"><i class="fas fa-database mr-2"></i>Game Info</a>
+    <!-- JSON Data Needed for Population -->
+    <script type="application/ld+json" id="game-data-json">
+    {
+        "tools": [
+            { "name": "Health Potion", "price": "10 Coins", "description": "Restores 25 Health points", "cooldown": "Null" },
+            { "name": "Coin Boost", "price": "15 Coins", "description": "Gains 10 extra coins (Not a scam)", "cooldown": "Null" },
+            { "name": "Skipper", "price": "20 Coins", "description": "Makes you skip any 3 questions you hesitate or don’t know the answer to", "cooldown": "Null" },
+            { "name": "Mystery Box", "price": "30 Coins", "description": "Provides a random item. Lower-cost items have a higher chance of appearing, while higher-cost items are less likely to drop due to their rarity", "cooldown": "Null" },
+            { "name": "Extra Life", "price": "35 Coins", "description": "Grants you a whole new life (100 Health points)", "cooldown": "Null" },
+            { "name": "Shield", "price": "35 Coins", "description": "Blocks 5 wrong answers from losing money", "cooldown": "Null" },
+            { "name": "Double Score Boost", "price": "45 Coins", "description": "Doubles the score from correct answers for the next 5 questions", "cooldown": "Null" },
+            { "name": "50/50", "price": "60 Coins", "description": "Removes two wrong answers (usable 10 times)", "cooldown": "Null" },
+            { "name": "Lucky Triples", "price": "65 Coins", "description": "Try to triple your coins or health, but risk losing a third.", "cooldown": "3 Min / 5 Min*" },
+            { "name": "Double Score", "price": "70 Coins", "description": "Doubles your current score", "cooldown": "3 Min / 5 Min*" }
+        ],
+        "mysteryBox": [
+            { "item": "More coins", "rarity": "Common", "howItWorks": "Adds 15 coins to your coins (Not a scam)" },
+            { "item": "Health Booster", "rarity": "Common", "howItWorks": "Adds 50 Health points to your current Health points" },
+            { "item": "Skips", "rarity": "Uncommon", "howItWorks": "Gives you 5 Skips to use" },
+            { "item": "Shield", "rarity": "Uncommon", "howItWorks": "Activates shield once" },
+            { "item": "You took my points!", "rarity": "Uncommon", "howItWorks": "Deducts 20% of your current score" },
+            { "item": "Score Booster", "rarity": "Rare", "howItWorks": "Uses the formula (Health / Score) * 4 to calculate a multiplier, which is applied to the current Score. Capped and rounded for balance." },
+            { "item": "Double Score", "rarity": "Super rare", "howItWorks": "Multiplies your current score by 2" }
+        ],
+        "luckyTriples": [
+            { "item": "Coin Tripler", "chance": "40% Chance", "howItWorks": "Current coins are tripled" },
+            { "item": "Health Tripler", "chance": "40% Chance", "howItWorks": "Current health is tripled" },
+            { "item": "I’m Unlucky", "chance": "20% Chance", "howItWorks": "Coins and Health are multiplied by two-thirds, effectively losing one-third." }
+        ]
+    }
+    </script>
+</head>
+<body class="min-h-screen" data-page="about">
+
+    <nav id="site-nav" class="sticky top-0 z-50 w-full p-4">
+        <div class="max-w-5xl mx-auto p-2 rounded-xl shadow-2xl card-glass">
+            <div class="flex justify-between items-center sm:hidden p-2">
+                <h2 class="text-xl font-bold text-link-primary">Navigation</h2>
+                <button id="menu-button" class="text-white/80 hover:text-white transition duration-200 p-1">
+                    <i id="menu-icon" class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+            <div id="nav-menu" class="sm:block">
+                <div class="flex flex-col sm:flex-row gap-2 sm:gap-5 text-lg font-semibold text-white/80 pt-2 sm:pt-0 sm:justify-center">
+                    <a href="/" class="nav-link flex-1">
+                        <i class="fas fa-home mr-2 text-link-primary transition-colors duration-200"></i>Home
+                    </a>
+                    <a href="/reviews/" class="nav-link flex-1 text-base sm:text-lg">
+                        <i class="fas fa-star mr-2 text-link-primary transition-colors duration-200"></i>Reviews
+                    </a>
+                    <a href="/about/" class="nav-link active flex-1 text-base sm:text-lg">
+                        <i class="fas fa-toolbox mr-2 text-main-bg transition-colors duration-200"></i>Tools & Logic
+                    </a>
+                    <a href="/changelog/" class="nav-link flex-1 text-base sm:text-lg">
+                        <i class="fas fa-code-branch mr-2 text-link-primary transition-colors duration-200"></i>Update Log
+                    </a>
+                    <a href="/database/" class="nav-link flex-1 text-base sm:text-lg">
+                        <i class="fas fa-database mr-2 text-link-primary transition-colors duration-200"></i>Game Info
+                    </a>
+                </div>
             </div>
         </div>
+    </nav>
+
+    <div class="hero-background"></div>
+
+    <header id="site-header" class="hero-content-wrapper">
+        <div class="text-center p-8 z-10 max-w-5xl mx-auto">
+            <h1 class="text-5xl sm:text-7xl font-extrabold tracking-tight text-white mb-4">Game Mechanics & Tools Logic</h1>
+            <p class="text-xl sm:text-2xl text-link-primary font-light tracking-wider">Understanding the shop tools, mystery box rewards, and Lucky Triples mechanics.</p>
+        </div>
+    </header>
+    
+    <div class="max-w-6xl mx-auto space-y-6 sm:space-y-8 p-4 sm:p-8 pt-0 main-wrapper">
+        <main id="main-content" class="space-y-6 sm:space-y-8">
+            <section id="content-about" class="content-section space-y-6 sm:space-y-8">
+                <div class="card-glass p-6 sm:p-8 rounded-2xl shadow-xl space-y-6">
+                    <h3 class="text-2xl sm:text-3xl font-bold text-button-primary border-b border-button-primary/50 pb-3 flex items-center">
+                        <i class="fas fa-toolbox mr-3 text-2xl"></i> Shop Tools
+                    </h3>
+                    <div id="tools-content" class="grid md:grid-cols-2 gap-4 sm:gap-6"></div>
+                </div>
+
+                <div class="card-glass p-6 sm:p-8 rounded-2xl shadow-xl space-y-6">
+                    <h3 class="text-2xl sm:text-3xl font-bold text-button-primary border-b border-button-primary/50 pb-3 flex items-center">
+                        <i class="fas fa-box-open mr-3 text-2xl"></i> Mystery Box Rewards & Mechanics
+                    </h3>
+                    <div id="mystery-box-content" class="space-y-4"></div>
+                </div>
+
+                <div class="card-glass p-6 sm:p-8 rounded-2xl shadow-xl space-y-6">
+                    <h3 class="text-2xl sm:text-3xl font-bold text-button-primary border-b border-button-primary/50 pb-3 flex items-center">
+                        <i class="fas fa-dice-three mr-3 text-2xl"></i> Lucky Triples Rewards
+                    </h3>
+                    <div id="lucky-triples-content" class="space-y-4"></div>
+                </div>
+            </section>
+        </main>
     </div>
-</nav>
 
-<div class="hero-background"></div>
+    <footer id="site-footer" class="mt-auto">
+        <div class="max-w-5xl mx-auto px-4 sm:px-2">
+            <div class="p-6 sm:p-8">
+                <div class="flex flex-col md:flex-row justify-between items-center text-center md:text-left space-y-6 md:space-y-0">
+                    <div class="flex-1">
+                        <h4 class="text-lg font-bold text-link-primary mb-1">Quiz for Survival</h4>
+                        <p class="text-sm text-white/60">&copy; 2025 Fillabrona. All Rights Reserved.</p>
+                    </div>
+                    <div class="flex-1 flex justify-center items-center space-x-8">
+                        <a href="https://fillabrona.itch.io/quiz-for-survival" target="_blank" class="footer-link"><i class="fab fa-itch-io text-3xl"></i></a>
+                        <a href="https://www.youtube.com/@FillabronaOfficial" target="_blank" class="footer-link"><i class="fab fa-youtube text-3xl"></i></a>
+                        <a href="https://discord.gg/8N3W6dJzbn" target="_blank" class="footer-link"><i class="fab fa-discord text-3xl"></i></a>
+                    </div>
+                    <div class="flex-1 text-center md:text-right">
+                         <p class="text-sm text-white/50">Game by Fillabrona</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
 
-<header class="hero-content-wrapper text-center p-8 z-10 max-w-5xl mx-auto">
-    <div>
-        <h1 class="text-5xl font-extrabold tracking-tight text-white mb-4">Game Mechanics</h1>
-        <p class="text-xl sm:text-2xl text-link-primary font-light tracking-wider">Understanding the shop tools, mystery box, and triples.</p>
-    </div>
-</header>
-
-<div class="max-w-6xl mx-auto space-y-6 sm:space-y-8 p-4 sm:p-8 pt-0 main-wrapper">
-    <div class="card-glass p-6 sm:p-8 rounded-2xl shadow-xl space-y-6">
-        <h3 class="text-2xl sm:text-3xl font-bold text-button-primary border-b border-button-primary/50 pb-3 flex items-center">
-            <i class="fas fa-toolbox mr-3"></i> Shop Tools
-        </h3>
-        <div id="tools-content" class="grid md:grid-cols-2 gap-4 sm:gap-6"></div>
-    </div>
-
-    <div class="card-glass p-6 sm:p-8 rounded-2xl shadow-xl space-y-6">
-        <h3 class="text-2xl sm:text-3xl font-bold text-button-primary border-b border-button-primary/50 pb-3 flex items-center">
-            <i class="fas fa-box-open mr-3"></i> Mystery Box Rewards
-        </h3>
-        <div id="mystery-box-content"></div>
-    </div>
-
-    <div class="card-glass p-6 sm:p-8 rounded-2xl shadow-xl space-y-6">
-        <h3 class="text-2xl sm:text-3xl font-bold text-button-primary border-b border-button-primary/50 pb-3 flex items-center">
-            <i class="fas fa-dice-three mr-3"></i> Lucky Triples
-        </h3>
-        <div id="lucky-triples-content"></div>
-    </div>
-</div>
-
-<footer id="site-footer" class="mt-auto max-w-5xl mx-auto px-4 p-8">
-    <div class="text-center text-white/60 text-sm">&copy; 2025 Fillabrona. All Rights Reserved.</div>
-</footer>
-
-<script type="module" src="../js/script.js"></script>
+    <script type="module" src="../js/script.js"></script>
 </body>
 </html>
