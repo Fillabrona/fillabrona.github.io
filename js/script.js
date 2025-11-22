@@ -164,7 +164,7 @@ const createReviewCard = (review, hasLiked) => {
                 <span class="playtime-bubble text-sm italic">Playtime: ${(review.playtimeHours || 0).toFixed(1)} hours</span>
                 <div class="flex-shrink-0 flex items-center space-x-2">
                     <button class="share-button" data-share-url="${shareUrl}">
-                        <i class="fas fa-share-alt mr-2"></i> Share
+                        <i class="fas fa-share-alt"></i>
                     </button>
                     <button class="like-button" data-review-id="${review.id}" ${hasLiked ? 'disabled' : ''}>
                         <i class="fas fa-thumbs-up mr-2"></i> ${hasLiked ? 'Liked' : 'Helpful'} (${likeCount})
