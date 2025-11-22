@@ -477,20 +477,11 @@ dotlottie-wc {
 }
 
 /* 11. Review Modal & Share Button */
-#review-modal-content {
-    /* Remove padding-bottom to allow cat animation to sit at the very bottom */
-    padding-bottom: 0 !important; 
-}
 
-#review-modal-body {
-    /* Re-apply padding to the content area inside the modal */
-    padding: 1.25rem;
-}
-@media (min-width: 640px) {
-    #review-modal-body {
-        padding: 2rem; /* Corresponds to sm:p-8 */
-    }
-}
+/* Removed #review-modal-content rule */
+
+/* Removed #review-modal-body rule */
+
 
 /* A static, non-interactive version of the like button for the modal */
 .like-button-static {
@@ -509,7 +500,12 @@ dotlottie-wc {
     background-color: rgba(255, 255, 255, 0.1);
     color: white;
     border: 1px solid rgba(255, 255, 255, 0.2);
-    padding: 0.5rem 1rem;
+    padding: 0.5rem; /* Changed from 0.5rem 1rem */
+    width: 2.25rem; /* Added w-9 */
+    height: 2.25rem; /* Added h-9 */
+    display: flex; /* Added */
+    align-items: center; /* Added */
+    justify-content: center; /* Added */
     border-radius: 0.5rem;
     font-weight: 600;
     transition: all 0.2s ease-in-out;
