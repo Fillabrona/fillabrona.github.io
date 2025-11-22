@@ -2,7 +2,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
 import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 import { getFirestore, doc, onSnapshot, updateDoc, increment, setDoc, runTransaction, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-import { getDatabase, ref, onValue, runTransaction as rtdbRunTransaction, query, orderByChild, get } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
+import { getDatabase, ref, onValue, runTransaction as rtdbRunTransaction, query, orderByChild } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
 
 // --- FIREBASE CONFIGURATION ---
 const FIRESTORE_DOWNLOAD_CONFIG = {
@@ -121,10 +121,7 @@ const startReviewListener = () => {
         reviewsContainer.innerHTML = ''; 
         if (!snapshot.exists()) {
             reviewsContainer.innerHTML = '<p class="text-white/70 text-center">No reviews yet. Be the first to leave one from the game!</p>';
-            if (reviewsLoader) {
-                reviewsLoader.classList.add('hidden');
-                reviewsContainer.classList.remove('hidden');
-            }
+            if (reviewsLoader) reviewsLoader.style.display = 'none';
             return;
         }
 
@@ -138,17 +135,10 @@ const startReviewListener = () => {
             reviewsContainer.insertAdjacentHTML('beforeend', createReviewCard(review, likedReviews.includes(review.id)));
         });
 
-        if (reviewsLoader) {
-            reviewsLoader.classList.add('hidden');
-            reviewsContainer.classList.remove('hidden');
-        }
-        
-        // Check for Deep Link *after* we confirm we have connection/data logic mostly ready
-        handleDeepLinkReview(reviews);
-
+        if (reviewsLoader) reviewsLoader.style.display = 'none';
     }, (error) => {
         if (reviewsContainer) reviewsContainer.innerHTML = '<p class="text-red-400 text-center">Error loading reviews.</p>';
-        if (reviewsLoader) reviewsLoader.classList.add('hidden');
+        if (reviewsLoader) reviewsLoader.style.display = 'none';
     });
 };
 
@@ -165,15 +155,10 @@ const createReviewCard = (review, hasLiked) => {
             </div>
             <p class="review-text-bubble text-white/90 text-md leading-relaxed whitespace-pre-wrap">${safeText(review.reviewText)}</p>
             <div class="flex justify-between items-center pt-3">
-                <span class="playtime-bubble text-sm italic hidden xs:block">Playtime: ${(review.playtimeHours || 0).toFixed(1)}h</span>
-                <div class="flex items-center ml-auto">
-                     <button class="action-button like-button" data-review-id="${review.id}" ${hasLiked ? 'disabled' : ''}>
-                        <i class="fas fa-thumbs-up mr-2"></i> <span class="like-count">(${likeCount})</span>
-                    </button>
-                    <button class="action-button share-btn" data-review-id="${review.id}" title="Share Review">
-                        <i class="fas fa-share-alt"></i>
-                    </button>
-                </div>
+                <span class="playtime-bubble text-sm italic">Playtime: ${(review.playtimeHours || 0).toFixed(1)} hours</span>
+                <button class="like-button" data-review-id="${review.id}" ${hasLiked ? 'disabled' : ''}>
+                    <i class="fas fa-thumbs-up mr-2"></i> ${hasLiked ? 'Liked' : 'Helpful'} (${likeCount})
+                </button>
             </div>
         </div>
     `;
@@ -187,161 +172,23 @@ const safeText = (str) => {
 
 const incrementReviewLike = (reviewId) => {
     if (!rtdb) return;
-    const button = document.querySelector(`button.like-button[data-review-id="${reviewId}"]`);
+    const button = document.querySelector(`button[data-review-id="${reviewId}"]`);
     if (!button || button.disabled) return;
 
     button.disabled = true;
     addLikedReview(reviewId);
-    const originalHTML = button.innerHTML;
-    button.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+    button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Liking...';
 
     const likeRef = ref(rtdb, `reviews/${reviewId}/likes`);
     rtdbRunTransaction(likeRef, (currentLikes) => (currentLikes || 0) + 1)
         .catch(() => {
             removeLikedReview(reviewId);
-            if(button) {
-                button.disabled = false;
-                button.innerHTML = originalHTML;
+            const currentButton = document.querySelector(`button[data-review-id="${reviewId}"]`);
+            if(currentButton) {
+                currentButton.disabled = false;
+                currentButton.innerHTML = '<i class="fas fa-thumbs-up mr-2"></i> Helpful (Error)';
             }
         });
-};
-
-// --- SHARE & DEEP LINK LOGIC ---
-
-const handleShare = async (reviewId) => {
-    // Generate URL. Using ?id= for static site compatibility.
-    const shareUrl = `${window.location.origin}${window.location.pathname}?id=${reviewId}`;
-    
-    // 1. Try Native Share (Mobile)
-    if (navigator.share) {
-        try {
-            await navigator.share({
-                title: 'Quiz for Survival Review',
-                text: 'Check out this review for Quiz for Survival!',
-                url: shareUrl
-            });
-            return; // Success
-        } catch (err) {
-            if (err.name !== 'AbortError') console.error('Share failed:', err);
-            // If user cancelled or failed, we might want to fallback, but usually AbortError is fine.
-            // If it wasn't supported (shouldn't happen inside if check), fallback below.
-        }
-    }
-
-    // 2. Fallback to Custom Modal (Desktop/Unsupported)
-    const shareModal = document.getElementById('share-modal');
-    const shareInput = document.getElementById('share-url-input');
-    const backdrop = document.getElementById('share-modal-backdrop');
-    
-    if (shareModal && shareInput) {
-        shareInput.value = shareUrl;
-        
-        document.body.classList.add('modal-open');
-        shareModal.classList.remove('opacity-0', 'pointer-events-none');
-        
-        // Reset Copy Button
-        const copyBtn = document.getElementById('copy-link-btn');
-        copyBtn.innerHTML = 'Copy';
-        copyBtn.classList.remove('bg-green-600');
-        
-        copyBtn.onclick = () => {
-            shareInput.select();
-            document.execCommand('copy'); // Fallback for iframe constraints
-            copyBtn.innerHTML = '<i class="fas fa-check"></i> Copied';
-            copyBtn.classList.add('bg-green-600');
-            setTimeout(() => {
-                copyBtn.innerHTML = 'Copy';
-                copyBtn.classList.remove('bg-green-600');
-            }, 2000);
-        };
-        
-        const closeModal = () => {
-             document.body.classList.remove('modal-open');
-             shareModal.classList.add('opacity-0', 'pointer-events-none');
-        };
-        
-        document.getElementById('close-share-modal').onclick = closeModal;
-        backdrop.onclick = closeModal;
-    }
-};
-
-const handleDeepLinkReview = async (loadedReviews = null) => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const reviewId = urlParams.get('id');
-    
-    if (!reviewId) return;
-
-    const modal = document.getElementById('single-review-modal');
-    const contentBody = document.getElementById('single-review-body');
-    
-    if (!modal || !contentBody) return;
-
-    let reviewData = null;
-
-    // Strategy: If we already loaded the list, find it there. If not, fetch it individually.
-    if (loadedReviews) {
-        reviewData = loadedReviews.find(r => r.id === reviewId);
-    }
-
-    if (!reviewData && rtdb) {
-         // Fetch specifically if not found in current batch or if batch wasn't passed
-         try {
-             const snapshot = await get(ref(rtdb, `reviews/${reviewId}`));
-             if (snapshot.exists()) {
-                 reviewData = { id: snapshot.key, ...snapshot.val() };
-             }
-         } catch (e) {
-             console.error("Failed to fetch single review", e);
-         }
-    }
-
-    if (reviewData) {
-        // Populate Modal
-        const date = new Date(reviewData.timestamp * 1000);
-        const formattedDate = date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
-        
-        contentBody.innerHTML = `
-            <div class="flex justify-between items-center border-b border-white/10 pb-3 mb-4">
-                <div>
-                    <h4 class="text-2xl font-bold text-link-primary">${safeText(reviewData.userName || 'Anonymous')}</h4>
-                    <p class="text-white/50 text-sm">Played for ${(reviewData.playtimeHours || 0).toFixed(1)} hours</p>
-                </div>
-                <div class="text-right">
-                     <span class="block text-white/60 text-sm">${formattedDate}</span>
-                </div>
-            </div>
-            <div class="bg-black/20 p-4 rounded-lg border border-white/5">
-                 <p class="text-white/90 text-lg leading-relaxed whitespace-pre-wrap italic">"${safeText(reviewData.reviewText)}"</p>
-            </div>
-            <div class="pt-2 text-center">
-                <span class="inline-block bg-button-primary/20 text-button-primary px-3 py-1 rounded-full text-sm font-bold border border-button-primary/30">
-                    <i class="fas fa-thumbs-up mr-1"></i> ${reviewData.likes || 0} people found this helpful
-                </span>
-            </div>
-        `;
-
-        // Show Modal
-        document.body.classList.add('modal-open');
-        modal.classList.remove('opacity-0', 'pointer-events-none');
-        document.getElementById('single-review-content').classList.remove('scale-95');
-
-        // Close Logic
-        const closeBtn = document.getElementById('close-single-review');
-        const backdrop = document.getElementById('single-review-backdrop');
-        
-        const closeFn = () => {
-            document.body.classList.remove('modal-open');
-            modal.classList.add('opacity-0', 'pointer-events-none');
-            document.getElementById('single-review-content').classList.add('scale-95');
-            
-            // Clean URL
-            const newUrl = window.location.pathname;
-            window.history.pushState({}, '', newUrl);
-        };
-
-        closeBtn.onclick = closeFn;
-        backdrop.onclick = closeFn;
-    }
 };
 
 const getLikedReviews = () => JSON.parse(localStorage.getItem(likedReviewsKey) || '[]');
@@ -634,28 +481,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     // 2. Reviews Page Logic
     if (document.getElementById('content-reviews')) {
         startReviewListener();
-        
-        // Add Click Listeners via delegation
         document.body.addEventListener('click', (e) => {
-            // Like Button
-            const likeBtn = e.target.closest('.like-button');
-            if (likeBtn) {
+            const btn = e.target.closest('.like-button');
+            if (btn) {
                 e.preventDefault();
-                const rid = likeBtn.getAttribute('data-review-id');
+                const rid = btn.getAttribute('data-review-id');
                 if (rid) incrementReviewLike(rid);
             }
-
-            // Share Button
-            const shareBtn = e.target.closest('.share-btn');
-            if (shareBtn) {
-                e.preventDefault();
-                const rid = shareBtn.getAttribute('data-review-id');
-                if (rid) handleShare(rid);
-            }
         });
-
-        // Check URL on load for direct links (moved inside listener mostly, but good to check empty state)
-        // handleDeepLinkReview() is called inside startReviewListener to ensure data availability
     }
 
     // 3. Static Data Pages
