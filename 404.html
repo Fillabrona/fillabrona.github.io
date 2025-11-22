@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found - Quiz for Survival</title>
+    <meta name="robots" content="noindex">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { theme: { extend: { colors: { 'main-bg': '#2b333e', 'link-primary': '#04a4b0', 'button-primary': '#008C8C', 'card-bg': 'rgba(43, 51, 62, 0.5)' }, fontFamily: { sans: ['Times New Roman', 'serif'] } } } }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.8.1/dist/dotlottie-wc.js" type="module"></script>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+
+    <div class="flex flex-col items-center text-center">
+        <dotlottie-wc 
+            src="https://lottie.host/47ace394-5c3b-4f9b-b3fc-b6a2e0514288/IFwzZgHc8T.lottie"
+            style="width: 300px; max-width: 100%;" 
+            autoplay loop>
+        </dotlottie-wc>
+
+        <h3 class="text-3xl sm:text-4xl font-bold text-white mb-6 mt-4">Page Not Found</h3>
+
+        <p class="text-xl text-white/80 mb-10 max-w-sm mx-auto">
+            It looks like the link you followed doesn't exist here. Time to head back to the quiz!
+        </p>
+
+        <a href="/" class="inline-block px-10 py-3 text-xl font-semibold text-main-bg bg-button-primary rounded-xl transition duration-300 hover:bg-opacity-80 active:scale-95 shadow-lg">
+            <i class="fas fa-arrow-left mr-2"></i> Go to Home
+        </a>
+    </div>
+
+</body>
+</html>
