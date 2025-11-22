@@ -101,24 +101,31 @@
                 <!-- END NEW STATIC TITLE -->
                 
                 <!-- Content will be injected by JS -->
-                <div class="space-y-4"> <!-- Added wrapper div -->
-                    <div class="flex justify-between items-center"> <!-- REMOVED border-b and pb-3 -->
+                <!-- NEW: Encapsulating bubble -->
+                <div class="review-text-bubble space-y-4 p-4 sm:p-6">
+                    
+                    <!-- User/Date moved inside -->
+                    <div class="flex justify-between items-center border-b border-link-primary/30 pb-3">
                         <h4 id="review-modal-user" class="text-xl font-bold text-link-primary">...</h4>
                         <span id="review-modal-date" class="text-sm text-white/60">...</span>
                     </div>
-                    <p id="review-modal-text" class="review-text-bubble text-white/90 text-md leading-relaxed whitespace-pre-wrap max-h-60 overflow-y-auto">...</p>
+                    
+                    <!-- Text -->
+                    <p id="review-modal-text" class="text-white/90 text-md leading-relaxed whitespace-pre-wrap max-h-60 overflow-y-auto">...</p>
+                    
+                    <!-- Playtime/Likes moved inside -->
                     <div class="flex justify-between items-center pt-3">
                         <span id="review-modal-playtime" class="playtime-bubble text-sm italic">...</span>
                         <span id="review-modal-likes" class="like-button-static">
                             <i class="fas fa-thumbs-up mr-2"></i> ...
                         </span>
                     </div>
-                </div> <!-- End wrapper div -->
+                </div> <!-- End encapsulating bubble -->
             </div>
 
             <!-- Lottie Animation Container -->
             <div class="absolute bottom-0 left-0 right-0 h-20 sm:h-24 z-0 pointer-events-none"> <!-- Changed h-24/32 to h-20/24 -->
-                 <dotlottie-wc src="https://lottie.host/30e674cf-5b59-4f4b-974f-1f859658d4fc/DamOLBHpzM.lottie" style="width: 100%; height: auto; max-width: 300px; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%);" autoplay loop></dotlottie-wc> <!-- Changed max-width and bottom -->
+                 <dotlottie-wc src="https://lottie.host/716e1989-79ae-407f-be04-805db52a41d0/An5bYIcZ5e.lottie" style="width: 100%; height: auto; max-width: 280px; position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%);" autoplay loop></dotlottie-wc> <!-- New Cat URL, smaller max-width and adjusted bottom -->
             </div>
         </div>
     </div>
