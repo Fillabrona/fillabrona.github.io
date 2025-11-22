@@ -485,43 +485,35 @@ dotlottie-wc {
 
 /* A static, non-interactive version of the like button for the modal */
 .like-button-static {
-    background-color: #04a4b0;
-    color: #2b333e;
-    opacity: 0.6;
-    padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
-    font-weight: 600;
-    display: inline-flex;
+/* ... existing code ...
     align-items: center;
 }
 
 /* New Share Button for review cards */
 .share-button {
-    background-color: rgba(255, 255, 255, 0.1);
-    color: white;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    padding: 0.5rem; /* Changed from 0.5rem 1rem */
-    width: 2.25rem; /* Added w-9 */
-    height: 2.25rem; /* Added h-9 */
-    display: flex; /* Added */
-    align-items: center; /* Added */
-    justify-content: center; /* Added */
+    background-color: transparent;
+    color: rgba(255, 255, 255, 0.7); /* Slightly transparent white */
+    border: none;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 0.5rem;
-    font-weight: 600;
     transition: all 0.2s ease-in-out;
     cursor: pointer;
-    margin-left: 0.5rem; /* Ensure spacing from like button if needed */
     flex-shrink: 0;
+    font-size: 1.125rem; /* Makes the icon a bit bigger */
 }
 .share-button:hover {
-    background-color: white;
-    color: #2b333e;
-    box-shadow: none; /* Removed shadow as requested */
+    background-color: transparent; /* No bg on hover */
+    color: #04a4b0; /* Color change on hover */
+    box-shadow: none;
+    transform: scale(1.15); /* A little pop effect */
 }
 .share-button:disabled {
-    background-color: #04a4b0;
-    color: #2b333e;
-    opacity: 0.8;
+    background-color: transparent;
+    color: #04a4b0;
+    opacity: 0.6;
     cursor: not-allowed;
-    border-color: transparent;
+    transform: none;
 }
