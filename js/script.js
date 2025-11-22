@@ -2,7 +2,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
 import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 import { getFirestore, doc, onSnapshot, updateDoc, increment, setDoc, runTransaction, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-import { getDatabase, ref, onValue, runTransaction as rtdbRunTransaction, query, orderByChild } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
+import { getDatabase, ref, onValue, runTransaction as rtdbRunTransaction, query, orderByChild, get } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
 
 // --- FIREBASE CONFIGURATION ---
 const FIRESTORE_DOWNLOAD_CONFIG = {
@@ -46,6 +46,11 @@ const abbreviateNumber = (num) => {
         notation: 'compact',
         maximumFractionDigits: 1
     }).format(num);
+};
+const safeText = (str) => {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
 };
 
 // --- FIREBASE INIT ---
@@ -146,6 +151,7 @@ const createReviewCard = (review, hasLiked) => {
     const date = new Date(review.timestamp * 1000);
     const formattedDate = date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
     const likeCount = review.likes || 0;
+    const shareUrl = `https://fillabrona.github.io/reviews/?review=${review.id}`;
 
     return `
         <div class="review-card space-y-4">
@@ -154,20 +160,19 @@ const createReviewCard = (review, hasLiked) => {
                 <span class="text-sm text-white/60">${formattedDate}</span>
             </div>
             <p class="review-text-bubble text-white/90 text-md leading-relaxed whitespace-pre-wrap">${safeText(review.reviewText)}</p>
-            <div class="flex justify-between items-center pt-3">
+            <div class="flex justify-between items-center pt-3 space-x-2">
                 <span class="playtime-bubble text-sm italic">Playtime: ${(review.playtimeHours || 0).toFixed(1)} hours</span>
-                <button class="like-button" data-review-id="${review.id}" ${hasLiked ? 'disabled' : ''}>
-                    <i class="fas fa-thumbs-up mr-2"></i> ${hasLiked ? 'Liked' : 'Helpful'} (${likeCount})
-                </button>
+                <div class="flex-shrink-0 flex items-center space-x-2">
+                    <button class="share-button" data-share-url="${shareUrl}">
+                        <i class="fas fa-share-alt mr-2"></i> Share
+                    </button>
+                    <button class="like-button" data-review-id="${review.id}" ${hasLiked ? 'disabled' : ''}>
+                        <i class="fas fa-thumbs-up mr-2"></i> ${hasLiked ? 'Liked' : 'Helpful'} (${likeCount})
+                    </button>
+                </div>
             </div>
         </div>
     `;
-};
-
-const safeText = (str) => {
-    const div = document.createElement('div');
-    div.textContent = str;
-    return div.innerHTML;
 };
 
 const incrementReviewLike = (reviewId) => {
@@ -202,6 +207,84 @@ const addLikedReview = (reviewId) => {
 const removeLikedReview = (reviewId) => {
     const liked = getLikedReviews().filter(id => id !== reviewId);
     localStorage.setItem(likedReviewsKey, JSON.stringify(liked));
+};
+
+
+// --- REVIEW MODAL LOGIC ---
+let currentReview = null; // To cache review data
+
+const showReviewModal = (review) => {
+    const modal = document.getElementById('review-modal-backdrop');
+    if (!modal || !review) return;
+
+    currentReview = review;
+
+    // 1. Populate Content
+    const date = new Date(review.timestamp * 1000);
+    const formattedDate = date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+    const likeCount = review.likes || 0;
+
+    document.getElementById('review-modal-user').textContent = safeText(review.userName || 'Anonymous');
+    document.getElementById('review-modal-date').textContent = formattedDate;
+    document.getElementById('review-modal-text').innerHTML = safeText(review.reviewText); // Use innerHTML to respect pre-wrap
+    document.getElementById('review-modal-playtime').textContent = `Playtime: ${(review.playtimeHours || 0).toFixed(1)} hours`;
+    document.getElementById('review-modal-likes').innerHTML = `<i class="fas fa-thumbs-up mr-2"></i> Helpful (${likeCount})`;
+
+    // 2. Show Modal
+    document.body.classList.add('modal-open');
+    modal.classList.remove('opacity-0', 'pointer-events-none');
+    document.getElementById('review-modal-content').classList.remove('scale-90');
+};
+
+const hideReviewModal = () => {
+    const modal = document.getElementById('review-modal-backdrop');
+    if (!modal) return;
+    
+    document.body.classList.remove('modal-open');
+    modal.classList.add('opacity-0', 'pointer-events-none');
+    document.getElementById('review-modal-content').classList.add('scale-90');
+
+    // Clear the URL query string
+    if (window.history.pushState) {
+        const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+        window.history.pushState({ path: newUrl }, '', newUrl);
+    }
+    currentReview = null;
+};
+
+const fetchAndShowReviewModal = async (reviewId) => {
+    if (!rtdb || !reviewId) return;
+    
+    // Check if we already have this review from the main list
+    if (currentReview && currentReview.id === reviewId) {
+         showReviewModal(currentReview);
+         return;
+    }
+
+    const reviewRef = ref(rtdb, `reviews/${reviewId}`);
+    try {
+        const snapshot = await get(reviewRef);
+        if (snapshot.exists()) {
+            const reviewData = { id: snapshot.key, ...snapshot.val() };
+            showReviewModal(reviewData);
+        } else {
+            console.error(`Review with ID ${reviewId} not found.`);
+            // Don't alert, just remove the bad URL parameter
+            hideReviewModal();
+        }
+    } catch (error) {
+        console.error("Error fetching review:", error);
+        hideReviewModal(); // Clear URL on error
+    }
+};
+
+const checkUrlForReview = () => {
+    const params = new URLSearchParams(window.location.search);
+    const reviewId = params.get('review');
+    if (reviewId) {
+        // This function is called after Firebase Init, so rtdb should be ready
+        fetchAndShowReviewModal(reviewId);
+    }
 };
 
 // --- POPULATORS ---
@@ -481,14 +564,57 @@ document.addEventListener('DOMContentLoaded', async () => {
     // 2. Reviews Page Logic
     if (document.getElementById('content-reviews')) {
         startReviewListener();
-        document.body.addEventListener('click', (e) => {
-            const btn = e.target.closest('.like-button');
-            if (btn) {
-                e.preventDefault();
-                const rid = btn.getAttribute('data-review-id');
-                if (rid) incrementReviewLike(rid);
+
+        // Modal Listeners
+        const modalBackdrop = document.getElementById('review-modal-backdrop');
+        const modalCloseBtn = document.getElementById('review-modal-close-button');
+        
+        if(modalBackdrop) modalBackdrop.addEventListener('click', (e) => {
+            if (e.target.id === 'review-modal-backdrop') {
+                hideReviewModal();
             }
         });
+        if(modalCloseBtn) modalCloseBtn.addEventListener('click', hideReviewModal);
+
+        // Delegated click listener for review card buttons
+        document.body.addEventListener('click', (e) => {
+            // Like Button
+            const likeBtn = e.target.closest('.like-button');
+            if (likeBtn) {
+                e.preventDefault();
+                const rid = likeBtn.getAttribute('data-review-id');
+                if (rid) incrementReviewLike(rid);
+                return; // Stop processing
+            }
+
+            // Share Button
+            const shareBtn = e.target.closest('.share-button');
+            if (shareBtn) {
+                e.preventDefault();
+                const url = shareBtn.getAttribute('data-share-url');
+                if (url) {
+                    navigator.clipboard.writeText(url).then(() => {
+                        shareBtn.innerHTML = '<i class="fas fa-check mr-2"></i> Copied!';
+                        shareBtn.disabled = true;
+                        setTimeout(() => {
+                            shareBtn.innerHTML = '<i class="fas fa-share-alt mr-2"></i> Share';
+                            shareBtn.disabled = false;
+                        }, 2000);
+                    }).catch(err => {
+                        console.error('Failed to copy: ', err);
+                        shareBtn.innerHTML = 'Copy Failed';
+                        setTimeout(() => {
+                            shareBtn.innerHTML = '<i class="fas fa-share-alt mr-2"></i> Share';
+                        }, 2000);
+                    });
+                }
+                return; // Stop processing
+            }
+        });
+        
+        // Check URL for a specific review ID
+        // This runs after await initializeFirebase(), so rtdb is ready.
+        checkUrlForReview();
     }
 
     // 3. Static Data Pages
