@@ -74,85 +74,14 @@
 						<i class="fa-solid fa-circle-info text-link-primary text-xl"></i>
 						<span>Reviews can only be sent from the game itself, not the website.</span>
 					</div>
-                    
-                    <!-- Skeleton Loader (Hidden when loaded) -->
-                    <div id="reviews-loader" class="space-y-6">
-                        <div class="review-card space-y-4 animate-pulse">
-                            <div class="flex justify-between items-center border-b border-white/10 pb-3">
-                                <div class="h-6 w-32 bg-white/5 rounded"></div>
-                                <div class="h-4 w-24 bg-white/5 rounded"></div>
-                            </div>
-                            <div class="h-16 w-full bg-white/5 rounded-lg"></div>
-                            <div class="flex justify-between items-center pt-3">
-                                <div class="h-5 w-24 bg-white/5 rounded-full"></div>
-                                <div class="h-8 w-20 bg-white/5 rounded"></div>
-                            </div>
-                        </div>
-                        <div class="review-card space-y-4 animate-pulse">
-                            <div class="flex justify-between items-center border-b border-white/10 pb-3">
-                                <div class="h-6 w-40 bg-white/5 rounded"></div>
-                                <div class="h-4 w-24 bg-white/5 rounded"></div>
-                            </div>
-                            <div class="h-20 w-full bg-white/5 rounded-lg"></div>
-                            <div class="flex justify-between items-center pt-3">
-                                <div class="h-5 w-24 bg-white/5 rounded-full"></div>
-                                <div class="h-8 w-20 bg-white/5 rounded"></div>
-                            </div>
-                        </div>
-                        <div class="review-card space-y-4 animate-pulse">
-                            <div class="flex justify-between items-center border-b border-white/10 pb-3">
-                                <div class="h-6 w-28 bg-white/5 rounded"></div>
-                                <div class="h-4 w-24 bg-white/5 rounded"></div>
-                            </div>
-                            <div class="h-12 w-full bg-white/5 rounded-lg"></div>
-                            <div class="flex justify-between items-center pt-3">
-                                <div class="h-5 w-24 bg-white/5 rounded-full"></div>
-                                <div class="h-8 w-20 bg-white/5 rounded"></div>
-                            </div>
-                        </div>
+                    <div id="reviews-loader" class="flex items-center justify-center p-12">
+                        <i class="fas fa-spinner fa-spin text-4xl text-link-primary"></i>
+                        <span class="ml-4 text-2xl text-white/80">Loading Reviews...</span>
                     </div>
-
-                    <div id="reviews-container" class="space-y-6 hidden"></div>
+                    <div id="reviews-container" class="space-y-6"></div>
                 </div>
             </section>
         </main>
-    </div>
-
-    <!-- Single Review Modal (Deep Link View) -->
-    <div id="single-review-modal" class="fixed inset-0 z-[100] flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 p-4">
-        <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" id="single-review-backdrop"></div>
-        <div class="card-glass w-full max-w-2xl p-0 rounded-2xl shadow-2xl transform scale-95 transition-transform duration-300 relative z-10 overflow-hidden" id="single-review-content">
-            <div class="p-6 border-b border-white/10 flex justify-between items-center bg-main-bg/30">
-                <h3 class="text-xl font-bold text-link-primary"><i class="fas fa-quote-left mr-2"></i> Shared Review</h3>
-                <button id="close-single-review" class="text-white/50 hover:text-white transition-colors">
-                    <i class="fas fa-times text-2xl"></i>
-                </button>
-            </div>
-            <div id="single-review-body" class="p-6 sm:p-8 space-y-4 bg-main-bg/20">
-                <!-- Dynamic Content -->
-            </div>
-            <div class="p-4 bg-black/20 text-center border-t border-white/5">
-                <p class="text-sm text-white/60">Explore more reviews on the list!</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Desktop Share Modal -->
-    <div id="share-modal" class="fixed inset-0 z-[100] flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 p-4">
-        <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" id="share-modal-backdrop"></div>
-        <div class="card-glass w-full max-w-md p-6 rounded-2xl shadow-2xl transform scale-95 transition-transform duration-300 relative z-10 text-center">
-            <h3 class="text-2xl font-bold text-white mb-2">Share Review</h3>
-            <p class="text-white/60 mb-6">Copy the link below to share this review.</p>
-            
-            <div class="flex items-center bg-black/30 rounded-lg p-2 border border-white/10 mb-6">
-                <input type="text" id="share-url-input" class="bg-transparent border-none outline-none text-link-primary w-full px-2 text-sm sm:text-base truncate" readonly>
-                <button id="copy-link-btn" class="bg-button-primary hover:bg-link-primary text-white px-4 py-2 rounded-md transition-colors ml-2 whitespace-nowrap">
-                    Copy
-                </button>
-            </div>
-            
-            <button id="close-share-modal" class="text-white/50 hover:text-white text-sm underline">Close</button>
-        </div>
     </div>
 
     <footer id="site-footer" class="mt-auto">
