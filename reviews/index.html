@@ -84,6 +84,37 @@
         </main>
     </div>
 
+    <!-- Review Share Modal -->
+    <div id="review-modal-backdrop" class="fixed inset-0 bg-black bg-opacity-80 z-[60] flex items-center justify-center transition-opacity duration-300 opacity-0 pointer-events-none">
+        <div id="review-modal-content" class="bg-card-bg p-6 sm:p-8 rounded-2xl shadow-2xl max-w-lg w-11/12 transform scale-90 transition-all duration-300 relative border-2 border-link-primary/50 card-glass overflow-hidden">
+            
+            <button id="review-modal-close-button" class="absolute top-3 right-3 text-white/50 hover:text-white transition duration-200 z-20">
+                <i class="fas fa-times-circle text-2xl"></i>
+            </button>
+            
+            <!-- Modal Body -->
+            <div id="review-modal-body" class="relative z-10 space-y-4 mb-16">
+                <!-- Content will be injected by JS -->
+                <div class="flex justify-between items-center border-b border-link-primary/30 pb-3">
+                    <h4 id="review-modal-user" class="text-xl font-bold text-link-primary">...</h4>
+                    <span id="review-modal-date" class="text-sm text-white/60">...</span>
+                </div>
+                <p id="review-modal-text" class="review-text-bubble text-white/90 text-md leading-relaxed whitespace-pre-wrap max-h-60 overflow-y-auto">...</p>
+                <div class="flex justify-between items-center pt-3">
+                    <span id="review-modal-playtime" class="playtime-bubble text-sm italic">...</span>
+                    <span id="review-modal-likes" class="like-button-static">
+                        <i class="fas fa-thumbs-up mr-2"></i> ...
+                    </span>
+                </div>
+            </div>
+
+            <!-- Lottie Animation Container -->
+            <div class="absolute bottom-0 left-0 right-0 h-24 sm:h-32 z-0 pointer-events-none">
+                 <dotlottie-wc src="https://lottie.host/30e674cf-5b59-4f4b-974f-1f859658d4fc/DamOLBHpzM.lottie" style="width: 100%; height: auto; max-width: 400px; position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%);" autoplay loop></dotlottie-wc>
+            </div>
+        </div>
+    </div>
+
     <footer id="site-footer" class="mt-auto">
         <div class="max-w-5xl mx-auto px-4 sm:px-2">
             <div class="p-6 sm:p-8">
