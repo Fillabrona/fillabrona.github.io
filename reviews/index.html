@@ -75,91 +75,83 @@
 						<span>Reviews can only be sent from the game itself, not the website.</span>
 					</div>
                     
-                    <!-- NEW: Plain White Skeleton Loader -->
+                    <!-- Skeleton Loader (Hidden when loaded) -->
                     <div id="reviews-loader" class="space-y-6">
-                        <!-- Skeleton Card 1 -->
-                        <div class="skeleton-card space-y-4 p-4 rounded-xl border border-white/10">
-                            <div class="flex justify-between items-center pb-3">
-                                <div class="h-5 bg-white/20 rounded w-1/3"></div>
-                                <div class="h-3 bg-white/10 rounded w-1/4"></div>
+                        <div class="review-card space-y-4 animate-pulse">
+                            <div class="flex justify-between items-center border-b border-white/10 pb-3">
+                                <div class="h-6 w-32 bg-white/5 rounded"></div>
+                                <div class="h-4 w-24 bg-white/5 rounded"></div>
                             </div>
-                            <div class="space-y-2 !p-3">
-                                <div class="h-4 bg-white/20 rounded w-full"></div>
-                                <div class="h-4 bg-white/10 rounded w-5/6"></div>
-                            </div>
+                            <div class="h-16 w-full bg-white/5 rounded-lg"></div>
                             <div class="flex justify-between items-center pt-3">
-                                <div class="h-6 bg-white/20 rounded w-1/4"></div>
-                                <div class="flex-shrink-0 flex items-center space-x-3">
-                                    <div class="h-8 w-8 bg-transparent rounded-md"></div> <!-- Share icon placeholder -->
-                                    <div class="h-9 w-24 bg-white/20 rounded-md"></div> <!-- Like button -->
-                                </div>
+                                <div class="h-5 w-24 bg-white/5 rounded-full"></div>
+                                <div class="h-8 w-20 bg-white/5 rounded"></div>
                             </div>
                         </div>
-                        <!-- Skeleton Card 2 -->
-                        <div class="skeleton-card space-y-4 p-4 rounded-xl border border-white/10">
-                            <div class="flex justify-between items-center pb-3">
-                                <div class="h-5 bg-white/20 rounded w-2/5"></div>
-                                <div class="h-3 bg-white/10 rounded w-1/4"></div>
+                        <div class="review-card space-y-4 animate-pulse">
+                            <div class="flex justify-between items-center border-b border-white/10 pb-3">
+                                <div class="h-6 w-40 bg-white/5 rounded"></div>
+                                <div class="h-4 w-24 bg-white/5 rounded"></div>
                             </div>
-                            <div class="space-y-2 !p-3">
-                                <div class="h-4 bg-white/20 rounded w-full"></div>
-                            </div>
+                            <div class="h-20 w-full bg-white/5 rounded-lg"></div>
                             <div class="flex justify-between items-center pt-3">
-                                <div class="h-6 bg-white/20 rounded w-1/3"></div>
-                                <div class="flex-shrink-0 flex items-center space-x-3">
-                                    <div class="h-8 w-8 bg-transparent rounded-md"></div> <!-- Share icon placeholder -->
-                                    <div class="h-9 w-24 bg-white/20 rounded-md"></div> <!-- Like button -->
-                                </div>
+                                <div class="h-5 w-24 bg-white/5 rounded-full"></div>
+                                <div class="h-8 w-20 bg-white/5 rounded"></div>
+                            </div>
+                        </div>
+                        <div class="review-card space-y-4 animate-pulse">
+                            <div class="flex justify-between items-center border-b border-white/10 pb-3">
+                                <div class="h-6 w-28 bg-white/5 rounded"></div>
+                                <div class="h-4 w-24 bg-white/5 rounded"></div>
+                            </div>
+                            <div class="h-12 w-full bg-white/5 rounded-lg"></div>
+                            <div class="flex justify-between items-center pt-3">
+                                <div class="h-5 w-24 bg-white/5 rounded-full"></div>
+                                <div class="h-8 w-20 bg-white/5 rounded"></div>
                             </div>
                         </div>
                     </div>
-                    <!-- END: Skeleton Loader -->
 
-                    <div id="reviews-container" class="space-y-6"></div>
+                    <div id="reviews-container" class="space-y-6 hidden"></div>
                 </div>
             </section>
         </main>
     </div>
 
-    <!-- Review Share Modal -->
-    <div id="review-modal-backdrop" class="fixed inset-0 bg-black bg-opacity-80 z-[60] flex items-center justify-center transition-opacity duration-300 opacity-0 pointer-events-none">
-        <div id="review-modal-content" class="bg-card-bg p-4 sm:p-6 rounded-2xl shadow-2xl max-w-lg w-11/12 transform scale-90 transition-all duration-300 relative border-2 border-link-primary/50 card-glass overflow-hidden">
-            
-            <button id="review-modal-close-button" class="absolute top-3 right-3 text-white/50 hover:text-white transition duration-200 z-20">
-                <i class="fas fa-times-circle text-2xl"></i>
-            </button>
-            
-            <!-- Modal Body -->
-            <div id="review-modal-body" class="relative z-10 space-y-3">
-                <!-- NEW STATIC TITLE -->
-                <h3 class="text-2xl sm:text-3xl font-bold text-button-primary flex items-center">
-                    <i class="fas fa-comment-dots mr-3 text-2xl"></i> Player Review
-                </h3>
-                <!-- END NEW STATIC TITLE -->
-                
-                <!-- Content will be injected by JS -->
-                <!-- NEW: Encapsulating bubble -->
-                <div class="review-text-bubble space-y-3 p-3 sm:p-4">
-                    
-                    <!-- User/Date moved inside -->
-                    <div class="flex justify-between items-center border-b border-link-primary/30 pb-3">
-                        <h4 id="review-modal-user" class="text-xl font-bold text-link-primary">...</h4>
-                        <span id="review-modal-date" class="text-sm text-white/60">...</span>
-                    </div>
-                    
-                    <!-- Text -->
-                    <p id="review-modal-text" class="text-white/90 text-md leading-relaxed whitespace-pre-wrap max-h-60 overflow-y-auto">...</p>
-                    
-                    <!-- Playtime/Likes moved inside -->
-                    <div class="flex justify-between items-center pt-3">
-                        <span id="review-modal-playtime" class="playtime-bubble text-sm italic">...</span>
-                        <!-- New functional Like button in modal -->
-                        <button id="review-modal-likes" data-review-id="" class="like-button">
-                            <i class="fas fa-thumbs-up mr-2"></i> <span>...</span>
-                        </button>
-                    </div>
-                </div> <!-- End encapsulating bubble -->
+    <!-- Single Review Modal (Deep Link View) -->
+    <div id="single-review-modal" class="fixed inset-0 z-[100] flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 p-4">
+        <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" id="single-review-backdrop"></div>
+        <div class="card-glass w-full max-w-2xl p-0 rounded-2xl shadow-2xl transform scale-95 transition-transform duration-300 relative z-10 overflow-hidden" id="single-review-content">
+            <div class="p-6 border-b border-white/10 flex justify-between items-center bg-main-bg/30">
+                <h3 class="text-xl font-bold text-link-primary"><i class="fas fa-quote-left mr-2"></i> Shared Review</h3>
+                <button id="close-single-review" class="text-white/50 hover:text-white transition-colors">
+                    <i class="fas fa-times text-2xl"></i>
+                </button>
             </div>
+            <div id="single-review-body" class="p-6 sm:p-8 space-y-4 bg-main-bg/20">
+                <!-- Dynamic Content -->
+            </div>
+            <div class="p-4 bg-black/20 text-center border-t border-white/5">
+                <p class="text-sm text-white/60">Explore more reviews on the list!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Desktop Share Modal -->
+    <div id="share-modal" class="fixed inset-0 z-[100] flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 p-4">
+        <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" id="share-modal-backdrop"></div>
+        <div class="card-glass w-full max-w-md p-6 rounded-2xl shadow-2xl transform scale-95 transition-transform duration-300 relative z-10 text-center">
+            <h3 class="text-2xl font-bold text-white mb-2">Share Review</h3>
+            <p class="text-white/60 mb-6">Copy the link below to share this review.</p>
+            
+            <div class="flex items-center bg-black/30 rounded-lg p-2 border border-white/10 mb-6">
+                <input type="text" id="share-url-input" class="bg-transparent border-none outline-none text-link-primary w-full px-2 text-sm sm:text-base truncate" readonly>
+                <button id="copy-link-btn" class="bg-button-primary hover:bg-link-primary text-white px-4 py-2 rounded-md transition-colors ml-2 whitespace-nowrap">
+                    Copy
+                </button>
+            </div>
+            
+            <button id="close-share-modal" class="text-white/50 hover:text-white text-sm underline">Close</button>
         </div>
     </div>
 
