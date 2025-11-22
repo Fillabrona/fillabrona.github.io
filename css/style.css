@@ -1,4 +1,4 @@
-/* Base Styles */
+/* 1. Base Styles and Scrollbar */
 body {
     background-color: #2b333e;
     color: white;
@@ -9,7 +9,7 @@ body {
 body::-webkit-scrollbar { width: 8px; }
 body::-webkit-scrollbar-thumb { background-color: #04a4b0; border-radius: 4px; }
 
-/* Glassmorphism */
+/* 2. Sleek Glassmorphism */
 .card-glass {
     background: rgba(43, 51, 62, 0.5);
     backdrop-filter: blur(10px);
@@ -27,7 +27,7 @@ body::-webkit-scrollbar-thumb { background-color: #04a4b0; border-radius: 4px; }
 }
 .border-subtle-accent { border: 1px solid rgba(4, 164, 176, 0.2); }
 
-/* Hero Section */
+/* 3. Hero Section */
 .hero-background {
     width: 100%; min-height: 30vh; position: absolute; top: 0; left: 0; overflow: hidden; z-index: -3;
 }
@@ -36,6 +36,7 @@ body::-webkit-scrollbar-thumb { background-color: #04a4b0; border-radius: 4px; }
     background-image: url('https://i.ibb.co/DHf41tLP/0602-1.png');
     background-size: cover; background-position: center;
     filter: blur(5px) brightness(0.4); transform: scale(1.05); z-index: -2;
+    transition: transform 0.8s ease;
 }
 .hero-background::after {
     content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
@@ -43,20 +44,21 @@ body::-webkit-scrollbar-thumb { background-color: #04a4b0; border-radius: 4px; }
 }
 .hero-content-wrapper { min-height: 30vh; display: flex; align-items: center; justify-content: center; position: relative; }
 
-/* Navigation */
+/* 4. Navigation */
 nav { z-index: 50; }
 .nav-link {
     transition: all 0.2s; padding: 0.75rem 1rem; border-radius: 0.5rem;
     display: flex; align-items: center; background: rgba(255, 255, 255, 0.05);
     flex-grow: 1; justify-content: center; font-size: 1rem; text-align: center;
-    text-decoration: none; color: rgba(255, 255, 255, 0.8);
+    text-decoration: none; color: white;
 }
 @media (min-width: 640px) {
     .nav-link { flex-grow: 0; font-size: 1.125rem; justify-content: flex-start; text-align: left; }
 }
-.nav-link:hover { background: rgba(4, 164, 176, 0.2); color: white; }
-.nav-link.active { color: white; background: #04a4b0; box-shadow: 0 0 10px rgba(4, 164, 176, 0.4); }
+.nav-link:hover { background: rgba(4, 164, 176, 0.2); color: white; transform: none; box-shadow: none; }
+.nav-link.active { color: white; background: #04a4b0; box-shadow: 0 0 10px rgba(4, 164, 176, 0.4); transform: none; }
 .nav-link.active i { color: #2b333e; }
+.nav-link i { color: #04a4b0; transition: color 0.2s; }
 
 #nav-menu {
     max-height: 0; opacity: 0; overflow: hidden;
@@ -67,56 +69,81 @@ nav { z-index: 50; }
     #nav-menu { max-height: none !important; opacity: 1 !important; overflow: visible !important; padding-top: 0 !important; }
 }
 
-/* Changelog */
+/* 5. Changelog */
 .changelog-entry { border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
 .changelog-header {
-    cursor: pointer; padding: 1rem; transition: background-color 0.3s;
+    cursor: pointer; padding: 1rem; transition: background-color 0.3s ease-in-out;
     user-select: none; display: flex; justify-content: space-between; align-items: center;
 }
 @media (min-width: 640px) { .changelog-header { padding: 1.5rem; } }
 .changelog-header:hover { background-color: rgba(255, 255, 255, 0.05); }
 .changelog-header i { color: #008C8C; transition: transform 0.3s ease; }
-.changelog-header i.rotated { transform: rotate(180deg); }
+.changelog-header i.rotated { transform: rotate(180deg); color: #008C8C; }
 .changelog-content { transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1); overflow: hidden; }
 .changelog-change-block {
     background-color: rgba(255, 255, 255, 0.03); border: 1px solid rgba(4, 164, 176, 0.1);
     border-left: 5px solid #04a4b0; padding: 1rem; margin-bottom: 0.5rem;
 }
+@media (min-width: 640px) { .changelog-change-block { padding: 1.5rem; margin-bottom: 1rem; } }
 
-/* Reviews */
+/* 6. Layout */
+.main-wrapper {
+    padding: 1rem !important; padding-top: 0 !important;
+    --tw-space-y-reverse: 0;
+    margin-top: calc(1.5rem * calc(1 - var(--tw-space-y-reverse)));
+    margin-bottom: calc(1.5rem * var(--tw-space-y-reverse));
+}
+@media (min-width: 640px) {
+    .main-wrapper {
+        padding: 2rem !important; padding-top: 0 !important;
+        margin-top: calc(2rem * calc(1 - var(--tw-space-y-reverse)));
+        margin-bottom: calc(2rem * var(--tw-space-y-reverse));
+    }
+}
+
+/* 7. Buttons */
+#download-button:hover { background-color: white !important; color: #2b333e !important; }
+dotlottie-wc { user-select: none; pointer-events: none; cursor: default; }
+
+/* 8. Reviews */
 #reviews-loader { display: flex; align-items: center; justify-content: center; padding: 4rem 0; color: #04a4b0; }
 .review-card {
     background: rgba(43, 51, 62, 0.5); backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1);
     border-left: 4px solid #04a4b0; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
     padding: 1.25rem; border-radius: 0.75rem;
 }
 .review-text-bubble { background-color: rgba(0, 0, 0, 0.2); padding: 0.75rem 1rem; border-radius: 0.5rem; }
 .like-button {
     background-color: rgba(4, 164, 176, 0.15); color: #04a4b0; border: 1px solid rgba(4, 164, 176, 0.3);
-    padding: 0.5rem 1rem; border-radius: 0.5rem; font-weight: 600; cursor: pointer; transition: 0.2s;
+    padding: 0.5rem 1rem; border-radius: 0.5rem; font-weight: 600; transition: all 0.2s ease-in-out; cursor: pointer;
 }
-.like-button:hover { background-color: #04a4b0; color: #2b333e; }
-.like-button:disabled { background-color: #04a4b0; color: #2b333e; opacity: 0.6; cursor: not-allowed; }
+.like-button:hover { background-color: #04a4b0; color: #2b333e; box-shadow: 0 0 10px rgba(4, 164, 176, 0.4); }
+.like-button:disabled { background-color: #04a4b0; color: #2b333e; opacity: 0.6; cursor: not-allowed; border-color: transparent; box-shadow: none; }
 .playtime-bubble { background-color: rgba(4, 164, 176, 0.1); color: #04a4b0; padding: 0.25rem 0.75rem; border-radius: 9999px; font-weight: 600; }
 
-/* Bubbles (Tools/Info) */
+/* 9. Bubbles (Tools/Info) */
 .info-bubble {
     background-color: rgba(0, 0, 0, 0.15); border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 1rem; padding: 1rem; height: 100%; display: flex; flex-direction: column; transition: all 0.3s;
+    border-radius: 1rem; padding: 1rem; height: 100%; display: flex; flex-direction: column; transition: all 0.3s ease-in-out;
 }
 .info-bubble:hover {
-    background-color: rgba(4, 164, 176, 0.1); border-color: rgba(4, 164, 176, 0.4); transform: translateY(-2px);
+    background-color: rgba(4, 164, 176, 0.1); border-color: rgba(4, 164, 176, 0.4); transform: translateY(-2px); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 .info-bubble h4 { color: #04a4b0; font-weight: 700; font-size: 1.125rem; }
 .info-bubble .bubble-description { margin-top: auto; padding-top: 0.5rem; color: rgba(255, 255, 255, 0.8); font-size: 0.875rem; }
-.info-bubble.tool-bubble .tool-price { color: #008C8C; margin-left: 1rem; }
-.info-bubble.tool-bubble .tool-cooldown { color: rgba(255, 255, 255, 0.6); font-size: 0.75rem; mt: 0.75rem; }
+.info-bubble.tool-bubble .tool-price { color: #008C8C; font-weight: 600; margin-left: 1rem; }
+.info-bubble.tool-bubble .tool-cooldown { color: rgba(255, 255, 255, 0.6); font-size: 0.75rem; margin-top: 0.75rem; }
 
-/* Footer */
-#site-footer .card-glass { transform: none !important; border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+/* 10. Footer */
+#site-footer .card-glass { transform: none !important; border-top-left-radius: 1rem; border-top-right-radius: 1rem; border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
 .footer-link { color: rgba(255, 255, 255, 0.6); transition: all 0.3s ease; }
 .footer-link:hover { color: #04a4b0; transform: scale(1.15) translateY(-2px); }
 
-/* Buttons */
-#download-button:hover { background-color: white !important; color: #2b333e !important; }
+/* Mobile Tweaks */
+@media (max-width: 639px) {
+    .text-lg.text-start.md\:text-justify { font-size: 1.05rem; line-height: 1.6; }
+    .text-start { text-align: left !important; }
+    .card-glass.p-6.sm\:p-8 { padding: 1.25rem !important; }
+}
