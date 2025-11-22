@@ -577,7 +577,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if(modalCloseBtn) modalCloseBtn.addEventListener('click', hideReviewModal);
 
         // Delegated click listener for review card buttons
-        document.body.addEventListener('click', (e) => {
+        document.body.addEventListener('click', async (e) => { // Added async
             // Like Button
             const likeBtn = e.target.closest('.like-button');
             if (likeBtn) {
@@ -592,20 +592,36 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (shareBtn) {
                 e.preventDefault();
                 const url = shareBtn.getAttribute('data-share-url');
-                if (url) {
-                    navigator.clipboard.writeText(url).then(() => {
-                        shareBtn.innerHTML = '<i class="fas fa-check mr-2"></i> Copied!';
-                        shareBtn.disabled = true;
-                        setTimeout(() => {
-                            shareBtn.innerHTML = '<i class="fas fa-share-alt mr-2"></i> Share';
-                            shareBtn.disabled = false;
-                        }, 2000);
-                    }).catch(err => {
+                if (!url) return; // Make sure URL exists
+
+                // Find the review content for the share sheet
+                const reviewCard = shareBtn.closest('.review-card');
+                const reviewText = reviewCard.querySelector('.review-text-bubble').textContent.trim();
+                const reviewUser = reviewCard.querySelector('h4').textContent.trim();
+                
+                const shareData = {
+                    title: `Review for Quiz for Survival by ${reviewUser}`,
+                    text: `Check out this review: "${reviewText.substring(0, 150)}..."`,
+                    url: url
+                };
+
+                // Try using the Web Share API first
+                if (navigator.share) {
+                    try {
+                        await navigator.share(shareData);
+                        // Share was successful (or user cancelled)
+                    } catch (err) {
+                        // This error can happen if the user cancels the share, which is not a problem.
+                        // We'll log other errors.
+                        if (err.name !== 'AbortError') {
+                            console.error('Share failed:', err);
+                        }
+                    }
+                } else {
+                    // Fallback to clipboard if Web Share API is not available
+                    // No "Copied!" message as requested
+                    navigator.clipboard.writeText(url).catch(err => {
                         console.error('Failed to copy: ', err);
-                        shareBtn.innerHTML = 'Copy Failed';
-                        setTimeout(() => {
-                            shareBtn.innerHTML = '<i class="fas fa-share-alt mr-2"></i> Share';
-                        }, 2000);
                     });
                 }
                 return; // Stop processing
