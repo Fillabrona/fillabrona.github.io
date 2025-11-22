@@ -76,7 +76,6 @@
 					</div>
                     <div id="reviews-loader" class="flex items-center justify-center p-12">
                         <i class="fas fa-spinner fa-spin text-4xl text-link-primary"></i>
-                        <span class="ml-4 text-2xl text-white/80">Loading Reviews...</span>
                     </div>
                     <div id="reviews-container" class="space-y-6"></div>
                 </div>
@@ -93,7 +92,7 @@
             </button>
             
             <!-- Modal Body -->
-            <div id="review-modal-body" class="relative z-10 space-y-5 mb-12"> <!-- Changed to space-y-5 and mb-12 -->
+            <div id="review-modal-body" class="relative z-10 space-y-4"> <!-- Removed mb-12, changed space-y-5 to space-y-4 -->
                 <!-- NEW STATIC TITLE -->
                 <h3 class="text-2xl sm:text-3xl font-bold text-button-primary border-b border-button-primary/50 pb-3 flex items-center">
                     <i class="fas fa-comment-dots mr-3 text-2xl"></i> Player Review
@@ -102,7 +101,7 @@
                 
                 <!-- Content will be injected by JS -->
                 <!-- NEW: Encapsulating bubble -->
-                <div class="review-text-bubble space-y-4 p-4 sm:p-6">
+                <div class="review-text-bubble space-y-3 p-4"> <!-- Changed space-y-4 to space-y-3, and p-4 sm:p-6 to p-4 -->
                     
                     <!-- User/Date moved inside -->
                     <div class="flex justify-between items-center border-b border-link-primary/30 pb-3">
@@ -123,10 +122,7 @@
                 </div> <!-- End encapsulating bubble -->
             </div>
 
-            <!-- Lottie Animation Container -->
-            <div class="absolute bottom-0 left-0 right-0 h-20 sm:h-24 z-0 pointer-events-none"> <!-- Changed h-24/32 to h-20/24 -->
-                 <dotlottie-wc src="https://lottie.host/716e1989-79ae-407f-be04-805db52a41d0/An5bYIcZ5e.lottie" style="width: 100%; height: auto; max-width: 280px; position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%);" autoplay loop></dotlottie-wc> <!-- New Cat URL, smaller max-width and adjusted bottom -->
-            </div>
+            <!-- Lottie Animation Container REMOVED -->
         </div>
     </div>
 
