@@ -4,61 +4,107 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Player Reviews - Quiz for Survival</title>
+    <meta name="description" content="Read reviews from other players of Quiz for Survival.">
     <link rel="canonical" href="https://fillabrona.github.io/reviews/">
+
+    <meta property="og:title" content="Quiz for Survival - Reviews">
+    <meta property="og:image" content="https://i.ibb.co/Xxrtbmmp/cropped-circle-image-3.png">
+    <link rel="icon" type="image/png" href="https://i.ibb.co/Xxrtbmmp/cropped-circle-image-3.png">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.8.1/dist/dotlottie-wc.js" type="module"></script>
+    
+    <link rel="stylesheet" href="../css/style.css">
+
     <script>
         tailwind.config = { theme: { extend: { colors: { 'main-bg': '#2b333e', 'link-primary': '#04a4b0', 'button-primary': '#008C8C', 'card-bg': 'rgba(43, 51, 62, 0.5)' }, fontFamily: { sans: ['Times New Roman', 'serif'] } } } }
     </script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <link rel="stylesheet" href="../css/style.css">
 </head>
-<body class="min-h-screen">
+<body class="min-h-screen" data-page="reviews">
 
-<nav class="sticky top-0 z-50 w-full p-4">
-    <div class="max-w-5xl mx-auto p-2 rounded-xl shadow-2xl card-glass">
-        <div class="flex justify-between items-center sm:hidden p-2">
-            <h2 class="text-xl font-bold text-link-primary">Menu</h2>
-            <button id="menu-button" class="text-white/80 p-1"><i class="fas fa-bars text-2xl"></i></button>
-        </div>
-        <div id="nav-menu" class="sm:block">
-            <div class="flex flex-col sm:flex-row gap-2 sm:gap-5 text-lg font-semibold text-white/80 pt-2 sm:pt-0 sm:justify-center">
-                <a href="/" class="nav-link"><i class="fas fa-home mr-2"></i>Home</a>
-                <a href="/reviews/" class="nav-link"><i class="fas fa-star mr-2"></i>Reviews</a>
-                <a href="/about/" class="nav-link"><i class="fas fa-toolbox mr-2"></i>Tools & Logic</a>
-                <a href="/changelog/" class="nav-link"><i class="fas fa-code-branch mr-2"></i>Update Log</a>
-                <a href="/database/" class="nav-link"><i class="fas fa-database mr-2"></i>Game Info</a>
+    <nav id="site-nav" class="sticky top-0 z-50 w-full p-4">
+        <div class="max-w-5xl mx-auto p-2 rounded-xl shadow-2xl card-glass">
+            <div class="flex justify-between items-center sm:hidden p-2">
+                <h2 class="text-xl font-bold text-link-primary">Navigation</h2>
+                <button id="menu-button" class="text-white/80 hover:text-white transition duration-200 p-1">
+                    <i id="menu-icon" class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+            <div id="nav-menu" class="sm:block">
+                <div class="flex flex-col sm:flex-row gap-2 sm:gap-5 text-lg font-semibold text-white/80 pt-2 sm:pt-0 sm:justify-center">
+                    <a href="/" class="nav-link flex-1">
+                        <i class="fas fa-home mr-2 text-link-primary transition-colors duration-200"></i>Home
+                    </a>
+                    <a href="/reviews/" class="nav-link active flex-1 text-base sm:text-lg">
+                        <i class="fas fa-star mr-2 text-main-bg transition-colors duration-200"></i>Reviews
+                    </a>
+                    <a href="/about/" class="nav-link flex-1 text-base sm:text-lg">
+                        <i class="fas fa-toolbox mr-2 text-link-primary transition-colors duration-200"></i>Tools & Logic
+                    </a>
+                    <a href="/changelog/" class="nav-link flex-1 text-base sm:text-lg">
+                        <i class="fas fa-code-branch mr-2 text-link-primary transition-colors duration-200"></i>Update Log
+                    </a>
+                    <a href="/database/" class="nav-link flex-1 text-base sm:text-lg">
+                        <i class="fas fa-database mr-2 text-link-primary transition-colors duration-200"></i>Game Info
+                    </a>
+                </div>
             </div>
         </div>
-    </div>
-</nav>
+    </nav>
 
-<div class="hero-background"></div>
+    <div class="hero-background"></div>
 
-<header class="hero-content-wrapper text-center p-8 z-10 max-w-5xl mx-auto">
-    <div>
-        <h1 class="text-5xl font-extrabold tracking-tight text-white mb-4">Player Reviews</h1>
-        <p class="text-xl sm:text-2xl text-link-primary font-light tracking-wider">See what players are saying about the game.</p>
-    </div>
-</header>
-
-<div class="max-w-6xl mx-auto space-y-6 sm:space-y-8 p-4 sm:p-8 pt-0 main-wrapper">
-    <div class="card-glass p-6 sm:p-8 rounded-2xl shadow-xl space-y-6">
-        <div class="bg-main-bg/50 border border-link-primary/30 p-4 rounded-lg flex items-center space-x-3 text-white/80">
-            <i class="fa-solid fa-circle-info text-link-primary text-xl"></i>
-            <span>Reviews can only be sent from the game itself, not the website.</span>
+    <header id="site-header" class="hero-content-wrapper">
+        <div class="text-center p-8 z-10 max-w-5xl mx-auto">
+            <h1 class="text-5xl sm:text-7xl font-extrabold tracking-tight text-white mb-4">Player Reviews</h1>
+            <p class="text-xl sm:text-2xl text-link-primary font-light tracking-wider">See what players are saying about the game.</p>
         </div>
-        <div id="reviews-loader" class="flex items-center justify-center p-12">
-            <i class="fas fa-spinner fa-spin text-4xl text-link-primary"></i>
-            <span class="ml-4 text-2xl text-white/80">Loading Reviews...</span>
-        </div>
-        <div id="reviews-container" class="space-y-6"></div>
+    </header>
+    
+    <div class="max-w-6xl mx-auto space-y-6 sm:space-y-8 p-4 sm:p-8 pt-0 main-wrapper">
+        <main id="main-content" class="space-y-6 sm:space-y-8">
+            <section id="content-reviews" class="content-section space-y-6 sm:space-y-8">
+                <div class="card-glass p-6 sm:p-8 rounded-2xl shadow-xl space-y-6">
+                    <h3 class="text-2xl sm:text-3xl font-bold text-button-primary border-b border-button-primary/50 pb-3 flex items-center">
+                        <i class="fas fa-star-half-alt mr-3 text-2xl"></i> Player Reviews
+                    </h3>
+                    <div class="bg-main-bg/50 border border-link-primary/30 p-4 rounded-lg flex items-center space-x-3 text-white/80">
+						<i class="fa-solid fa-circle-info text-link-primary text-xl"></i>
+						<span>Reviews can only be sent from the game itself, not the website.</span>
+					</div>
+                    <div id="reviews-loader" class="flex items-center justify-center p-12">
+                        <i class="fas fa-spinner fa-spin text-4xl text-link-primary"></i>
+                        <span class="ml-4 text-2xl text-white/80">Loading Reviews...</span>
+                    </div>
+                    <div id="reviews-container" class="space-y-6"></div>
+                </div>
+            </section>
+        </main>
     </div>
-</div>
 
-<footer id="site-footer" class="mt-auto max-w-5xl mx-auto px-4 p-8">
-    <div class="text-center text-white/60 text-sm">&copy; 2025 Fillabrona. All Rights Reserved.</div>
-</footer>
+    <footer id="site-footer" class="mt-auto">
+        <div class="max-w-5xl mx-auto px-4 sm:px-2">
+            <div class="p-6 sm:p-8">
+                <div class="flex flex-col md:flex-row justify-between items-center text-center md:text-left space-y-6 md:space-y-0">
+                    <div class="flex-1">
+                        <h4 class="text-lg font-bold text-link-primary mb-1">Quiz for Survival</h4>
+                        <p class="text-sm text-white/60">&copy; 2025 Fillabrona. All Rights Reserved.</p>
+                    </div>
+                    <div class="flex-1 flex justify-center items-center space-x-8">
+                        <a href="https://fillabrona.itch.io/quiz-for-survival" target="_blank" class="footer-link"><i class="fab fa-itch-io text-3xl"></i></a>
+                        <a href="https://www.youtube.com/@FillabronaOfficial" target="_blank" class="footer-link"><i class="fab fa-youtube text-3xl"></i></a>
+                        <a href="https://discord.gg/8N3W6dJzbn" target="_blank" class="footer-link"><i class="fab fa-discord text-3xl"></i></a>
+                    </div>
+                    <div class="flex-1 text-center md:text-right">
+                         <p class="text-sm text-white/50">Game by Fillabrona</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
 
-<script type="module" src="../js/script.js"></script>
+    <script type="module" src="../js/script.js"></script>
 </body>
 </html>
