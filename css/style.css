@@ -520,7 +520,7 @@ dotlottie-wc {
 .share-button:hover {
     background-color: white;
     color: #2b333e;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    box-shadow: none; /* Removed shadow as requested */
 }
 .share-button:disabled {
     background-color: #04a4b0;
