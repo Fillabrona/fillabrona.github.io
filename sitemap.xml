@@ -1,14 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- 
-    Since your site is a Single Page App (SPA) using hash routing (#),
-    Google only sees and indexes the root URL. 
-    Do not add URLs with # here (e.g., #section=about), as they are invalid in sitemaps.
-  -->
   <url>
     <loc>https://fillabrona.github.io/</loc>
     <lastmod>2025-11-22</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
+    <priority>1.00</priority>
+  </url>
+  <url>
+    <loc>https://fillabrona.github.io/about/</loc>
+    <lastmod>2025-11-22</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://fillabrona.github.io/reviews/</loc>
+    <lastmod>2025-11-22</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://fillabrona.github.io/changelog/</loc>
+    <lastmod>2025-11-22</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://fillabrona.github.io/database/</loc>
+    <lastmod>2025-11-22</lastmod>
+    <priority>0.80</priority>
   </url>
 </urlset>
