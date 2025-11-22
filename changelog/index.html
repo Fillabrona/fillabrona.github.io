@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Log - Quiz for Survival</title>
+    <link rel="canonical" href="https://fillabrona.github.io/changelog/">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { theme: { extend: { colors: { 'main-bg': '#2b333e', 'link-primary': '#04a4b0', 'button-primary': '#008C8C', 'card-bg': 'rgba(43, 51, 62, 0.5)' }, fontFamily: { sans: ['Times New Roman', 'serif'] } } } }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="min-h-screen">
+
+<nav class="sticky top-0 z-50 w-full p-4">
+    <div class="max-w-5xl mx-auto p-2 rounded-xl shadow-2xl card-glass">
+        <div class="flex justify-between items-center sm:hidden p-2">
+            <h2 class="text-xl font-bold text-link-primary">Menu</h2>
+            <button id="menu-button" class="text-white/80 p-1"><i class="fas fa-bars text-2xl"></i></button>
+        </div>
+        <div id="nav-menu" class="sm:block">
+            <div class="flex flex-col sm:flex-row gap-2 sm:gap-5 text-lg font-semibold text-white/80 pt-2 sm:pt-0 sm:justify-center">
+                <a href="/" class="nav-link"><i class="fas fa-home mr-2"></i>Home</a>
+                <a href="/reviews/" class="nav-link"><i class="fas fa-star mr-2"></i>Reviews</a>
+                <a href="/about/" class="nav-link"><i class="fas fa-toolbox mr-2"></i>Tools & Logic</a>
+                <a href="/changelog/" class="nav-link"><i class="fas fa-code-branch mr-2"></i>Update Log</a>
+                <a href="/database/" class="nav-link"><i class="fas fa-database mr-2"></i>Game Info</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="hero-background"></div>
+
+<header class="hero-content-wrapper text-center p-8 z-10 max-w-5xl mx-auto">
+    <div>
+        <h1 class="text-5xl font-extrabold tracking-tight text-white mb-4">Update Log</h1>
+        <p class="text-xl sm:text-2xl text-link-primary font-light tracking-wider">A detailed history of all game versions.</p>
+    </div>
+</header>
+
+<div class="max-w-6xl mx-auto space-y-6 sm:space-y-8 p-4 sm:p-8 pt-0 main-wrapper">
+    <div class="card-glass p-0 rounded-2xl shadow-xl overflow-hidden">
+        <div id="changelog-content"></div>
+    </div>
+</div>
+
+<footer id="site-footer" class="mt-auto max-w-5xl mx-auto px-4 p-8">
+    <div class="text-center text-white/60 text-sm">&copy; 2025 Fillabrona. All Rights Reserved.</div>
+</footer>
+
+<script type="module" src="../js/script.js"></script>
+</body>
+</html>
