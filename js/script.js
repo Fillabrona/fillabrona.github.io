@@ -357,7 +357,33 @@ const formatContentText = (text, iconType = 'fa-feather') => {
 
 // --- INIT ---
 document.addEventListener('DOMContentLoaded', async () => {
-    // Mobile Menu
+    // Initialize Firebase first
+    await initializeFirebase();
+    
+    // Check for the #download hash for direct downloads
+    if (window.location.hash === '#download') {
+        document.body.innerHTML = `
+            <div style="background-color: #2b333e; color: white; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; font-family: 'Roboto', sans-serif; text-align: center; padding: 1rem;">
+                <h1 style="font-size: 2.5rem; color: #04a4b0; margin-bottom: 1rem;">Download Starting</h1>
+                <p style="font-size: 1.2rem; color: rgba(255,255,255,0.8);">Your download for Quiz for Survival will begin automatically.</p>
+                <p style="font-size: 0.9rem; color: rgba(255,255,255,0.6); margin-top: 2rem;">If nothing happens, please <a href="/" style="color: #04a4b0; text-decoration: underline;">return to the homepage</a> and try again.</p>
+            </div>
+        `;
+        document.title = "Download Starting - Quiz for Survival";
+
+        const masterData = await fetchMasterData('https://gist.githubusercontent.com/Fillabrona/5a17fe172177f74a4a65196ba1b53c50/raw/523059da8e38714ffd789d6c63c9e2b3f5d1d92b/downloadinfo');
+        if (masterData && masterData.downloadLink) {
+            await incrementDownloadCount();
+            setTimeout(() => {
+                window.location.href = masterData.downloadLink;
+            }, 1000); // Small delay to allow user to read the message
+        } else {
+             document.body.innerHTML += '<p style="color: red; margin-top: 1rem;">Error: Download link not found.</p>';
+        }
+        return; // Stop further execution of the script
+    }
+
+    // --- REGULAR WEBSITE LOGIC (if not a direct download) ---
     const menuButton = document.getElementById('menu-button');
     if (menuButton) {
         menuButton.addEventListener('click', () => {
@@ -369,18 +395,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // Initialize Firebase
-    await initializeFirebase();
-
-    // Route Logic based on HTML content existence
     const gameDataEl = document.getElementById('game-data-json');
     const gameData = gameDataEl ? JSON.parse(gameDataEl.textContent) : null;
 
-    // 1. Home Page Logic
     if (document.getElementById('content-home')) {
         startDownloadListener();
         
-        // Modals
         const dlModal = document.getElementById('download-modal-backdrop');
         const wcModal = document.getElementById('welcome-modal-backdrop');
         
@@ -462,7 +482,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 wcBtn?.addEventListener('click', (e) => { e.preventDefault(); doDownload(wcBtn, true); });
             }
             
-            // Welcome Modal Logic
             if (wcModal && !window.location.search.includes('no-modal')) {
                 await delay(300);
                 document.body.classList.add('modal-open');
@@ -478,7 +497,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    // 2. Reviews Page Logic
     if (document.getElementById('content-reviews')) {
         startReviewListener();
         document.body.addEventListener('click', (e) => {
@@ -491,9 +509,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // 3. Static Data Pages
     if (gameData) {
-        // NEW: Add artificial delay so the loading skeletons are visible
         await delay(600); 
         populateChangelog(gameData);
         populateAbout(gameData);
