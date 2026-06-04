@@ -1,159 +1,327 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Under Maintenance</title>
-    
-    <!-- Favicon -->
-    <link rel="icon" href="https://em-content.zobj.net/source/microsoft/379/disguised-face_1f978.png" type="image/png">
-
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
-    
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;700;900&display=swap" rel="stylesheet">
-    
-    <!-- Exact Tailwind Config from your game -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        display: ['Outfit', 'sans-serif'],
-                    },
-                    colors: {
-                        slate: {
-                            850: '#151e2e',
-                            950: '#020617',
-                        },
-                        brand: {
-                            400: '#a78bfa',
-                            500: '#8b5cf6',
-                            600: '#7c3aed',
-                        }
-                    },
-                    animation: {
-                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                        'float': 'float 6s ease-in-out infinite',
-                        'slide-up': 'slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards',
-                        'fade-in': 'fadeIn 0.5s ease-out forwards',
-                    }
-                }
-            }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fillabrona • Jandré du Preez</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg version='1.1' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1088 1080'%3E%3Cg fill='%23FFFFFF'%3E%3Cpath d='M 687.083 75.9069 C 720.67 75.4997 751.864 80.0309 783.382 91.7846 C 946.128 152.476 1005.54 349.583 894.543 486.654 C 932.567 519.644 965.726 567.28 982.081 614.755 C 1007.75 690.342 1002.72 772.987 968.063 844.9 C 933.464 915.751 868.286 970.66 794.107 996.631 C 744.961 1013.84 714.508 1014.34 664.593 1014.92 C 602.263 1015.64 549.197 1011.02 492.089 982.142 C 420.954 946.171 374.423 892.317 348.551 817.245 C 340.734 793.57 337.127 773.581 334.653 748.955 C 328.931 692.01 377.499 645.341 434.934 653.986 C 449.737 656.099 463.689 662.188 475.303 671.606 C 520.351 708.116 495.698 748.73 528.229 790.894 C 548.317 816.93 576.299 835.429 609.265 840.412 C 624.317 842.687 644.282 842.027 659.362 842.293 C 703.227 842.868 733.316 843.635 769.986 816.452 C 866.786 744.693 825.58 593.042 704.574 585.028 C 687.845 584.413 670.708 585.704 654.084 583.469 C 632.577 580.577 609.141 567.95 596.025 550.491 C 582.623 532.606 576.806 510.161 579.833 488.018 C 587.223 437.345 629.026 409.263 678.271 412.805 C 725.501 416.203 768.934 389.937 775.969 340.656 C 779.017 320.08 773.628 299.145 761.024 282.598 C 743.659 259.539 715.75 247.828 687.857 243.885 C 694.725 228.915 701.95 219.714 707.506 203.277 C 717.894 172.154 716.549 138.307 703.724 108.106 C 699.038 97.23 692.433 86.7653 687.083 75.9069 z'/%3E%3Cpath d='M 376.582 413.435 C 394.663 412.084 430.642 411.256 447.291 414.663 C 543.684 434.393 538.464 572.313 439.691 584.509 C 417.285 587.276 394.3 583.61 372.288 587.014 C 354.481 589.863 337.551 596.709 322.769 607.038 C 258.558 651.931 270.194 721.562 270.528 790.09 L 270.784 889.497 C 271.007 938.487 274.047 971.46 228.451 1002.88 C 165.926 1036.48 100.368 996.994 97.184 926.642 C 96.4874 911.247 97.0061 895.485 97 880.045 L 96.9697 794.117 C 96.9473 678.599 90.104 597.773 175.859 503.085 C 227.785 445.75 300.224 417.122 376.582 413.435 z'/%3E%3Cpath d='M 554.552 75.4716 C 581.532 75.8659 603.81 80.755 623.554 100.885 C 639.564 117.381 648.333 139.582 647.917 162.566 C 647.335 204.716 618.102 238.697 577.274 245.997 C 557.39 249.552 517.185 248.043 494.861 248.004 L 387.46 248.008 C 366.918 248.026 341.39 246.285 322.879 255.591 C 301.595 266.292 281.945 284.63 275.371 308.08 C 269.612 328.62 273.301 350.54 257.388 366.882 C 240.195 384.538 215.767 392.482 195.434 405.832 C 174.694 419.098 158.068 432.705 140.615 449.623 C 121.975 468.746 112.148 480.715 96.8328 502.801 C 97.3223 463.356 96.7019 423.737 96.8962 384.283 C 97.0245 358.225 96.1419 331.98 98.7447 306.037 C 104.185 250.098 128.357 197.635 167.342 157.152 C 243.796 77.8083 314.423 75.7927 416.877 75.916 C 462.769 76.1551 508.663 76.007 554.552 75.4716 z'/%3E%3C/g%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            'bg-custom': '#FDFDFD',
+            'text-custom': '#1A1A1A',
+            'gray-custom': '#A0A0A0',
+          },
+          scale: {
+            '98': '.98'
+          }
         }
-    </script>
-
-    <style>
-        body {
-            background-color: #020617;
-            color: #f8fafc;
-            -webkit-tap-highlight-color: transparent;
-            touch-action: none;
-            overflow: hidden;
-            user-select: none;
-            -webkit-user-select: none;
-        }
-
-        /* Modern Glassmorphism to match game perfectly */
-        .glass-panel {
-            background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
-        }
-
-        /* Ambient Blobs */
-        .blob {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.4;
-            z-index: 0;
-            animation: blob-bounce 10s infinite ease-in-out;
-        }
-        @keyframes blob-bounce {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(30px, -50px) scale(1.1); }
-            66% { transform: translate(-20px, 20px) scale(0.9); }
-        }
-    </style>
+      }
+    }
+  </script>
+  <style>
+    html, body, * {
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    html::-webkit-scrollbar,
+    body::-webkit-scrollbar,
+    *::-webkit-scrollbar {
+      display: none;
+    }
+    body {
+      background-color: #FDFDFD;
+      color: #1A1A1A;
+      font-family: "Inter", sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+    img {
+      user-select: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      -webkit-user-drag: none;
+      pointer-events: none;
+    }
+    button, a {
+      user-select: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+    }
+    .project-card {
+      background: #FFFFFF;
+      transition: none;
+    }
+  </style>
 </head>
-<body class="min-h-[100dvh] flex flex-col items-center justify-center p-6 relative">
-
-    <!-- Atmospheric Background -->
-    <div class="absolute inset-0 pointer-events-none overflow-hidden">
-        <div class="blob bg-brand-600/30 top-[10%] left-[-10%] w-[60%] h-[60%]"></div>
-        <div class="blob bg-cyan-600/20 bottom-[-10%] right-[-10%] w-[60%] h-[60%]" style="animation-delay: 2s;"></div>
-    </div>
-
-    <!-- Main Container -->
-    <div class="relative z-10 w-full max-w-sm flex flex-col items-center animate-fadeIn">
+<body class="no-scrollbar bg-bg-custom text-text-custom antialiased font-sans flex flex-col min-h-screen selection:bg-gray-200 overflow-x-hidden">
+  
+  <header id="main-header" class="fixed top-0 left-0 right-0 h-20 bg-bg-custom/95 backdrop-blur-md z-50 border-b border-gray-100 flex items-center">
+    <div class="w-full max-w-5xl mx-auto px-6 flex items-center justify-between">
+      <div class="flex items-center gap-4 text-black">
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1088 1080" class="h-10 w-auto text-black" style="display: block;">
+          <g fill="currentColor">
+            <path d="M 687.083 75.9069 C 720.67 75.4997 751.864 80.0309 783.382 91.7846 C 946.128 152.476 1005.54 349.583 894.543 486.654 C 932.567 519.644 965.726 567.28 982.081 614.755 C 1007.75 690.342 1002.72 772.987 968.063 844.9 C 933.464 915.751 868.286 970.66 794.107 996.631 C 744.961 1013.84 714.508 1014.34 664.593 1014.92 C 602.263 1015.64 549.197 1011.02 492.089 982.142 C 420.954 946.171 374.423 892.317 348.551 817.245 C 340.734 793.57 337.127 773.581 334.653 748.955 C 328.931 692.01 377.499 645.341 434.934 653.986 C 449.737 656.099 463.689 662.188 475.303 671.606 C 520.351 708.116 495.698 748.73 528.229 790.894 C 548.317 816.93 576.299 835.429 609.265 840.412 C 624.317 842.687 644.282 842.027 659.362 842.293 C 703.227 842.868 733.316 843.635 769.986 816.452 C 866.786 744.693 825.58 593.042 704.574 585.028 C 687.845 584.413 670.708 585.704 654.084 583.469 C 632.577 580.577 609.141 567.95 596.025 550.491 C 582.623 532.606 576.806 510.161 579.833 488.018 C 587.223 437.345 629.026 409.263 678.271 412.805 C 725.501 416.203 768.934 389.937 775.969 340.656 C 779.017 320.08 773.628 299.145 761.024 282.598 C 743.659 259.539 715.75 247.828 687.857 243.885 C 694.725 228.915 701.95 219.714 707.506 203.277 C 717.894 172.154 716.549 138.307 703.724 108.106 C 699.038 97.23 692.433 86.7653 687.083 75.9069 z" />
+            <path d="M 376.582 413.435 C 394.663 412.084 430.642 411.256 447.291 414.663 C 543.684 434.393 538.464 572.313 439.691 584.509 C 417.285 587.276 394.3 583.61 372.288 587.014 C 354.481 589.863 337.551 596.709 322.769 607.038 C 258.558 651.931 270.194 721.562 270.528 790.09 L 270.784 889.497 C 271.007 938.487 274.047 971.46 228.451 1002.88 C 165.926 1036.48 100.368 996.994 97.184 926.642 C 96.4874 911.247 97.0061 895.485 97 880.045 L 96.9697 794.117 C 96.9473 678.599 90.104 597.773 175.859 503.085 C 227.785 445.75 300.224 417.122 376.582 413.435 z" />
+            <path d="M 554.552 75.4716 C 581.532 75.8659 603.81 80.755 623.554 100.885 C 639.564 117.381 648.333 139.582 647.917 162.566 C 647.335 204.716 618.102 238.697 577.274 245.997 C 557.39 249.552 517.185 248.043 494.861 248.004 L 387.46 248.008 C 366.918 248.026 341.39 246.285 322.879 255.591 C 301.595 266.292 281.945 284.63 275.371 308.08 C 269.612 328.62 273.301 350.54 257.388 366.882 C 240.195 384.538 215.767 392.482 195.434 405.832 C 174.694 419.098 158.068 432.705 140.615 449.623 C 121.975 468.746 112.148 480.715 96.8328 502.801 C 97.3223 463.356 96.7019 423.737 96.8962 384.283 C 97.0245 358.225 96.1419 331.98 98.7447 306.037 C 104.185 250.098 128.357 197.635 167.342 157.152 C 243.796 77.8083 314.423 75.7927 416.877 75.916 C 462.769 76.1551 508.663 76.007 554.552 75.4716 z" />
+          </g>
+        </svg>
+        <span class="font-sans font-bold text-2xl tracking-tighter text-black">
+          Fillabrona
+        </span>
+      </div>
+      
+      <div class="flex items-center gap-4">
+        <div class="tooltip-trigger inline-block relative" data-tooltip="GitHub Repository">
+          <a onclick="window.open('http://github.com/impostiq/impostiq.github.io', '_blank')" class="w-10 h-10 flex items-center justify-center rounded-lg bg-black text-white hover:bg-[#222222] transition-colors shadow-sm cursor-pointer">
+            <svg class="w-[20px] h-[20px] overflow-visible" viewBox="0 -0.5 48 48">
+              <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                <g transform="translate(-700.000000, -560.000000)" fill="currentColor">
+                  <path d="M723.9985,560 C710.746,560 700,570.787092 700,584.096644 C700,594.740671 706.876,603.77183 716.4145,606.958412 C717.6145,607.179786 718.0525,606.435849 718.0525,605.797328 C718.0525,605.225068 718.0315,603.710086 718.0195,601.699648 C711.343,603.155898 709.9345,598.469394 709.9345,598.469394 C708.844,595.686405 707.2705,594.94548 707.2705,594.94548 C705.091,593.450075 707.4355,593.480194 707.4355,593.480194 C709.843,593.650366 711.1105,595.963499 711.1105,595.963499 C713.2525,599.645538 716.728,598.58234 718.096,597.964902 C718.3135,596.407754 718.9345,595.346062 719.62,594.743683 C714.2905,594.135281 708.688,592.069123 708.688,582.836167 C708.688,580.205279 709.6225,578.054788 711.1585,576.369634 C710.911,575.759726 710.0875,573.311058 711.3925,569.993458 C711.3925,569.993458 713.4085,569.345902 717.9925,572.46321 C719.908,571.928599 721.96,571.662047 724.0015,571.651505 C726.04,571.662047 728.0935,571.928599 730.0105,572.46321 C734.5915,569.345902 736.603,569.993458 736.603,569.993458 C737.9125,573.311058 737.089,575.759726 736.8415,576.369634 C738.3805,578.054788 739.309,580.205279 739.309,582.836167 C739.309,592.091712 733.6975,594.129257 728.3515,594.725612 C729.2125,595.469549 729.9805,596.939353 729.9805,599.18773 C729.9805,602.408949 729.9505,605.006706 729.9505,605.797328 C729.9505,606.441873 730.3825,607.191834 731.6005,606.9554 C741.13,603.762794 748,594.737659 748,584.096644 C748,570.787092 737.254,560 723.9985,560" />
+                </g>
+              </g>
+            </svg>
+          </a>
+        </div>
         
-        <!-- The Emoji Container (Bigger size, overlapping the panel slightly) -->
-        <div class="relative w-40 h-40 flex justify-center z-20 -mb-2.5">
-            
-            <!-- Crossfading Images -->
-            <img src="https://em-content.zobj.net/source/microsoft-teams/363/man-construction-worker-medium-dark-skin-tone_1f477-1f3fe-200d-2642-fe0f.png" 
-                 class="fade-emoji absolute bottom-0 w-40 h-40 object-contain object-bottom drop-shadow-2xl transition-opacity duration-1000 opacity-100" 
-                 draggable="false" alt="Worker">
-                 
-            <img src="https://em-content.zobj.net/source/microsoft-teams/337/factory-worker-light-skin-tone_1f9d1-1f3fb-200d-1f3ed.png" 
-                 class="fade-emoji absolute bottom-0 w-40 h-40 object-contain object-bottom drop-shadow-2xl transition-opacity duration-1000 opacity-0" 
-                 draggable="false" alt="Factory Worker">
-                 
-            <img src="https://em-content.zobj.net/source/microsoft-teams/337/man-artist-medium-skin-tone_1f468-1f3fd-200d-1f3a8.png" 
-                 class="fade-emoji absolute bottom-0 w-40 h-40 object-contain object-bottom drop-shadow-2xl transition-opacity duration-1000 opacity-0" 
-                 draggable="false" alt="Artist">
+        <div class="tooltip-trigger inline-block relative" data-tooltip="Discord Community">
+          <a onclick="window.open('https://discord.com/invite/m9WrJxGKtr', '_blank')" class="w-10 h-10 flex items-center justify-center rounded-lg bg-black text-white hover:bg-[#222222] transition-colors shadow-sm cursor-pointer">
+            <svg class="w-[20px] h-[20px] overflow-visible" viewBox="0 0 24 24">
+              <path fill="currentColor" d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z" />
+            </svg>
+          </a>
         </div>
+      </div>
+    </div>
+  </header>
 
-        <!-- The Text Block Bubble -->
-        <!-- Matches the "ResultScreen" and "OfflineScreen" styling exactly -->
-        <div class="relative z-10 w-full glass-panel rounded-[2.5rem] p-8 pt-8 text-center animate-slide-up">
-            
-            <!-- Title matching your game's gradient style -->
-            <h1 class="text-4xl font-display font-black text-transparent bg-clip-text bg-gradient-to-br from-white via-white to-white/50 mb-4 drop-shadow-lg tracking-tight">
-                Under Maintenance
+  <main class="flex-1 grid grid-cols-1 md:grid-cols-12 gap-12 items-start w-full max-w-5xl mx-auto px-6 pt-24 pb-12">
+    <div class="md:col-span-5 space-y-12">
+      <section class="w-full text-center sm:text-left z-10 relative space-y-8">
+        <div class="w-full">
+          <div class="space-y-4 mb-8">
+            <h1 class="text-6xl font-bold leading-tight tracking-tighter text-black">
+              Creating digital <br class="hidden sm:block"> experiences.
             </h1>
-            
-            <p class="text-white/60 text-sm font-medium leading-relaxed mb-8 mx-auto">
-                We're currently doing some upgrades behind the scenes! Please check back in a little while, we should be up and running again soon.
-            </p>
+            <div class="text-xl text-gray-custom font-light leading-snug">
+              I build fast, sleek, and minimalist web applications of high quality. As the founder of <strong class="font-bold text-text-custom">Fillabrona</strong>, my focus is delivering pure user engagement with pristine design, clean code, and zero distractions.
+            </div>
+          </div>
 
-            <!-- Button matching the "START MISSION" style exactly -->
-            <button onclick="window.location.reload()" 
-                class="w-full bg-white text-slate-950 font-display font-bold text-lg py-5 rounded-[1.5rem] shadow-[0_0_30px_rgba(255,255,255,0.1)] active:scale-[0.98] transition-all flex items-center justify-center gap-3">
-                <i class="fa-solid fa-rotate-right text-lg"></i> RELOAD WEBSITE
-            </button>
+          <div class="flex flex-col gap-3 pt-4 w-full">
+            <a onclick="window.open('https://impostiq.github.io', '_blank')" class="w-full bg-black text-white py-4 rounded-lg text-xs font-bold tracking-widest uppercase hover:bg-[#222222] active:scale-98 transition-all flex items-center justify-center gap-2 shadow-sm cursor-pointer">
+              <svg class="w-4 h-4 text-white fill-current" viewBox="0 0 24 24">
+                <path d="M20.426,10.097c-1.231-1.445-3.415-3.622-6.832-5.779-2.81-1.774-5.311-2.716-6.915-3.194-.9-.268-1.854-.101-2.612,.464-.758,.566-1.193,1.432-1.193,2.377V20.035c0,.945,.436,1.811,1.193,2.377,.521,.388,1.135,.589,1.761,.589,.284,0,.57-.042,.852-.125,1.604-.478,4.105-1.42,6.915-3.194,3.417-2.158,5.601-4.334,6.832-5.78,.938-1.102,.938-2.703,0-3.805Z"/>
+              </svg>
+              Play Impostiq
+            </a>
+            <a onclick="window.open('https://www.dropbox.com/scl/fi/kh8yf9gnvo3zjynipd5h8/Impostiq.apk?rlkey=8e9wwz2kaifa38o8xq98oqjhe&st=7xg4dsyn&dl=1', '_blank')" class="w-full bg-black text-white py-4 rounded-lg text-xs font-bold tracking-widest uppercase hover:bg-[#222222] active:scale-98 transition-all flex items-center justify-center gap-2 shadow-sm cursor-pointer">
+              <svg class="w-4 h-4 text-white fill-current" viewBox="0 0 24 24">
+                <path d="M11.448,18.519c.177,.07,.364,.104,.552,.104,.179,0,.358-.032,.528-.096,.158-.06,3.915-1.526,6.68-6.917,.378-.737,.087-1.641-.65-2.02-.74-.377-1.642-.087-2.02,.65-.987,1.924-2.104,3.223-3.039,4.072V2.5c0-.829-.672-1.5-1.5-1.5s-1.5,.671-1.5,1.5V14.325c-.93-.844-2.041-2.142-3.037-4.085-.378-.737-1.283-1.028-2.02-.65-.737,.378-1.028,1.282-.65,2.02,2.679,5.224,6.257,6.752,6.656,6.909Z"/>
+                <path d="M20.894,15.024c-.818-.112-1.573,.472-1.681,1.293-.126,.969-.302,1.945-.525,2.913-4.44,1.018-8.933,1.02-13.375,0-.223-.966-.399-1.943-.525-2.913-.107-.821-.864-1.407-1.681-1.293-.821,.107-1.401,.859-1.294,1.681,.18,1.383,.452,2.778,.81,4.145,.138,.526,.548,.937,1.074,1.073,2.755,.715,5.529,1.073,8.304,1.073s5.55-.357,8.305-1.072c.526-.137,.938-.548,1.074-1.074,.357-1.369,.629-2.764,.809-4.144,.107-.822-.473-1.574-1.294-1.681Z"/>
+              </svg>
+              Download Impostiq APK
+            </a>
+          </div>
         </div>
-
+      </section>
     </div>
 
-    <!-- Animation Logic -->
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const emojis = document.querySelectorAll('.fade-emoji');
-            let currentIndex = 0;
+    <div class="md:col-span-7 flex flex-col gap-6">
+      <section id="impostiq" class="w-full relative">
+        <div class="project-card p-6 sm:p-10 relative flex flex-col md:flex-row gap-8 items-start shadow-sm border border-gray-100 rounded-xl bg-white">
+          <div class="flex-1">
+            <div class="flex justify-between items-center mb-6">
+              <h2 class="text-4xl sm:text-5xl font-bold tracking-tighter text-black">
+                IMPOSTIQ
+              </h2>
+              <img src="https://em-content.zobj.net/source/microsoft-teams/364/disguised-face_1f978.png" alt="Disguised Face" class="w-14 h-14 sm:w-16 sm:h-16 flex-shrink-0 select-none pointer-events-none">
+            </div>
+            
+            <div class="space-y-4 text-sm opacity-80 leading-relaxed font-medium text-text-custom">
+              <p>
+                The idea sparked from an Instagram video showing people playing the word imposter game. I wanted to play it with my family, but the existing options on the web and the Play Store were riddled with intrusive ads, paywalls, and expensive monthly subscriptions just to access basic categories like Movies and Sports. 
+              </p>
+              <p>
+                I set out with a clear determination: I could definitely make my own website for us to play on.
+              </p>
+              <p>
+                The project began as Imposter Online, featuring 10 categories and 3,000 words. Listening to active feedback from playtesting with friends at school, I quickly introduced online multiplayer lobbies alongside a unique confusion poll system, which allows players to vote if they do not recognize a word. The game soon gained traction on Reddit, bringing in thousands of active players in its first two months.
+              </p>
+              <p>
+                Keeping the service online proved challenging. The original website went down after a set of GitHub commits broke the paths, causing 404 errors. This led to a series of rebrands. I launched Impostery, which went down, and then Imposteria, which faced identical hosting issues. Finally, it was reborn under a completely unique identity: Impostiq. This name has zero search competitors and gives us a clean slate.
+              </p>
+              <p>
+                Today, I spend over 5 hours daily refining every detail. Impostiq is built with custom vector icons, refined online matchmaking, and Communigories (custom community-generated category vaults) optimized to run efficiently within Firebase free tier limits. The game is kept 100% free and ad-free as a labor of love for our growing community.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
 
-            // Run the crossfade every 5 seconds
-            setInterval(() => {
-                // Fade out current emoji
-                emojis[currentIndex].classList.remove('opacity-100');
-                emojis[currentIndex].classList.add('opacity-0');
+      <section class="w-full relative z-10">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div class="project-card p-6 border border-gray-100 shadow-sm flex flex-row items-center gap-5 sm:flex-col sm:items-start rounded-xl bg-white">
+            <img src="https://em-content.zobj.net/source/microsoft-teams/363/rocket_1f680.png" alt="Rocket" class="w-14 h-14 sm:w-7 sm:h-7 flex-shrink-0 order-1 sm:order-2 sm:mt-0">
+            <div class="text-left flex-1 order-2 sm:order-1">
+              <h3 class="text-lg font-bold mb-2 uppercase tracking-tight text-text-custom">Quiz for Survival</h3>
+              <p class="text-xs opacity-60 leading-relaxed font-medium">
+                V1.7.1 • Leaderboards, 2500+ Questions, Multiplayer mode. Evolution of early school projects in Mid 2025.
+              </p>
+            </div>
+          </div>
 
-                // Move to next emoji
-                currentIndex = (currentIndex + 1) % emojis.length;
+          <div class="project-card p-6 border border-gray-100 shadow-sm flex flex-row items-center gap-5 sm:flex-col sm:items-start rounded-xl bg-white">
+            <img src="https://em-content.zobj.net/source/microsoft-teams/364/nerd-face_1f913.png" alt="Nerd Face" class="w-14 h-14 sm:w-7 sm:h-7 flex-shrink-0 order-1 sm:order-2 sm:mt-0">
+            <div class="text-left flex-1 order-2 sm:order-1">
+              <h3 class="text-lg font-bold mb-2 uppercase tracking-tight text-text-custom">The Trivia Game</h3>
+              <p class="text-xs opacity-60 leading-relaxed font-medium">
+                Early 2025 • Started in IT class learning Delphi Pascal. A basic application that laid the crucial foundation.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
 
-                // Fade in new emoji
-                emojis[currentIndex].classList.remove('opacity-0');
-                emojis[currentIndex].classList.add('opacity-100');
-            }, 5000);
-        });
-    </script>
+      <section class="w-full relative z-10">
+        <div class="project-card p-6 border border-gray-100 shadow-sm flex flex-col justify-between rounded-xl bg-white">
+          <div class="flex justify-between items-start mb-4">
+            <div>
+              <h3 class="text-lg font-bold mb-2 uppercase tracking-tight text-text-custom">Support Impostiq</h3>
+              <p class="text-sm opacity-60 leading-relaxed font-medium">
+                Keeping the game ad-free, completely free, and without any paywalls is my biggest priority. It would mean the world to me if you could sponsor Impostiq's development so we can grow the game even more, support our servers, and add all the features our community wants to see.
+              </p>
+            </div>
+            <img src="https://em-content.zobj.net/source/microsoft-teams/337/sparkling-heart_1f496.png" alt="Heart" class="w-7 h-7 ml-4 flex-shrink-0">
+          </div>
+
+          <a onclick="window.open('https://github.com/sponsors/impostiq?frequency=one-time', '_blank')" class="w-full flex items-center justify-center gap-2 text-center px-6 py-4 bg-black hover:bg-[#222222] active:scale-98 transition-all text-white font-bold text-xs uppercase tracking-widest rounded-lg shadow-sm cursor-pointer">
+            <svg class="w-5 h-5 fill-current text-white overflow-visible" xmlns="http://www.w3.org/2000/svg" id="sponsor_icon" viewBox="0 0 24 24" data-name="sponsor">
+              <path d="m15.025 3.579c0 1.762-1.482 3.028-2.365 3.626-.388.262-.894.262-1.282 0-.883-.598-2.365-1.863-2.365-3.626 0-.896.673-1.623 1.503-1.623s1.503.606 1.503 1.503c0-.896.673-1.503 1.503-1.503s1.503.727 1.503 1.623zm.006 18.465h-9.481c-.641 0-1.238-.318-1.604-.844-1.987-2.853-2.946-6.812-2.946-10.677 0-1.887.282-3.842.848-5.826.169-.596.561-1.091 1.103-1.393.62-.346 1.351-.392 2.02-.116 1.091.449 1.637 1.725 1.32 2.862-.369 1.32-.628 2.813-.545 4.431-.634.847-.882 1.929-.657 3.005.278.969.824 1.868 1.493 2.92.266.437.572.881.944 1.318.35.371.932.422 1.343.102.437-.34.515-.969.175-1.406-.906-1.166-1.644-2.426-1.994-3.344-.125-.6.04-1.193.49-1.619.508-.48 1.285-.572 1.889-.224.005.005 1.439.677 2.923 2.462 1.492 1.794 2.816 4.753 3.587 7.113.2.611-.266 1.235-.909 1.235zm-1.137-9.63c.708.852 1.334 1.855 1.871 2.861.523-.799.947-1.578 1.183-2.199.125-.6-.04-1.193-.49-1.619-.508-.48-1.285-.572-1.889-.224-.003.003-.45.22-1.095.707.139.153.279.305.42.474zm8.258-7.717c-.169-.596-.561-1.091-1.103-1.393-.62-.346-1.351-.392-2.02-.116-1.091.449-1.637 1.725-1.32 2.862.369 1.32.628 2.813.545 4.431.634.847.882 1.929.657 3.005-.278.969-.824 1.868-1.493 2.92-.19.313-.412.629-.653.944.545 1.256.913 2.324 1.081 2.838.199.61.174 1.26-.029 1.856h.634c.641 0 1.238-.318 1.604-.844 1.987-2.853 2.946-6.812 2.946-10.677 0-1.887-.282-3.842-.848-5.826z"/>
+            </svg>
+            <span>Sponsor Development</span>
+          </a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <div class="w-full border-t border-gray-100"></div>
+
+  <footer class="w-full max-w-5xl mx-auto px-6 pt-8 pb-12 md:pb-8 flex flex-col md:flex-row justify-between items-center md:items-end gap-4 mt-auto z-10 relative text-center md:text-left">
+    <div class="flex flex-col">
+      <p class="text-sm font-medium opacity-80">Support independent, ad-free development.</p>
+    </div>
+    <div class="flex flex-wrap items-center justify-center md:justify-end gap-2 text-xs font-bold text-text-custom opacity-80">
+      <span>SOUTH AFRICA</span>
+      <span class="w-1 h-1 bg-gray-300 rounded-full"></span>
+      <span>EST. 2025</span>
+      <span class="w-1 h-1 bg-gray-300 rounded-full"></span>
+      <span>FILLABRONA</span>
+    </div>
+  </footer>
+
+  <script>
+    if (typeof window !== "undefined") {
+      document.addEventListener("contextmenu", (e) => {
+        if (e.target instanceof HTMLImageElement) {
+          e.preventDefault();
+        }
+      }, { passive: false });
+
+      document.addEventListener("dragstart", (e) => {
+        if (e.target instanceof HTMLImageElement) {
+          e.preventDefault();
+        }
+      }, { passive: false });
+    }
+
+    const headerElement = document.getElementById('main-header');
+    if (headerElement) {
+      const preventDefault = (e) => e.preventDefault();
+      headerElement.addEventListener("wheel", preventDefault, { passive: false });
+      headerElement.addEventListener("touchmove", preventDefault, { passive: false });
+    }
+
+    const isMobile = () => window.matchMedia("(pointer: coarse)").matches;
+
+    const tooltipEl = document.createElement('div');
+    tooltipEl.className = 'fixed z-[9999] px-2.5 py-1.5 text-[10px] font-bold tracking-widest text-[#FFFFFF] bg-[#222222] rounded shadow-lg whitespace-nowrap select-none uppercase border border-white/10 transition-opacity duration-150 ease-in-out pointer-events-none opacity-0 invisible';
+    document.body.appendChild(tooltipEl);
+
+    let tooltipTimeout = null;
+    let currentTrigger = null;
+
+    const hideTooltip = () => {
+      if (tooltipTimeout) clearTimeout(tooltipTimeout);
+      tooltipEl.style.opacity = '0';
+      setTimeout(() => {
+        if (tooltipEl.style.opacity === '0') {
+          tooltipEl.style.visibility = 'hidden';
+        }
+      }, 150);
+      currentTrigger = null;
+    };
+
+    const showTooltip = (trigger, text) => {
+      if (isMobile()) return;
+      if (tooltipTimeout) clearTimeout(tooltipTimeout);
+
+      currentTrigger = trigger;
+      
+      tooltipTimeout = setTimeout(() => {
+        if (currentTrigger !== trigger) return;
+        
+        tooltipEl.textContent = text;
+        tooltipEl.style.visibility = 'visible';
+        
+        const triggerRect = trigger.getBoundingClientRect();
+        const tooltipRect = tooltipEl.getBoundingClientRect();
+        
+        let left = triggerRect.left + (triggerRect.width / 2) - (tooltipRect.width / 2);
+        let top = triggerRect.top - tooltipRect.height - 8;
+        
+        const EDGE_PADDING = 16;
+
+        if (top < EDGE_PADDING) {
+          top = triggerRect.bottom + 8;
+        }
+        
+        if (left < EDGE_PADDING) {
+          left = EDGE_PADDING;
+        }
+        
+        const viewportWidth = window.innerWidth;
+        if (left + tooltipRect.width > viewportWidth - EDGE_PADDING) {
+          left = viewportWidth - tooltipRect.width - EDGE_PADDING;
+        }
+        
+        tooltipEl.style.top = `${top}px`;
+        tooltipEl.style.left = `${left}px`;
+        tooltipEl.style.opacity = '1';
+      }, 2000);
+    };
+
+    document.querySelectorAll('.tooltip-trigger').forEach(trigger => {
+      const text = trigger.getAttribute('data-tooltip');
+      trigger.addEventListener('mouseenter', () => showTooltip(trigger, text));
+      trigger.addEventListener('mouseleave', hideTooltip);
+      trigger.addEventListener('focus', () => showTooltip(trigger, text));
+      trigger.addEventListener('blur', hideTooltip);
+    });
+
+    window.addEventListener("scroll", hideTooltip, { capture: true, passive: true });
+    window.addEventListener("resize", hideTooltip, { passive: true });
+  </script>
 </body>
 </html>
