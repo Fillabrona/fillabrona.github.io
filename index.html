@@ -19,7 +19,20 @@
   
   <title>Fillabrona • Jandré du Preez</title>
 
-  <link rel="icon" href="https://fillabrona.github.io/images/fillabronavector.svg" type="image/svg+xml">
+  <link rel="icon" id="dynamic-favicon" href="https://fillabrona.github.io/images/fillabronafaviconscrapers192.png" type="image/png" sizes="192x192">
+	<script>
+	  (function() {
+		const isBot = /bot|googlebot|crawler|spider|robot|crawling/i.test(navigator.userAgent);
+		if (isBot) return; 
+		
+		const favicon = document.getElementById('dynamic-favicon');
+		if (favicon) {
+		  favicon.href = "https://fillabrona.github.io/images/fillabronavector.svg";
+		  favicon.type = "image/svg+xml";
+		  favicon.sizes = "any";
+		}
+	  })();
+	</script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
