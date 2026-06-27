@@ -20,7 +20,6 @@
   <link rel="icon" href="https://fillabrona.github.io/images/fillabronavector.svg" type="image/svg+xml">
 
   <script>
-    // Initialize theme instantly in head to prevent visual flashes
     (function() {
       const theme = localStorage.getItem('theme') || 'system';
       if (theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -90,7 +89,6 @@
       -ms-user-select: none;
     }
 
-    /* Helper class to instantly switch themes without transitioning element-by-element */
     .preload, .preload * {
       -webkit-transition: none !important;
       -moz-transition: none !important;
@@ -99,7 +97,6 @@
       transition: none !important;
     }
 
-    /* Remove outline, borders, and rings when tabbed or active */
     button:focus, a:focus, button:active, a:active, [role="button"]:focus {
       outline: none !important;
       border-color: transparent !important;
@@ -131,10 +128,8 @@
       </div>
       
       <div class="flex items-center gap-4">
-        <!-- Theme Selector Toggle -->
         <div class="tooltip-trigger inline-block relative" id="theme-toggle-container" data-tooltip="Theme">
           <button id="theme-toggle" aria-label="Toggle theme" class="w-10 h-10 flex items-center justify-center rounded-lg bg-black text-white hover:bg-[#222222] dark:bg-[#1C1C1F] dark:text-white dark:hover:bg-[#2C2C30] transition-colors shadow-sm cursor-pointer border border-transparent">
-            <!-- Icon is dynamically loaded -->
           </button>
         </div>
 
@@ -202,7 +197,6 @@
   </footer>
 
   <script>
-    // Safe transition re-enabler once DOM finishes initial rendering
     document.addEventListener("DOMContentLoaded", () => {
       document.documentElement.classList.remove('preload');
     });
@@ -307,7 +301,6 @@
     window.addEventListener("scroll", hideTooltip, { capture: true, passive: true });
     window.addEventListener("resize", hideTooltip, { passive: true });
 
-    // Theme Switcher & Instantaneous transition implementation
     const themeToggleBtn = document.getElementById('theme-toggle');
     const themeToggleContainer = document.getElementById('theme-toggle-container');
     
@@ -318,7 +311,6 @@
     };
 
     function applyTheme(theme) {
-      // Temporarily disable standard CSS transition properties globally 
       document.documentElement.classList.add('preload');
       
       if (theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -333,10 +325,8 @@
         themeToggleContainer.setAttribute('data-tooltip', `Theme: ${theme}`);
       }
 
-      // Force instant document-wide style recalculation
       window.getComputedStyle(document.body).opacity;
 
-      // Safely re-enable CSS transition capabilities
       requestAnimationFrame(() => {
         document.documentElement.classList.remove('preload');
       });
