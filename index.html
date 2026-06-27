@@ -143,10 +143,16 @@
       transform-origin: center center;
     }
     #download-progress-bar {
-      transition: width 0.4s ease-out;
+      transition: width 0.4s ease-out, background-color 350ms cubic-bezier(0.4, 0, 0.2, 1) !important;
     }
     #footer-content-progress {
-      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), background-color 350ms cubic-bezier(0.4, 0, 0.2, 1), border-color 350ms cubic-bezier(0.4, 0, 0.2, 1) !important;
+      will-change: transform;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+    #status-text-active, #status-text-completed {
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), color 350ms cubic-bezier(0.4, 0, 0.2, 1) !important;
     }
 
     button:focus, a:focus, button:active, a:active, [role="button"]:focus {
@@ -532,6 +538,7 @@
       const percentageText = document.getElementById('download-percentage');
       const mainFooterElement = document.querySelector('footer');
 
+      let lastWidth = window.innerWidth;
       const updateHeight = () => {
         if (mainFooterElement && progressContent) {
           progressContent.style.height = mainFooterElement.offsetHeight + 'px';
@@ -539,7 +546,12 @@
       };
 
       updateHeight();
-      window.addEventListener('resize', updateHeight);
+      window.addEventListener('resize', () => {
+        if (window.innerWidth !== lastWidth) {
+          lastWidth = window.innerWidth;
+          updateHeight();
+        }
+      });
 
       if (progressContent) {
         progressContent.classList.remove('translate-y-full');
@@ -550,28 +562,16 @@
       let targetProgress = 0;
       let displayedProgress = 0;
       let progressInterval = null;
-      let downloadedBlob = null;
+      let fetchFinished = false;
       let isFallback = false;
 
       const triggerDeviceDownload = () => {
-        if (downloadedBlob) {
-          const objectUrl = URL.createObjectURL(downloadedBlob);
-          const a = document.createElement('a');
-          a.href = objectUrl;
-          a.download = 'Impostiq.apk';
-          a.style.display = 'none';
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
-          URL.revokeObjectURL(objectUrl);
-        } else if (isFallback) {
-          const a = document.createElement('a');
-          a.href = url;
-          a.style.display = 'none';
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
-        }
+        const a = document.createElement('a');
+        a.href = 'https://www.dropbox.com/scl/fi/kh8yf9gnvo3zjynipd5h8/Impostiq.apk?rlkey=8e9wwz2kaifa38o8xq98oqjhe&st=7xg4dsyn&dl=1';
+        a.style.display = 'none';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
       };
 
       const updateProgressVisuals = () => {
@@ -583,13 +583,13 @@
       progressInterval = setInterval(() => {
         if (displayedProgress < targetProgress) {
           let diff = targetProgress - displayedProgress;
-          let step = Math.min(diff, Math.random() * 2 + 1.2);
+          let step = fetchFinished ? Math.max(diff, 5) : Math.min(diff, Math.random() * 2 + 1.2);
           displayedProgress += step;
           if (displayedProgress > 100) displayedProgress = 100;
           updateProgressVisuals();
         }
         
-        if (displayedProgress >= 100) {
+        if (displayedProgress >= 100 && fetchFinished) {
           clearInterval(progressInterval);
           
           triggerDeviceDownload();
@@ -605,7 +605,6 @@
               progressContent.classList.add('translate-y-full');
             }
             setTimeout(() => {
-              window.removeEventListener('resize', updateHeight);
               displayedProgress = 0;
               targetProgress = 0;
               updateProgressVisuals();
@@ -627,6 +626,7 @@
           targetProgress += Math.floor(Math.random() * 4) + 1;
           if (targetProgress >= 100) {
             targetProgress = 100;
+            fetchFinished = true;
             clearInterval(simInterval);
           }
         }, 180);
@@ -653,8 +653,9 @@
           }
           return read();
         })
-        .then(blob => {
-          downloadedBlob = blob;
+        .then(() => {
+          fetchFinished = true;
+          targetProgress = 100;
         })
         .catch(() => {
           handleFallback();
