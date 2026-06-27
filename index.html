@@ -33,7 +33,6 @@
 		}
 	  })();
 
-    // Initialize theme instantly in head to prevent visual flashes
     (function() {
       const theme = localStorage.getItem('theme') || 'system';
       if (theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -120,7 +119,6 @@
       background: #161619;
     }
 
-    /* Helper class to instantly switch themes without transitioning element-by-element */
     .preload, .preload * {
       -webkit-transition: none !important;
       -moz-transition: none !important;
@@ -129,7 +127,6 @@
       transition: none !important;
     }
 
-    /* Remove outline, borders, and rings when tabbed or active */
     button:focus, a:focus, button:active, a:active, [role="button"]:focus {
       outline: none !important;
       border-color: transparent !important;
@@ -179,10 +176,8 @@
       </div>
       
       <div class="flex items-center gap-4">
-        <!-- Theme Selector Toggle -->
         <div class="tooltip-trigger inline-block relative" id="theme-toggle-container" data-tooltip="Theme">
           <button id="theme-toggle" aria-label="Toggle theme" class="w-10 h-10 flex items-center justify-center rounded-lg bg-black text-white hover:bg-[#222222] dark:bg-[#1C1C1F] dark:text-white dark:hover:bg-[#2C2C30] transition-colors shadow-sm cursor-pointer border border-transparent">
-            <!-- Icon is dynamically loaded -->
           </button>
         </div>
 
@@ -307,7 +302,7 @@
             </p>
           </div>
 
-          <a onclick="window.open('https://github.com/sponsors/impostiq?frequency=one-time', '_blank')" class="w-full flex items-center justify-center gap-2 text-center px-6 py-4 bg-black hover:bg-[#222222] dark:bg-[#1C1C1F] dark:hover:bg-[#2C2C30] active:scale-98 transition-all text-white font-bold text-xs uppercase tracking-widest rounded-lg shadow-sm cursor-pointer border border-transparent">
+          <a onclick="window.open('https://github.com/sponsors/impostiq?frequency=one-time', '_blank')" class="w-full flex items-center justify-center gap-2 text-center px-6 py-3.5 bg-black hover:bg-[#222222] dark:bg-[#1C1C1F] dark:hover:bg-[#2C2C30] active:scale-98 transition-all text-white font-bold text-xs uppercase tracking-widest rounded-lg shadow-sm cursor-pointer border border-transparent">
             <svg class="w-5 h-5 fill-current text-white overflow-visible" xmlns="http://www.w3.org/2000/svg" id="sponsor_icon" viewBox="0 0 24 24" data-name="sponsor">
               <path d="m15.025 3.579c0 1.762-1.482 3.028-2.365 3.626-.388.262-.894.262-1.282 0-.883-.598-2.365-1.863-2.365-3.626 0-.896.673-1.623 1.503-1.623s1.503.606 1.503 1.503c0-.896.673-1.503 1.503-1.503s1.503.727 1.503 1.623zm.006 18.465h-9.481c-.641 0-1.238-.318-1.604-.844-1.987-2.853-2.946-6.812-2.946-10.677 0-1.887.282-3.842.848-5.826.169-.596.561-1.091 1.103-1.393.62-.346 1.351-.392 2.02-.116 1.091.449 1.637 1.725 1.32 2.862-.369 1.32-.628 2.813-.545 4.431-.634.847-.882 1.929-.657 3.005.278.969.824 1.868 1.493 2.92.266.437.572.881.944 1.318.35.371.932.422 1.343.102.437-.34.515-.969.175-1.406-.906-1.166-1.644-2.426-1.994-3.344-.125-.6.04-1.193.49-1.619.508-.48 1.285-.572 1.889-.224.005.005 1.439.677 2.923 2.462 1.492 1.794 2.816 4.753 3.587 7.113.2.611-.266 1.235-.909 1.235zm-1.137-9.63c.708.852 1.334 1.855 1.871 2.861.523-.799.947-1.578 1.183-2.199.125-.6-.04-1.193-.49-1.619-.508-.48-1.285-.572-1.889-.224-.003.003-.45.22-1.095.707.139.153.279.305.42.474zm8.258-7.717c-.169-.596-.561-1.091-1.103-1.393-.62-.346-1.351-.392-2.02-.116-1.091.449-1.637 1.725-1.32 2.862.369 1.32.628 2.813.545 4.431.634.847.882 1.929.657 3.005-.278.969-.824 1.868-1.493 2.92-.19.313-.412.629-.653.944.545 1.256.913 2.324 1.081 2.838.199.61.174 1.26-.029 1.856h.634c.641 0 1.238-.318 1.604-.844 1.987-2.853 2.946-6.812 2.946-10.677 0-1.887-.282-3.842-.848-5.826z"/>
             </svg>
@@ -334,7 +329,6 @@
   </footer>
 
   <script>
-    // Safe transition re-enabler once DOM finishes initial rendering
     document.addEventListener("DOMContentLoaded", () => {
       document.documentElement.classList.remove('preload');
     });
@@ -439,7 +433,6 @@
     window.addEventListener("scroll", hideTooltip, { capture: true, passive: true });
     window.addEventListener("resize", hideTooltip, { passive: true });
 
-    // Theme Switcher & Instantaneous transition implementation
     const themeToggleBtn = document.getElementById('theme-toggle');
     const themeToggleContainer = document.getElementById('theme-toggle-container');
     
@@ -450,7 +443,6 @@
     };
 
     function applyTheme(theme) {
-      // Temporarily disable standard CSS transition properties globally 
       document.documentElement.classList.add('preload');
       
       if (theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -465,10 +457,8 @@
         themeToggleContainer.setAttribute('data-tooltip', `Theme: ${theme}`);
       }
 
-      // Force instant document-wide style recalculation
       window.getComputedStyle(document.body).opacity;
 
-      // Safely re-enable CSS transition capabilities
       requestAnimationFrame(() => {
         document.documentElement.classList.remove('preload');
       });
