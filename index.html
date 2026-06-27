@@ -34,8 +34,9 @@
 	  })();
 
     (function() {
-      const theme = localStorage.getItem('theme') || 'system';
-      if (theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      const theme = localStorage.getItem('theme');
+      const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (theme === 'dark' || (!theme && systemDark)) {
         document.documentElement.classList.add('dark');
       } else {
         document.documentElement.classList.remove('dark');
@@ -123,12 +124,29 @@
       background: #161619;
     }
 
-    .preload, .preload * {
+    .preload, .preload *:not(#theme-toggle):not(#theme-toggle *) {
       -webkit-transition: none !important;
       -moz-transition: none !important;
       -ms-transition: none !important;
       -o-transition: none !important;
       transition: none !important;
+    }
+    html:not(.preload) *:not(.theme-icon-transition):not(#footer-content-progress):not(#download-progress-bar):not(#status-text-active):not(#status-text-completed),
+    html:not(.preload) *:not(.theme-icon-transition):not(#footer-content-progress):not(#download-progress-bar):not(#status-text-active):not(#status-text-completed)::before,
+    html:not(.preload) *:not(.theme-icon-transition):not(#footer-content-progress):not(#download-progress-bar):not(#status-text-completed)::after {
+      transition-property: color, background-color, border-color, fill, stroke !important;
+      transition-duration: 350ms !important;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
+    }
+    .theme-icon-transition {
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transform-origin: center center;
+    }
+    #download-progress-bar {
+      transition: width 0.4s ease-out;
+    }
+    #footer-content-progress {
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     button:focus, a:focus, button:active, a:active, [role="button"]:focus {
@@ -181,12 +199,22 @@
       
       <div class="flex items-center gap-4">
         <div class="tooltip-trigger inline-block relative" id="theme-toggle-container" data-tooltip="Theme">
-          <button id="theme-toggle" aria-label="Toggle theme" class="w-10 h-10 flex items-center justify-center rounded-lg bg-black text-white hover:bg-[#222222] dark:bg-[#1C1C1F] dark:text-white dark:hover:bg-[#2C2C30] transition-colors shadow-sm cursor-pointer border border-transparent">
+          <button id="theme-toggle" aria-label="Toggle theme" class="relative w-10 h-10 flex items-center justify-center rounded-lg bg-black text-white hover:bg-[#222222] dark:bg-[#1C1C1F] dark:text-white dark:hover:bg-[#2C2C30] transition-colors shadow-sm cursor-pointer border border-transparent overflow-hidden">
+            <span id="theme-icon-light" class="absolute inset-0 flex items-center justify-center pointer-events-none theme-icon-transition transform scale-100 rotate-0 opacity-100 dark:scale-50 dark:rotate-45 dark:opacity-0">
+              <svg class="w-[22px] h-[22px] overflow-visible" viewBox="0 0 24 24" fill="currentColor">
+                <path d="m12 5c-.829 0-1.5-.671-1.5-1.5v-1c0-.829.671-1.5 1.5-1.5s1.5.671 1.5 1.5v1c0 .829-.671 1.5-1.5 1.5zm1.5 16.5v-1c0-.829-.671-1.5-1.5-1.5s-1.5.671-1.5 1.5v1c0 .829.671 1.5 1.5 1.5s1.5-.671 1.5-1.5zm9.5-9.5c0-.829-.671-1.5-1.5-1.5h-1c-.829 0-1.5.671-1.5 1.5s.671 1.5 1.5 1.5h1c.829 0 1.5-.671 1.5-1.5zm-18 0c0-.829-.671-1.5-1.5-1.5h-1c-.829 0-1.5.671-1.5 1.5s.671 1.5 1.5 1.5h1c.829 0 1.5-.671 1.5-1.5zm14.071-4.95.707-.707c.586-.585.586-1.536 0-2.121-.586-.586-1.535-.586-2.121 0l-.707.707c-.586.585-.586 1.536 0 2.121.586.586 1.535.586 2.121 0zm-12.728 12.728.707-.707c.586-.585.586-1.536 0-2.121-.586-.586-1.535-.586-2.121 0l-.707.707c-.586.585-.586 1.536 0 2.121.586.586 1.535.586 2.121 0zm13.435 0c.586-.585.586-1.536 0-2.121l-.707-.707c-.586-.586-1.535-.586-2.121 0-.586.585-.586 1.536 0 2.121l.707.707c.586.586 1.535.586 2.121 0zm-12.728-12.728c.586-.585.586-1.536 0-2.121l-.707-.707c-.586-.586-1.535-.586-2.121 0-.586.585-.586 1.536 0 2.121l.707.707c.586.586 1.535.586 2.121 0zm9.95 4.95c0-3.411-1.589-5-5-5s-5 1.589-5 5 1.589 5 5 5 5-1.589 5-5z"/>
+              </svg>
+            </span>
+            <span id="theme-icon-dark" class="absolute inset-0 flex items-center justify-center pointer-events-none theme-icon-transition transform scale-50 -rotate-45 opacity-0 dark:scale-100 dark:rotate-0 dark:opacity-100">
+              <svg class="w-[22px] h-[22px] overflow-visible" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M22.386,12.003c-.402-.167-.871-.056-1.151,.28-.928,1.105-2.506,1.62-4.968,1.62-3.814,0-6.179-1.03-6.179-6.158,0-2.397,.532-4.019,1.626-4.957,.33-.283,.439-.749,.269-1.149-.17-.401-.571-.655-1.015-.604C5.285,1.573,1,6.277,1,11.978c0,6.062,4.944,10.993,11.022,10.993,5.72,0,10.438-4.278,10.973-9.951,.042-.436-.205-.848-.609-1.017Z"/>
+              </svg>
+            </span>
           </button>
         </div>
 
         <div class="tooltip-trigger inline-block relative" data-tooltip="GitHub Repository">
-          <a onclick="window.open('http://github.com/impostiq/impostiq.github.io', '_blank')" class="w-10 h-10 flex items-center justify-center rounded-lg bg-black text-white hover:bg-[#222222] dark:bg-[#1C1C1F] dark:text-white dark:hover:bg-[#2C2C30] transition-colors shadow-sm cursor-pointer border border-transparent">
+          <a onclick="window.open('https://github.com/impostiq/impostiq.github.io', '_blank')" class="w-10 h-10 flex items-center justify-center rounded-lg bg-black text-white hover:bg-[#222222] dark:bg-[#1C1C1F] dark:text-white dark:hover:bg-[#2C2C30] transition-colors shadow-sm cursor-pointer border border-transparent">
             <svg class="w-[22px] h-[22px] overflow-visible" viewBox="0 -0.5 48 48">
               <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                 <g transform="translate(-700.000000, -560.000000)" fill="currentColor">
@@ -228,7 +256,7 @@
               </svg>
               Play Impostiq
             </a>
-            <button onclick="window.location.href='https://www.dropbox.com/scl/fi/kh8yf9gnvo3zjynipd5h8/Impostiq.apk?rlkey=8e9wwz2kaifa38o8xq98oqjhe&st=7xg4dsyn&dl=1'" class="w-full bg-black text-white py-4 rounded-lg text-xs font-bold tracking-widest uppercase hover:bg-[#222222] dark:bg-[#1C1C1F] dark:hover:bg-[#2C2C30] active:scale-98 transition-all flex items-center justify-center gap-2 shadow-sm cursor-pointer border border-transparent">
+            <button onclick="downloadApk()" class="w-full bg-black text-white py-4 rounded-lg text-xs font-bold tracking-widest uppercase hover:bg-[#222222] dark:bg-[#1C1C1F] dark:hover:bg-[#2C2C30] active:scale-98 transition-all flex items-center justify-center gap-2 shadow-sm cursor-pointer border border-transparent">
               <svg class="w-4 h-4 text-white fill-current" viewBox="0 0 24 24">
                 <path d="M11.448,18.519c.177,.07,.364,.104,.552,.104,.179,0,.358-.032,.528-.096,.158-.06,3.915-1.526,6.68-6.917,.378-.737,.087-1.641-.65-2.02-.74-.377-1.642-.087-2.02,.65-.987,1.924-2.104,3.223-3.039,4.072V2.5c0-.829-.672-1.5-1.5-1.5s-1.5,.671-1.5,1.5V14.325c-.93-.844-2.041-2.142-3.037-4.085-.378-.737-1.283-1.028-2.02-.65-.737,.378-1.028,1.282-.65,2.02,2.679,5.224,6.257,6.752,6.656,6.909Z"/>
                 <path d="M20.894,15.024c-.818-.112-1.573,.472-1.681,1.293-.126,.969-.302,1.945-.525,2.913-4.44,1.018-8.933,1.02-13.375,0-.223-.966-.399-1.943-.525-2.913-.107-.821-.864-1.407-1.681-1.293-.821,.107-1.401,.859-1.294,1.681,.18,1.383,.452,2.778,.81,4.145,.138,.526,.548,.937,1.074,1.073,2.755,.715,5.529,1.073,8.304,1.073s5.55-.357,8.305-1.072c.526-.137,.938-.548,1.074-1.074,.357-1.369,.629-2.764,.809-4.144,.107-.822-.473-1.574-1.294-1.681Z"/>
@@ -331,6 +359,29 @@
       </div>
     </div>
   </footer>
+
+  <div id="footer-content-progress" class="fixed bottom-0 left-0 right-0 bg-bg-custom dark:bg-[#0E0E10] border-t border-gray-100 dark:border-zinc-800/80 z-[9999] transform translate-y-full flex items-center">
+    <div class="w-full max-w-5xl mx-auto px-6 flex flex-col gap-2 md:gap-1.5 justify-center">
+      <div class="flex items-center justify-between gap-4 w-full">
+        <div class="flex items-center gap-3">
+          <img src="https://em-content.zobj.net/source/microsoft-teams/363/smiling-face_263a-fe0f.png" alt="Loading" class="w-6 h-6 select-none pointer-events-none">
+          <div class="relative h-4 w-52 sm:w-64 overflow-hidden">
+            <span id="status-text-active" class="absolute left-0 top-0 text-xs font-bold tracking-widest text-text-custom dark:text-white uppercase transition-all duration-300 transform translate-y-0 opacity-100">Downloading Impostiq APK...</span>
+            <span id="status-text-completed" class="absolute left-0 top-0 text-xs font-bold tracking-widest text-text-custom dark:text-white uppercase transition-all duration-300 transform translate-y-2 opacity-0">Download Completed!</span>
+          </div>
+        </div>
+        <span class="flex items-center gap-1.5 text-xs font-bold tracking-widest text-text-custom dark:text-white uppercase">
+          <span id="download-percentage">0</span>
+          <svg xmlns="http://www.w3.org/2000/svg" id="percentage" viewBox="0 0 24 24" data-name="percentage" class="w-3 h-3 fill-current text-text-custom dark:text-white translate-y-[-0.5px]">
+            <path d="m3 22.5c-.384 0-.768-.146-1.061-.439-.586-.585-.586-1.536 0-2.121l18.5-18.501c.586-.586 1.535-.586 2.121 0 .586.585.586 1.536 0 2.121l-18.499 18.501c-.293.293-.677.439-1.061.439zm20-3.5c0-2.617-1.383-4-4-4s-4 1.383-4 4 1.383 4 4 4 4-1.383 4-4zm-3 0c0 .953-.047 1-1 1s-1-.047-1-1 .047-1 1-1 1 .047 1 1zm-11-14c0-2.617-1.383-4-4-4s-4 1.383-4 4 1.383 4 4 4 4-1.383 4-4zm-3 0c0 .953-.047 1-1 1s-1-.047-1-1 .047-1 1-1 1 .047 1 1z"/>
+          </svg>
+        </span>
+      </div>
+      <div class="w-full h-1.5 bg-gray-100 dark:bg-zinc-800/80 rounded-full overflow-hidden relative">
+        <div id="download-progress-bar" class="h-full bg-black dark:bg-white w-0 transition-[width] duration-300 ease-out rounded-full"></div>
+      </div>
+    </div>
+  </div>
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
@@ -439,47 +490,28 @@
 
     const themeToggleBtn = document.getElementById('theme-toggle');
     const themeToggleContainer = document.getElementById('theme-toggle-container');
-    
-    const icons = {
-      light: `<svg class="w-[22px] h-[22px] overflow-visible" viewBox="0 0 24 24" fill="currentColor"><path d="m12 5c-.829 0-1.5-.671-1.5-1.5v-1c0-.829.671-1.5 1.5-1.5s1.5.671 1.5 1.5v1c0 .829-.671 1.5-1.5 1.5zm1.5 16.5v-1c0-.829-.671-1.5-1.5-1.5s-1.5.671-1.5 1.5v1c0 .829.671 1.5 1.5 1.5s1.5-.671 1.5-1.5zm9.5-9.5c0-.829-.671-1.5-1.5-1.5h-1c-.829 0-1.5.671-1.5 1.5s.671 1.5 1.5 1.5h1c.829 0 1.5-.671 1.5-1.5zm-18 0c0-.829-.671-1.5-1.5-1.5h-1c-.829 0-1.5.671-1.5 1.5s.671 1.5 1.5 1.5h1c.829 0 1.5-.671 1.5-1.5zm14.071-4.95.707-.707c.586-.585.586-1.536 0-2.121-.586-.586-1.535-.586-2.121 0l-.707.707c-.586.585-.586 1.536 0 2.121.586.586 1.535.586 2.121 0zm-12.728 12.728.707-.707c.586-.585.586-1.536 0-2.121-.586-.586-1.535-.586-2.121 0l-.707.707c-.586.585-.586 1.536 0 2.121.586.586 1.535.586 2.121 0zm13.435 0c.586-.585.586-1.536 0-2.121l-.707-.707c-.586-.586-1.535-.586-2.121 0-.586.585-.586 1.536 0 2.121l.707.707c.586.586 1.535.586 2.121 0zm-12.728-12.728c.586-.585.586-1.536 0-2.121l-.707-.707c-.586-.586-1.535-.586-2.121 0-.586.585-.586 1.536 0 2.121l.707.707c.586.586 1.535.586 2.121 0zm9.95 4.95c0-3.411-1.589-5-5-5s-5 1.589-5 5 1.589 5 5 5 5-1.589 5-5z"/></svg>`,
-      dark: `<svg class="w-[22px] h-[22px] overflow-visible" viewBox="0 0 24 24" fill="currentColor"><path d="M22.386,12.003c-.402-.167-.871-.056-1.151,.28-.928,1.105-2.506,1.62-4.968,1.62-3.814,0-6.179-1.03-6.179-6.158,0-2.397,.532-4.019,1.626-4.957,.33-.283,.439-.749,.269-1.149-.17-.401-.571-.655-1.015-.604C5.285,1.573,1,6.277,1,11.978c0,6.062,4.944,10.993,11.022,10.993,5.72,0,10.438-4.278,10.973-9.951,.042-.436-.205-.848-.609-1.017Z"/></svg>`,
-      system: `<svg class="w-[22px] h-[22px] overflow-visible" viewBox="0 0 24 24" fill="currentColor"><path d="M22.994,11.954c.006-1.206-.452-2.662-2.571-3.05-.11-.21-.231-.421-.364-.633,1.068-1.479,.986-2.851-.248-4.085-1.235-1.236-2.607-1.317-4.087-.245-.209-.132-.418-.252-.627-.36-.382-2.112-1.824-2.58-3.027-2.58-1.687,0-2.771,.891-3.086,2.624-.208,.109-.418,.23-.629,.362-1.473-1.064-2.846-.973-4.093,.272-1.243,1.244-1.333,2.618-.272,4.091-.133,.212-.255,.423-.366,.633-1.729,.316-2.609,1.345-2.618,3.063-.006,1.206,.452,2.662,2.571,3.05,.11,.21,.231,.421,.365,.633-1.069,1.479-.987,2.851,.247,4.085,1.235,1.236,2.608,1.317,4.087,.245,.209,.132,.418,.252,.627,.36-.382,2.112,1.824,2.58,3.027,2.58,1.785,0,2.771-.891,3.086-2.624,.208-.109,.418-.23,.629-.362,2.351,1.769,4.092-.272,4.093-.272,1.214-1.149,1.334-2.618,.272-4.092,.133-.212,.255-.423,.366-.632,1.729-.316,2.609-1.345,2.618-3.063Zm-8.532,2.508c-.817,.818-1.593,1.274-2.67,1.21-1.016-.061-1.773-.728-2.254-1.21-1.634-1.633-1.634-3.291,0-4.925,.882-.884,1.754-1.286,2.67-1.209,1.015,.078,1.773,.728,2.254,1.21,1.633,1.633,1.634,3.291,0,4.925Z"/></svg>`
-    };
 
     function applyTheme(theme) {
-      document.documentElement.classList.add('preload');
-      
-      if (theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      if (theme === 'dark') {
         document.documentElement.classList.add('dark');
       } else {
         document.documentElement.classList.remove('dark');
       }
-      if (themeToggleBtn) {
-        themeToggleBtn.innerHTML = icons[theme];
-      }
       if (themeToggleContainer) {
-        themeToggleContainer.setAttribute('data-tooltip', `Theme: ${theme}`);
+        const readableTheme = theme.charAt(0).toUpperCase() + theme.slice(1);
+        themeToggleContainer.setAttribute('data-tooltip', `Theme: ${readableTheme}`);
       }
-
-      window.getComputedStyle(document.body).opacity;
-
-      requestAnimationFrame(() => {
-        document.documentElement.classList.remove('preload');
-      });
     }
 
-    let currentTheme = localStorage.getItem('theme') || 'system';
+    let currentTheme = localStorage.getItem('theme');
+    if (!currentTheme) {
+      currentTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
     applyTheme(currentTheme);
 
     if (themeToggleBtn) {
       themeToggleBtn.addEventListener('click', () => {
-        if (currentTheme === 'system') {
-          currentTheme = 'light';
-        } else if (currentTheme === 'light') {
-          currentTheme = 'dark';
-        } else {
-          currentTheme = 'system';
-        }
+        currentTheme = (currentTheme === 'dark') ? 'light' : 'dark';
         localStorage.setItem('theme', currentTheme);
         applyTheme(currentTheme);
         hideTooltip(); 
@@ -487,10 +519,153 @@
       });
     }
 
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-      if (localStorage.getItem('theme') === 'system' || !localStorage.getItem('theme')) {
-        applyTheme('system');
+    let isDownloading = false;
+
+    function downloadApk() {
+      if (isDownloading) return;
+      isDownloading = true;
+
+      const progressContent = document.getElementById('footer-content-progress');
+      const progressBar = document.getElementById('download-progress-bar');
+      const textActive = document.getElementById('status-text-active');
+      const textCompleted = document.getElementById('status-text-completed');
+      const percentageText = document.getElementById('download-percentage');
+      const mainFooterElement = document.querySelector('footer');
+
+      const updateHeight = () => {
+        if (mainFooterElement && progressContent) {
+          progressContent.style.height = mainFooterElement.offsetHeight + 'px';
+        }
+      };
+
+      updateHeight();
+      window.addEventListener('resize', updateHeight);
+
+      if (progressContent) {
+        progressContent.classList.remove('translate-y-full');
       }
+
+      const url = 'https://dl.dropboxusercontent.com/scl/fi/kh8yf9gnvo3zjynipd5h8/Impostiq.apk?rlkey=8e9wwz2kaifa38o8xq98oqjhe&st=7xg4dsyn&dl=1&_cb=' + Date.now();
+
+      let targetProgress = 0;
+      let displayedProgress = 0;
+      let progressInterval = null;
+      let downloadedBlob = null;
+      let isFallback = false;
+
+      const triggerDeviceDownload = () => {
+        if (downloadedBlob) {
+          const objectUrl = URL.createObjectURL(downloadedBlob);
+          const a = document.createElement('a');
+          a.href = objectUrl;
+          a.download = 'Impostiq.apk';
+          a.style.display = 'none';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(objectUrl);
+        } else if (isFallback) {
+          const a = document.createElement('a');
+          a.href = url;
+          a.style.display = 'none';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+        }
+      };
+
+      const updateProgressVisuals = () => {
+        const value = Math.round(displayedProgress);
+        if (progressBar) progressBar.style.width = value + '%';
+        if (percentageText) percentageText.textContent = value;
+      };
+
+      progressInterval = setInterval(() => {
+        if (displayedProgress < targetProgress) {
+          let diff = targetProgress - displayedProgress;
+          let step = Math.min(diff, Math.random() * 2 + 1.2);
+          displayedProgress += step;
+          if (displayedProgress > 100) displayedProgress = 100;
+          updateProgressVisuals();
+        }
+        
+        if (displayedProgress >= 100) {
+          clearInterval(progressInterval);
+          
+          triggerDeviceDownload();
+
+          if (textActive && textCompleted) {
+            textActive.classList.replace('translate-y-0', '-translate-y-2');
+            textActive.classList.replace('opacity-100', 'opacity-0');
+            textCompleted.classList.replace('translate-y-2', 'translate-y-0');
+            textCompleted.classList.replace('opacity-0', 'opacity-100');
+          }
+          setTimeout(() => {
+            if (progressContent) {
+              progressContent.classList.add('translate-y-full');
+            }
+            setTimeout(() => {
+              window.removeEventListener('resize', updateHeight);
+              displayedProgress = 0;
+              targetProgress = 0;
+              updateProgressVisuals();
+              if (textActive && textCompleted) {
+                textActive.classList.replace('-translate-y-2', 'translate-y-0');
+                textActive.classList.replace('opacity-0', 'opacity-100');
+                textCompleted.classList.replace('translate-y-0', 'translate-y-2');
+                textCompleted.classList.replace('opacity-100', 'opacity-0');
+              }
+              isDownloading = false;
+            }, 600);
+          }, 3000);
+        }
+      }, 50);
+
+      const handleFallback = () => {
+        isFallback = true;
+        let simInterval = setInterval(() => {
+          targetProgress += Math.floor(Math.random() * 4) + 1;
+          if (targetProgress >= 100) {
+            targetProgress = 100;
+            clearInterval(simInterval);
+          }
+        }, 180);
+      };
+
+      fetch(url, { mode: 'cors', cache: 'no-store' })
+        .then(response => {
+          if (!response.ok) throw new Error();
+          const reader = response.body.getReader();
+          const contentLength = +response.headers.get('Content-Length') || 15000000;
+          let receivedLength = 0;
+          const chunks = [];
+
+          function read() {
+            return reader.read().then(({ done, value }) => {
+              if (done) {
+                return new Blob(chunks);
+              }
+              chunks.push(value);
+              receivedLength += value.length;
+              targetProgress = Math.min(Math.round((receivedLength / contentLength) * 100), 100);
+              return read();
+            });
+          }
+          return read();
+        })
+        .then(blob => {
+          downloadedBlob = blob;
+        })
+        .catch(() => {
+          handleFallback();
+        });
+    }
+
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+      const systemTheme = e.matches ? 'dark' : 'light';
+      currentTheme = systemTheme;
+      localStorage.setItem('theme', systemTheme);
+      applyTheme(systemTheme);
     });
   </script>
 </body>
